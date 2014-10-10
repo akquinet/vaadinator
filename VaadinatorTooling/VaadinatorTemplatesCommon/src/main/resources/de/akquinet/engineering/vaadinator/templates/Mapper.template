@@ -1,0 +1,115 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+
+public class ${bean.className}Mapper {
+
+	public ${bean.className}Mapper() {
+		super();
+	}
+
+#foreach($profile in $bean.mapProfiles)
+	public void ${profile.profileMapperName}(${bean.className} source, ${profile.targetClassName} target) {
+	#if($bean.hasSuperClass())
+		obtain${bean.superClassName}Mapper().${profile.profileMapperName}(source, target);
+	#end
+	#foreach($property in $profile.propertiesInProfile)
+	#if($property.getMapPropertyProfile($profile).deep)
+		if (source.${property.propertyGetterName}() == null) {
+		#if($property.getMapPropertyProfile($profile).mandatory)
+			throw new IllegalArgumentException("Mandatory source property ${property.propertyName} missing!");
+		#else
+			target.${property.getMapPropertyProfile($profile).targetPropertySetterName}(null);
+		#end
+		} else {
+			if (target.${property.getMapPropertyProfile($profile).targetPropertyGetterName}() == null) {
+				target.${property.getMapPropertyProfile($profile).targetPropertySetterName}(create${property.getMapPropertyProfile($profile).targetPropertyClassName}());
+			}
+			obtain${property.propertyClassName}Mapper().${profile.profileMapperName}(source.${property.propertyGetterName}(), target.${property.getMapPropertyProfile($profile).targetPropertyGetterName}());
+		}
+	#else
+		#if($property.getMapPropertyProfile($profile).mandatory)
+		if (source.${property.propertyGetterName}() == null) {
+			throw new IllegalArgumentException("Mandatory source property ${property.propertyName} missing!");
+		}
+		#end
+		target.${property.getMapPropertyProfile($profile).targetPropertySetterName}(source.${property.propertyGetterName}());
+	#end
+	#end
+	}
+#end
+#foreach($profile in $bean.mapProfiles)
+#if($profile.bidirectional)
+	public void ${profile.profileMapperName}Inbound(${profile.targetClassName} source, ${bean.className} target) {
+	#if($bean.hasSuperClass())
+		obtain${bean.superClassName}Mapper().${profile.profileMapperName}Inbound(source, target);
+	#end
+	#foreach($property in $profile.propertiesInProfile)
+	#if(!$property.getMapPropertyProfile($profile).readonly)
+	#if($property.getMapPropertyProfile($profile).deep)
+		if (source.${property.getMapPropertyProfile($profile).targetPropertyGetterName}() == null) {
+		#if($property.getMapPropertyProfile($profile).mandatory)
+			throw new IllegalArgumentException("Mandatory source property ${property.getMapPropertyProfile($profile).targetPropertyName} missing!");
+		#else
+			target.${property.propertySetterName}(null);
+		#end
+		} else {
+			if (target.${property.getMapPropertyProfile($profile).targetPropertyGetterName}() == null) {
+				target.${property.getMapPropertyProfile($profile).targetPropertySetterName}(create${property.propertyClassName}Inbound());
+			}
+			obtain${property.propertyClassName}Mapper().${profile.profileMapperName}Inbound(source.${property.getMapPropertyProfile($profile).targetPropertyGetterName}(), target.${property.propertyGetterName}());
+		}
+	#else
+		#if($property.getMapPropertyProfile($profile).mandatory)
+		if (source.${property.getMapPropertyProfile($profile).targetPropertyGetterName}() == null) {
+			throw new IllegalArgumentException("Mandatory source property ${property.getMapPropertyProfile($profile).targetPropertyName} missing!");
+		}
+		#end
+		target.${property.propertySetterName}(source.${property.getMapPropertyProfile($profile).targetPropertyGetterName}());
+	#end
+	#end
+	#end
+	}
+#end
+#end
+
+	// Breakouts to overwrite dependencies when overwriting the mappers
+	
+#if($bean.hasSuperClass())
+	protected ${bean.superClassName}Mapper obtain${bean.superClassName}Mapper() {
+		return new ${bean.superClassName}Mapper();
+	}
+#end
+
+#foreach($deepPropertyClassName in $bean.deepPropertyClassNames)
+	protected ${deepPropertyClassName} create${deepPropertyClassName}() {
+	#if($bean.wrapped)
+		return new ${deepPropertyClassName}Wrapper();
+	#else
+		return new ${deepPropertyClassName}();
+	#end
+	}
+
+	protected ${deepPropertyClassName}Mapper obtain${deepPropertyClassName}Mapper() {
+		return new ${deepPropertyClassName}Mapper();
+	}
+#end
+
+}

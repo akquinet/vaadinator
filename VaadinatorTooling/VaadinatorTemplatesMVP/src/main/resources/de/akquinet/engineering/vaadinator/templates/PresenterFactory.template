@@ -1,0 +1,78 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+import ${viewPackage}.ViewFactory;
+
+#foreach($bean in $common.beans)
+#if($bean.displayed || $bean.service)
+import ${bean.basePckg}.service.${bean.className}Service;
+#end
+#end	
+
+import java.util.Map;
+
+public class PresenterFactory {
+
+	private Map<String, Object> context;
+	private ViewFactory viewFactory;
+
+	public PresenterFactory(Map<String, Object> context, ViewFactory viewFactory
+#foreach($bean in $common.beans)
+#if($bean.displayed || $bean.service)
+		, ${bean.className}Service ${bean.classNamePass}Service
+#end
+#end	
+	) {
+		super();
+		this.context = context;
+		this.viewFactory = viewFactory;
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+		this.${bean.classNamePass}Service = ${bean.classNamePass}Service;
+#end
+#end	
+	}
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+	private ${bean.className}Service ${bean.classNamePass}Service;
+
+	public ${bean.className}AddPresenter create${bean.className}AddPresenter(Presenter returnPresenter) {
+		return new ${bean.className}AddPresenterImpl(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
+	}
+
+	public ${bean.className}ChangePresenter create${bean.className}ChangePresenter(Presenter returnPresenter) {
+		return new ${bean.className}ChangePresenterImpl(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
+	}
+
+	public ${bean.className}ListPresenter create${bean.className}ListPresenter(Presenter returnPresenter, SubviewCapablePresenter subviewCapablePresenter) {
+		return new ${bean.className}ListPresenterImpl(context, viewFactory.create${bean.className}ListView(), this, ${bean.classNamePass}Service, subviewCapablePresenter);
+	}
+#end
+#end
+
+	public FirstPagePresenter createFirstPagePresenter() {
+		return new FirstPagePresenterImpl(context, viewFactory.createFirstPageView(), this);
+	}
+
+	public MainPresenter createMainPresenter() {
+		return new MainPresenterImpl(context, viewFactory.createMainView(), this);
+	}
+
+}

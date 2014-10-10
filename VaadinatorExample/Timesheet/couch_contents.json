@@ -1,0 +1,5 @@
+{"total_rows":3,"offset":0,"rows":[
+{"id":"project_P1","key":"project_P1","value":{"rev":"1-967a00dff5e02add41819138abb3284d"},"doc":{"_id":"project_P1","_rev":"1-967a00dff5e02add41819138abb3284d"}},
+{"id":"project_P2","key":"project_P2","value":{"rev":"1-967a00dff5e02add41819138abb3284d"},"doc":{"_id":"project_P2","_rev":"1-967a00dff5e02add41819138abb3284d"}},
+{"id":"ts_sebastian_2014_07","key":"ts_sebastian_2014_07","value":{"rev":"4-b355178655f6e848b40af47bee513d6f"},"doc":{"_id":"ts_sebastian_2014_07","_rev":"4-b355178655f6e848b40af47bee513d6f","entries":[{"project":"P1","dayInMonth":1,"hours":"02:31"},{"project":"P1","dayInMonth":2,"hours":"01:11"},{"project":"P2","dayInMonth":2,"hours":"02:22"},{"project":"P2","dayInMonth":2,"hours":"03:33"},{"project":"P1","dayInMonth":14,"hours":"01:00"}]}}
+]}

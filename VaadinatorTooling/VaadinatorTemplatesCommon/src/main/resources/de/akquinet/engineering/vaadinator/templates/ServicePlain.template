@@ -1,0 +1,87 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+
+import ${common.basePackage}.dao.${bean.className}Dao;
+import ${modelPackage}.${bean.className};
+
+import de.akquinet.engineering.vaadinator.util.AbstractPlainJpa;
+
+public class ${bean.className}ServicePlain extends AbstractPlainJpa implements ${bean.className}Service {
+
+	public ${bean.className}ServicePlain() {
+		super();
+	}
+
+	public ${bean.className}ServicePlain(EntityManagerFactory entityManagerFactory, ${bean.className}Dao ${bean.classNamePass}Dao) {
+		super(entityManagerFactory);
+		this.${bean.classNamePass}Dao = ${bean.classNamePass}Dao;
+	}
+
+	private ${bean.className}Dao ${bean.classNamePass}Dao = null;
+	${bean.className}Service backend = null;
+
+	protected ${bean.className}Service obtainBackend() {
+		if (backend == null) {
+			backend = new ${bean.className}ServiceImpl(${bean.classNamePass}Dao);
+		}
+		return backend;
+	}
+
+	public void set${bean.className}Dao(${bean.className}Dao ${bean.classNamePass}Dao) {
+		this.${bean.classNamePass}Dao = ${bean.classNamePass}Dao;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<${bean.className}> listAll${bean.className}(final Map<String, Object> context) {
+		return (List<${bean.className}>) requireJpaTransaction(new Callback() {
+
+			@Override
+			public List<${bean.className}> perform() {
+				return obtainBackend().listAll${bean.className}(context);
+			}
+		}, context);
+	}
+
+	@Override
+	public ${bean.className} addNew${bean.className}(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {
+		return (${bean.className}) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().addNew${bean.className}(${bean.classNamePass}, context);
+			}
+		}, context);
+	}
+
+	@Override
+	public ${bean.className} updateExisting${bean.className}(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {
+		return (${bean.className}) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().updateExisting${bean.className}(${bean.classNamePass}, context);
+			}
+		}, context);
+	}
+
+}

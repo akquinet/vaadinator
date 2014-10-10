@@ -1,0 +1,139 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.List;
+import java.util.Map;
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+#end
+import javax.persistence.EntityManager;
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+import javax.persistence.PersistenceContext;
+#end
+import javax.persistence.TypedQuery;
+
+import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+@Stateless
+#end
+public class ${bean.className}DaoImpl implements ${bean.className}Dao 
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+, ${bean.className}DaoEjb
+#end
+{
+
+	public static final int DEFAULT_MAX_RESULTS = 100;
+
+	public ${bean.className}DaoImpl() {
+		super();
+	}
+
+	public ${bean.className}DaoImpl(EntityManager entityManager) {
+		super();
+		this.entityManager = entityManager;
+	}
+
+	private EntityManager entityManager;
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@PersistenceContext(unitName = "${common.projectName}")
+#end
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public ${bean.className} find(Object id, Map<String, Object> context) {
+		return entityManager.find(${bean.className}.class, id);
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public List<${bean.className}> list(${bean.className}Query ${bean.classNamePass}Query, Map<String, Object> context) {
+		String queryString = "select ${bean.classNamePass} from ${bean.className} ${bean.classNamePass}";
+		{
+			int pos = 0;
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+			if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
+				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}>=?"+(++pos));
+			}
+			if(${bean.classNamePass}Query.${property.propertyGetterName}To() != null) {
+				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}<=?"+(++pos));
+			}
+#else
+			if(${bean.classNamePass}Query.${property.propertyGetterName}() != null) {
+			#if($property.propertyClassName.endsWith("String"))
+				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName} like ?"+(++pos));
+			#else
+				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}=?"+(++pos));
+			#end
+			}
+#end
+#end		
+		}
+		if (${bean.classNamePass}Query.getOrderBy() != null) {
+			queryString += " order by ${bean.classNamePass}." + ${bean.classNamePass}Query.getOrderBy().getPropertyName() + " " + (${bean.classNamePass}Query.isOrderDescending() ? "desc" : "asc");
+		}
+		TypedQuery<${bean.className}> query = entityManager.createQuery(queryString, ${bean.className}.class);
+		{
+			int pos = 0;
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+			if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
+				query.setParameter(++pos, ${bean.classNamePass}Query.${property.propertyGetterName}From());
+			}
+			if(${bean.classNamePass}Query.${property.propertyGetterName}To() != null) {
+				query.setParameter(++pos, ${bean.classNamePass}Query.${property.propertyGetterName}To());
+			}
+#else
+			if(${bean.classNamePass}Query.${property.propertyGetterName}() != null) {
+				query.setParameter(++pos, ${bean.classNamePass}Query.${property.propertyGetterName}());
+			}
+#end
+#end		
+		}
+		if (${bean.classNamePass}Query.getFirstResult() != 0) {
+			query.setFirstResult(${bean.classNamePass}Query.getFirstResult());
+		}
+		if (${bean.classNamePass}Query.getMaxResults() != 0) {
+			query.setMaxResults(${bean.classNamePass}Query.getMaxResults());
+		} else {
+			query.setMaxResults(DEFAULT_MAX_RESULTS);
+		}
+		return query.getResultList();
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public ${bean.className} merge(${bean.className} ${bean.classNamePass}, Map<String, Object> context) {
+		return entityManager.merge(${bean.classNamePass});
+	}
+
+}

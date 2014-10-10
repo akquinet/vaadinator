@@ -1,0 +1,44 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+	#set($firstsection=1)
+	#foreach($section in $bean.getDisplayProfile($profileName).sectionsInProfile)	
+		section${section.sectionVarSuffix}Switch.setCaption("${section.sectionName}");
+		section${section.sectionVarSuffix}Switch.addStyleName("styleid-${bean.className}EditViewImpl-section${section.sectionVarSuffix}Switch");
+		#if($firstsection==1)
+		#set($firstsection=0)
+		section${section.sectionVarSuffix}Switch.setValue(true);
+		#else
+		section${section.sectionVarSuffix}Switch.setValue(false);
+		#end
+		section${section.sectionVarSuffix}Switch.addValueChangeListener(new com.vaadin.data.Property.ValueChangeListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+				section${section.sectionVarSuffix}.setVisible(section${section.sectionVarSuffix}Switch.getValue());
+			}
+		});
+		VerticalComponentGroup section${section.sectionVarSuffix}SwitchGrp = new VerticalComponentGroup();
+		section${section.sectionVarSuffix}SwitchGrp.addComponent(section${section.sectionVarSuffix}Switch);
+		layout.addComponent(section${section.sectionVarSuffix}SwitchGrp);
+		section${section.sectionVarSuffix}.addStyleName("styleid-${bean.className}EditViewImpl-section${section.sectionVarSuffix}");
+		section${section.sectionVarSuffix}.setVisible(section${section.sectionVarSuffix}Switch.getValue());
+		layout.addComponent(section${section.sectionVarSuffix});
+	#end

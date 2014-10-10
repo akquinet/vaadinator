@@ -1,0 +1,123 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.presenter.Presenter;
+import ${viewPackage}.${bean.className}EditView;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+public abstract class ${bean.className}EditPresenterImpl implements ${bean.className}EditPresenter, ${bean.className}EditView.Observer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private ${bean.className}EditView view;
+	private Presenter returnPresenter = null;
+	private ${bean.className} ${bean.classNamePass} = new ${bean.className}();
+	
+	public ${bean.className}EditPresenterImpl(Map<String, Object> context, ${bean.className}EditView view) {
+		super();
+		this.view = view;
+	}
+
+	public ${bean.className}EditPresenterImpl(Map<String, Object> context, ${bean.className}EditView view, Presenter returnPresenter) {
+		super();
+		this.view = view;
+		this.returnPresenter = returnPresenter;
+	}
+
+	@Override
+	public ${bean.className} get${bean.className}() {
+		return ${bean.classNamePass};
+	}
+
+	@Override
+	public void set${bean.className}(${bean.className} ${bean.classNamePass}) {
+		this.${bean.classNamePass} = ${bean.classNamePass};
+	}
+
+	@Override
+	public ${bean.className}EditView getView() {
+		return view;
+	}
+
+	@Override
+	public void startPresenting() {
+		view.initializeUi();
+		
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+	#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+		#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+		#if($property.hasEnumClass($common.beans))
+		view.${property.propertySetChoicesForMethodName}(Arrays.asList(${property.propertyClassName}.values()));
+		#end
+		#end
+	#end
+#end
+		
+		loadFromModel();
+	}
+
+	@Override
+	public void returnToThisPresener(Presenter fromPresenter) {
+		// nada - wir setzen uns nie 4 return
+	}
+
+	protected void loadFromModel() {
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+	#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+		view.${property.propertySetterName}(get${bean.className}().${property.propertyGetterName}());
+	#end
+#end
+	}
+
+	protected void saveToModel() {
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+	#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false)
+		get${bean.className}().${property.propertySetterName}(view.${property.propertyGetterName}());
+	#end
+#end
+	}
+
+	@Override
+	public void onSave() {
+		if (!view.checkAllFieldsValid()) {
+			return;
+		}
+		saveToModel();
+		if (returnPresenter != null) {
+			returnPresenter.returnToThisPresener(this);
+		}
+	}
+
+	@Override
+	public void onCancel() {
+		if (returnPresenter != null) {
+			returnPresenter.returnToThisPresener(this);
+		}
+	}
+
+}

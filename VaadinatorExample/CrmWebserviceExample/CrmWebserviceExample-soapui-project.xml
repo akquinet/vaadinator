@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="CrmWebserviceExample" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CrmWebserviceEndpointServiceSoapBinding" type="wsdl" bindingName="{http://websrv.crmws.example.vaadinator.engineering.akquinet.de/}CrmWebserviceEndpointServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint?wsdl"><con:part><con:url>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="CrmWebserviceEndpointService" targetNamespace="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="addContact" type="tns:addContact"/>
+      <xs:element name="addContactResponse" type="tns:addContactResponse"/>
+      <xs:element name="addHistoryToContact" type="tns:addHistoryToContact"/>
+      <xs:element name="addHistoryToContactResponse" type="tns:addHistoryToContactResponse"/>
+      <xs:element name="getContactIncludingHistory" type="tns:getContactIncludingHistory"/>
+      <xs:element name="getContactIncludingHistoryResponse" type="tns:getContactIncludingHistoryResponse"/>
+      <xs:element name="getContracts" type="tns:getContracts"/>
+      <xs:element name="getContractsResponse" type="tns:getContractsResponse"/>
+      <xs:element name="updateContact" type="tns:updateContact"/>
+      <xs:element name="updateContactResponse" type="tns:updateContactResponse"/>
+      <xs:complexType name="updateContact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="contactDto" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="contactDto">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="history" nillable="true" type="tns:historyDto"/>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element name="revision" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="historyDto">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element minOccurs="0" name="text" type="xs:string"/>
+          <xs:element minOccurs="0" name="timestamp" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateContactResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addContact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="contactDto" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addContactResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addHistoryToContact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="contactDto" type="tns:contactDto"/>
+          <xs:element minOccurs="0" name="historyDto" type="tns:historyDto"/>
+          <xs:element name="returnHistory" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addHistoryToContactResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getContactIncludingHistory">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getContactIncludingHistoryResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getContracts">
+        <xs:sequence>
+          <xs:element name="from" type="xs:int"/>
+          <xs:element name="limit" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getContractsResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:contactDto"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="addHistoryToContactResponse">
+    <wsdl:part element="tns:addHistoryToContactResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addContact">
+    <wsdl:part element="tns:addContact" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addHistoryToContact">
+    <wsdl:part element="tns:addHistoryToContact" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addContactResponse">
+    <wsdl:part element="tns:addContactResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateContactResponse">
+    <wsdl:part element="tns:updateContactResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateContact">
+    <wsdl:part element="tns:updateContact" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getContactIncludingHistory">
+    <wsdl:part element="tns:getContactIncludingHistory" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getContractsResponse">
+    <wsdl:part element="tns:getContractsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getContactIncludingHistoryResponse">
+    <wsdl:part element="tns:getContactIncludingHistoryResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getContracts">
+    <wsdl:part element="tns:getContracts" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CrmWebserviceEndpoint">
+    <wsdl:operation name="updateContact">
+      <wsdl:input message="tns:updateContact" name="updateContact"></wsdl:input>
+      <wsdl:output message="tns:updateContactResponse" name="updateContactResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addContact">
+      <wsdl:input message="tns:addContact" name="addContact"></wsdl:input>
+      <wsdl:output message="tns:addContactResponse" name="addContactResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addHistoryToContact">
+      <wsdl:input message="tns:addHistoryToContact" name="addHistoryToContact"></wsdl:input>
+      <wsdl:output message="tns:addHistoryToContactResponse" name="addHistoryToContactResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getContactIncludingHistory">
+      <wsdl:input message="tns:getContactIncludingHistory" name="getContactIncludingHistory"></wsdl:input>
+      <wsdl:output message="tns:getContactIncludingHistoryResponse" name="getContactIncludingHistoryResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getContracts">
+      <wsdl:input message="tns:getContracts" name="getContracts"></wsdl:input>
+      <wsdl:output message="tns:getContractsResponse" name="getContractsResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CrmWebserviceEndpointServiceSoapBinding" type="tns:CrmWebserviceEndpoint">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateContact">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateContact">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateContactResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addContact">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addContact">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addContactResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addHistoryToContact">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addHistoryToContact">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addHistoryToContactResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getContactIncludingHistory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getContactIncludingHistory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getContactIncludingHistoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getContracts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getContracts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getContractsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CrmWebserviceEndpointService">
+    <wsdl:port binding="tns:CrmWebserviceEndpointServiceSoapBinding" name="CrmWebserviceEndpointPort">
+      <soap:address location="http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="addHistoryToContact" bindingOperationName="addHistoryToContact" type="Request-Response" outputName="addHistoryToContactResponse" inputName="addHistoryToContact" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:addHistoryToContact>
+         <!--Optional:-->
+         <contactDto>
+            <!--Zero or more repetitions:-->
+            <history>
+               <id>?</id>
+               <!--Optional:-->
+               <text>?</text>
+               <!--Optional:-->
+               <timestamp>?</timestamp>
+            </history>
+            <id>?</id>
+            <!--Optional:-->
+            <name>?</name>
+            <revision>?</revision>
+         </contactDto>
+         <!--Optional:-->
+         <historyDto>
+            <id>?</id>
+            <!--Optional:-->
+            <text>?</text>
+            <!--Optional:-->
+            <timestamp>?</timestamp>
+         </historyDto>
+         <returnHistory>?</returnHistory>
+      </web:addHistoryToContact>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/CrmWebserviceEndpoint/addHistoryToContact"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getContactIncludingHistory" bindingOperationName="getContactIncludingHistory" type="Request-Response" outputName="getContactIncludingHistoryResponse" inputName="getContactIncludingHistory" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:getContactIncludingHistory>
+         <id>?</id>
+      </web:getContactIncludingHistory>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/CrmWebserviceEndpoint/getContactIncludingHistory"/></con:call></con:operation><con:operation isOneWay="false" action="" name="getContracts" bindingOperationName="getContracts" type="Request-Response" outputName="getContractsResponse" inputName="getContracts" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:getContracts>
+         <from>0</from>
+         <limit>0</limit>
+      </web:getContracts>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/CrmWebserviceEndpoint/getContracts"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateContact" bindingOperationName="updateContact" type="Request-Response" outputName="updateContactResponse" inputName="updateContact" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:updateContact>
+         <contactDto>
+            <id>9</id>
+            <name>Marge</name>
+            <revision>1</revision>
+         </contactDto>
+      </web:updateContact>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/CrmWebserviceEndpoint/updateContact"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="addContact" bindingOperationName="addContact" type="Request-Response" outputName="addContactResponse" inputName="addContact" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/CrmWebserviceExample-0.9-SNAPSHOT/CrmWebserviceEndpoint</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:addContact>
+         <contactDto>
+            <id>0</id>
+            <name>Homer</name>
+            <revision>0</revision>
+         </contactDto>
+      </web:addContact>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://websrv.crmws.example.vaadinator.engineering.akquinet.de/CrmWebserviceEndpoint/addContact"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>

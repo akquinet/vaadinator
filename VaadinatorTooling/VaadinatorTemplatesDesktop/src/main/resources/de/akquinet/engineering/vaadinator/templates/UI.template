@@ -1,0 +1,108 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${common.basePackage};
+
+import java.util.HashMap;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import com.vaadin.annotations.Title;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+import ${common.basePackage}.service.${bean.className}Service;
+#if($common.artifactType=="PLAIN" || $common.artifactType=="ALL")
+import ${common.basePackage}.dao.${bean.className}DaoPlain;
+import ${common.basePackage}.service.${bean.className}ServicePlain;
+#end
+#end
+#end
+import ${common.basePackage}.ui.std.presenter.MainPresenter;
+import ${common.basePackage}.ui.std.presenter.PresenterFactory;
+import ${common.basePackage}.ui.std.view.MainView;
+import ${common.basePackage}.ui.std.view.VaadinViewFactory;
+
+/**
+ * Main UI class
+ */
+@Title("${common.projectName}")
+public class ${common.projectName}UI extends UI {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void init(VaadinRequest request) {
+		MainPresenter mpres;
+		mpres = obtainPresenterFactory(request.getContextPath()).createMainPresenter();
+		MainView mview = mpres.getView();
+		setContent((Component) mview.getComponent());
+		// and go
+		mpres.startPresenting();
+	}
+
+	PresenterFactory presenterFactory = null;
+
+	protected PresenterFactory obtainPresenterFactory(String contextPath) {
+		if (presenterFactory == null) {
+			// simple, overwrite method for e.g. Spring / CDI / ...
+			// Entity-Manager NUR Thread-Safe, wenn er injected wird wie hier
+			#foreach($bean in $common.beans)
+			#if($bean.displayed)
+			${bean.className}Service ${bean.classNamePass}Service;			
+			#end
+			#end
+			#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+			try {
+				// generated lookup
+				InitialContext initialContext = new InitialContext();
+			#foreach($bean in $common.beans)
+			#if($bean.displayed)
+				${bean.classNamePass}Service = (${bean.className}Service) initialContext.lookup("java:global" + contextPath + "/${bean.className}ServiceImpl!${common.basePackage}.service.${bean.className}ServiceEjb");
+			} catch (NamingException e) {
+				throw new RuntimeException(e);
+			}
+			#end
+			#end
+			#else
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("${common.projectName}");
+		 	#foreach($bean in $common.beans)
+			#if($bean.displayed)
+			${bean.className}DaoPlain ${bean.classNamePass}DaoPlain = new ${bean.className}DaoPlain(entityManagerFactory);
+			${bean.classNamePass}Service = new ${bean.className}ServicePlain(entityManagerFactory, ${bean.classNamePass}DaoPlain);
+			#end
+			#end
+			#end
+			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), new VaadinViewFactory()
+			#foreach($bean in $common.beans)
+			#if($bean.displayed)
+			, ${bean.classNamePass}Service
+			#end
+			#end
+			);
+		}
+		return presenterFactory;
+	}
+
+}

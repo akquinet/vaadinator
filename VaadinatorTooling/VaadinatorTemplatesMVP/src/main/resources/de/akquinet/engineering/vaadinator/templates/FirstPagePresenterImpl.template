@@ -1,0 +1,94 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import ${common.basePackage}.ui.presenter.Presenter;
+import ${viewPackage}.FirstPageView;
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+#if($bean.getDisplayProfile($profileName).showOnFirstPage)
+import ${viewPackage}.${bean.className}AddView;
+import ${viewPackage}.${bean.className}ListView;
+#end
+#end
+#end
+
+import java.util.Map;
+
+public class FirstPagePresenterImpl implements FirstPagePresenter, FirstPageView.Observer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private FirstPageView view;
+	private PresenterFactory presenterFactory;
+
+	public FirstPagePresenterImpl(Map<String, Object> context, FirstPageView view, PresenterFactory presenterFactory) {
+		super();
+		this.view = view;
+		this.presenterFactory = presenterFactory;
+	}
+
+	@Override
+	public FirstPageView getView() {
+		return view;
+	}
+
+	@Override
+	public void startPresenting() {
+		view.setObserver(this);
+		view.initializeUi();
+	}
+
+	@Override
+	public void returnToThisPresener(Presenter fromPresenter) {
+		// navigation-View weg
+		view.closeSubView();
+		// aus Edit-Presentern
+		loadFromModel();
+	}
+
+	protected void loadFromModel() {
+		// nada
+	}
+
+	protected void saveToModel() {
+		// nada
+	}
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+#if($bean.getDisplayProfile($profileName).showOnFirstPage)
+	@Override
+	public void onList${bean.className}() {
+		${bean.className}ListPresenter lpres = presenterFactory.create${bean.className}ListPresenter(this, null);
+		view.openSubView(lpres.getView());
+		lpres.startPresenting();
+	}
+
+	@Override
+	public void onAdd${bean.className}() {
+		${bean.className}AddPresenter apres = presenterFactory.create${bean.className}AddPresenter(this);
+		view.openSubView(apres.getView());
+		apres.startPresenting();
+	}
+#end
+#end
+#end
+
+}

@@ -1,0 +1,92 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#<?xml version="1.0" encoding="UTF-8"?>
+<TechnicalBindingTypes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../org.testeditor.xmllibrary/resources/TechnicalBindingTypeCollection.xsd"
+	schemaVersion="1.1">
+
+	<TechnicalBindingType id="Eingabe_Wert" name="Wert eingeben">
+		<actionPart position="1" type="TEXT" value="gebe in das Feld" />
+		<actionPart position="2" type="ACTION_NAME"/>
+		<actionPart position="3" type="TEXT" value="den Wert" />
+		<actionPart position="4" type="ARGUMENT"/>
+		<actionPart position="5" type="TEXT" value="ein" />
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Button_Druecken" name="Button betaetigen">
+		<actionPart position="1" type="TEXT" value="klicke auf" />
+		<actionPart position="2" type="ACTION_NAME"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Tabellenzeile_Waehlen" name="Tabellenzeile waehlen">
+		<actionPart position="1" type="TEXT" value="waehle aus" />
+		<actionPart position="2" type="ACTION_NAME"/>
+		<actionPart position="3" type="TEXT" value="die Zeile" />
+		<actionPart position="4" type="ARGUMENT"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Pruefe_Wert_vorhanden"
+		name="Text pruefen">
+		<actionPart position="1" type="TEXT" value="ueberpruefe ob der Text" />
+		<actionPart position="2" type="ARGUMENT"/>
+		<actionPart position="3" type="TEXT" value="vorhanden ist" />
+	</TechnicalBindingType>
+	
+	<TechnicalBindingType id="Pruefe_Wert_nicht_vorhanden"
+		name="Text ungueltig pruefen">
+		<actionPart position="1" type="TEXT" value="ueberpruefe ob nicht der Text" />
+		<actionPart position="2" type="ARGUMENT"/>
+		<actionPart position="3" type="TEXT" value="vorhanden ist" />
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Starte_Browser" name="Browser starten">
+		<actionPart position="1" type="TEXT" value="starte Browser" />
+		<actionPart position="2" type="ACTION_NAME"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Navigiere_auf_Seite"
+		name="Seite navigieren">
+		<actionPart position="1" type="TEXT" value="navigiere auf die Seite" />
+		<actionPart position="2" type="ARGUMENT"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Beende_Browser" name="Browser beenden">
+		<actionPart position="1" type="TEXT" value="beende Browser" />
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Warte_Sekunden" name="Sekunden warten">
+		<actionPart position="1" type="TEXT" value="warte" />
+		<actionPart position="2" type="ARGUMENT"/>
+		<actionPart position="3" type="TEXT" value="Sekunden" />
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Warte_Element" name="auf Element warten">
+		<actionPart position="1" type="TEXT" value="warte auf Element" />
+		<actionPart position="2" type="ACTION_NAME"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Leere_Wert" name="Wert leeren">
+		<actionPart position="1" type="TEXT" value="leere das Feld" />
+		<actionPart position="2" type="ACTION_NAME"/>
+	</TechnicalBindingType>
+
+	<TechnicalBindingType id="Auswahl_Wert" name="Wert auswaehlen">
+		<actionPart position="1" type="TEXT" value="waehle in Feld" />
+		<actionPart position="2" type="ACTION_NAME" />
+		<actionPart position="3" type="TEXT" value="den Wert" />
+		<actionPart position="4" type="ARGUMENT" id="argument1" />
+		<actionPart position="5" type="TEXT" value="aus" />
+	</TechnicalBindingType>
+</TechnicalBindingTypes>

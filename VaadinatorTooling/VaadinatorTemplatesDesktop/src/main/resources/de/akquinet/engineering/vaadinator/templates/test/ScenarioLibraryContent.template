@@ -1,0 +1,72 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#|import|
+|org.testeditor.fixture.core|
+|org.testeditor.fixture.web|  
+  
+
+!|Library|
+|GenericFixture|
+
+-!|script|
+|setElementlist|${ELEMENT_LISTE}|
+
+'''Starte Browser''' --------
+!|scenario|starte Browser|browser|
+|open browser;|@browser|${BROWSER_PATH}|
+
+'''Navigiere zu URL''' --------
+!|scenario|navigiere auf die Seite|url|
+|navigate to Url|@url|
+
+'''Textfeld ausfuellen''' --------
+!|scenario|gebe in das Feld|guiid|den Wert|text|ein|
+|insert|@text|into field|@guiid|
+
+'''Auswahl auswaehlen ''' --------
+!|scenario|waehle in Feld|guiid|den Wert|text|aus|
+|insert|@text|into field|@guiid|
+
+'''Textfeld leeren''' --------
+!|scenario|leere das Feld|guiid|
+|clear|@guiid|
+
+'''Warte in Sekunden''' --------
+!|scenario|warte|anzahlSekunden|Sekunden|
+|wait|@anzahlSekunden|seconds|
+
+'''Warte auf Element''' --------
+!|scenario|warte auf Element|warteElement|
+|wait for Element|@warteElement|
+
+'''Klick auf ein Gui Element''' --------
+!|scenario|klicke auf|guiElement|
+|click|@guiElement|
+
+'''Wahl aus Tabelle''' --------
+!|scenario|waehle aus|guiElement|die Zeile|zeileNr|
+|doubleClick;|@guiElement|[@zeileNr]|
+
+'''Pruefe ob Text sichtbar ist ''' --------
+!|scenario|ueberpruefe ob der Text|textVorhanden|vorhanden ist|
+|text|@textVorhanden|is visible|
+
+'''Pruefe ob Text nicht sichtbar ist ''' --------
+!|scenario|ueberpruefe ob nicht der Text|textVorhanden|vorhanden ist|
+|text|@textVorhanden|is unvisible|
+
+'''Beenden des Browsers''' --------
+!|scenario|beende Browser|
+|close browser|

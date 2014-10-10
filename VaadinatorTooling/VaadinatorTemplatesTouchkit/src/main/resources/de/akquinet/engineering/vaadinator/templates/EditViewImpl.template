@@ -1,0 +1,197 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import java.util.List;
+
+import ${viewPackage}.${bean.className}EditView.Observer;
+
+import com.vaadin.addon.touchkit.gwt.client.theme.StyleNames;
+import com.vaadin.addon.touchkit.ui.DatePicker;
+import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.data.Property;
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+
+public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer> extends NavigationView implements ${bean.className}EditView<O> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected CssLayout layout = new CssLayout();
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_sectionvar.template")
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
+
+	protected Button cancel = new Button();
+	protected Button save = new Button();
+
+	private ${bean.className}EditView.Observer observer;
+
+	public ${bean.className}EditViewImpl() {
+		super();
+	}
+
+	public void initializeUi() {
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_section.template")
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
+		setContent(layout);
+		cancel.setCaption("Abbrechen");
+		cancel.addStyleName("styleid-${bean.className}EditViewImpl-cancel");
+		save.setStyleName(StyleNames.BUTTON_BLUE);
+		cancel.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				observer.onCancel();
+			}
+		});
+		setLeftComponent(cancel);
+		save.setCaption("Speichern");
+		save.addStyleName("styleid-${bean.className}EditViewImpl-save");
+		save.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				observer.onSave();
+			}
+		});
+		setRightComponent(save);
+		addStyleName("styleid-${bean.className}EditViewImpl");
+	}
+
+	public boolean checkAllFieldsValid() {
+		try {
+		#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+		#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false)
+			validateField(${property.propertyName});
+		#end
+		#end
+		} catch (InvalidValueException ive) {
+			return false;
+		}
+		return true;
+	}
+
+	private void validateField(Field<?> field) throws InvalidValueException {
+		field.removeStyleName("validation-red");
+		try {
+			field.validate();
+		} catch (InvalidValueException e) {
+			field.addStyleName("validation-red");
+			throw e;
+		}
+	}
+
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	#end	
+	public ${property.propertyClassName} ${property.propertyGetterName}() {
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+		return (${property.propertyClassName}) ${property.propertyName}.getValue();
+	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
+		return ${property.propertyName}.getValue();
+	#elseif($property.propertyUnboxed)
+		return ${property.propertyUnboxedFromString}(${property.propertyName}.getValue());
+	#else
+		return ${property.propertyName}.getValue();
+	#end
+	}
+	
+	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#elseif($property.propertyUnboxed)
+		this.${property.propertyName}.setValue(${property.propertyUnboxedToString}(${property.propertyName}));
+	#else
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#end
+	}
+	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassName}> ${property.propertyChoicesForParamName}) {
+		for (${property.propertyClassName} auswahl : ${property.propertyChoicesForParamName}) {
+			${property.propertyName}.addItem(auswahl);
+			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
+		}
+	}
+	#end
+
+	// captions
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
+		#if($property.hasEnumClass($common.beans))
+		switch(auswahl){
+			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
+			case ${enumVal.value}:
+				return "${enumVal.effectiveCaption}";
+			#end
+			default: 
+				return null;
+		}		
+		#else
+		// (Fallback for non-enums)
+		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
+		#end
+	} 
+	#end
+#end
+#end
+
+    @Override
+	public void setObserver(${bean.className}EditView.Observer observer) {
+		this.observer = observer;
+	}
+
+	public Object getComponent() {
+		return this;
+	}
+
+	@Override
+	public void showErrorMessage(String message) {
+		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+
+}

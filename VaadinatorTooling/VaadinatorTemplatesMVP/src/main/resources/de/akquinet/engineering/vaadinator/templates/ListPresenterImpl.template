@@ -1,0 +1,119 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+import ${viewPackage}.${bean.className}ListView;
+import ${common.basePackage}.service.${bean.className}Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ${bean.className}ListPresenterImpl implements ${bean.className}ListPresenter, ${bean.className}ListView.Observer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Map<String, Object> context;
+	private ${bean.className}ListView view;
+	private PresenterFactory presenterFactory;
+	private ${bean.className}Service service;
+	private SubviewCapablePresenter subviewCapablePresenter;
+
+	public ${bean.className}ListPresenterImpl(Map<String, Object> context, ${bean.className}ListView view, PresenterFactory presenterFactory, ${bean.className}Service service, SubviewCapablePresenter subviewCapablePresenter) {
+		super();
+		this.context = context;
+		this.view = view;
+		this.presenterFactory = presenterFactory;
+		this.service = service;
+		this.subviewCapablePresenter = subviewCapablePresenter;
+	}
+
+	@Override
+	public ${bean.className}ListView getView() {
+		return view;
+	}
+
+	@Override
+	public void startPresenting() {
+		view.setObserver(this);
+		view.initializeUi();
+		loadFromModel();
+	}
+
+	@Override
+	public void returnToThisPresener(Presenter fromPresenter) {
+		// if we have a subview capable presenter: take this one - otherwise try open a sub view (will accomodate both Desktop and TouchKit)
+		if (subviewCapablePresenter != null) {
+			subviewCapablePresenter.setDetailView(null);
+		} else {
+			view.closeSubView();
+		}
+		// from editing (there could be a change)
+		loadFromModel();
+	}
+
+	protected void loadFromModel() {
+		try {
+			view.setOrRefreshData(service.listAll${bean.className}(new HashMap<String, Object>(context)));
+		} catch (RuntimeException exc) {
+			view.showErrorMessage(exc.toString());
+			throw exc;
+		}
+	}
+
+	protected void saveToModel() {
+		// nada
+	}
+
+	@Override
+	public void on${bean.className}Chosen() {
+		${bean.className} newSel = view.get${bean.className}Selection().getValue();
+		if (newSel == null) {
+			return;
+		}
+		${bean.className}ChangePresenter cpres = presenterFactory.create${bean.className}ChangePresenter(this);
+		cpres.set${bean.className}(newSel);
+		// if we have a subview capable presenter: take this one - otherwise try open a sub view (will accomodate both Desktop and TouchKit)
+		if (subviewCapablePresenter != null) {
+			subviewCapablePresenter.setDetailView(cpres.getView());
+		} else {
+			view.openSubView(cpres.getView());
+		}
+		cpres.startPresenting();
+	}
+
+	@Override
+	public void onAdd${bean.className}() {
+		${bean.className}AddPresenter apres = presenterFactory.create${bean.className}AddPresenter(this);
+		// if we have a subview capable presenter: take this one - otherwise try open a sub view (will accomodate both Desktop and TouchKit)
+		if (subviewCapablePresenter != null) {
+			subviewCapablePresenter.setDetailView(apres.getView());
+		} else {
+			view.openSubView(apres.getView());
+		}
+		apres.startPresenting();
+	}
+
+}

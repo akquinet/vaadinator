@@ -1,0 +1,120 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#<?xml version="1.0" encoding="UTF-8"?>
+
+<ActionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../org.testeditor.xmllibrary/resources/AllActionGroups.xsd"
+	schemaVersion="1.1">
+
+	<ActionGroup name="Allgemein Browser">
+		<action technicalBindingType="Starte_Browser">
+			<actionName locator="Firefox">Firefox</actionName>
+		</action>
+		<action technicalBindingType="Starte_Browser">
+			<actionName locator="IE">IE</actionName>
+		</action>
+		<action technicalBindingType="Navigiere_auf_Seite" />
+		<action technicalBindingType="Beende_Browser" />
+		<action technicalBindingType="Warte_Sekunden" />
+		<action technicalBindingType="Pruefe_Wert_vorhanden" />
+		<action technicalBindingType="Pruefe_Wert_nicht_vorhanden" />
+	</ActionGroup>
+
+	<ActionGroup name="Einstieg">
+		<action technicalBindingType="Warte_Element">
+			<actionName locator="Einstieg_Tabs">Tabs</actionName>
+		</action>
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Einstieg_${bean.className}Tab">Tab ${bean.effectiveCaption}</actionName>
+		</action>
+#end
+#end
+	</ActionGroup>
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+	<ActionGroup name="Liste_${bean.className}">
+		<action technicalBindingType="Eingabe_Wert">
+			<actionName locator="Liste_${bean.className}_${bean.className}Search">${bean.className}Suchfeld</actionName>
+		</action>
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Liste_${bean.className}_add${bean.className}">Neue ${bean.effectiveCaption}</actionName>
+		</action>
+		<action technicalBindingType="Warte_Element">
+			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table">${bean.className}Tabelle</actionName>
+		</action>
+		<action technicalBindingType="Tabellenzeile_Waehlen">
+			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table">${bean.className}Tabelle</actionName>
+		</action>
+	</ActionGroup>
+	<ActionGroup name="Add_${bean.className}">
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Add_${bean.className}_cancel">Abbrechen</actionName>
+		</action>
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Add_${bean.className}_save">Speichern</actionName>
+		</action>
+	#foreach($property in $bean.properties)
+		<action technicalBindingType="Pruefe_Wert_vorhanden">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+		<action technicalBindingType="Pruefe_Wert_nicht_vorhanden">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+		<action technicalBindingType="Eingabe_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>		
+		<action technicalBindingType="Leere_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>		
+		<action technicalBindingType="Auswahl_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+	#end
+	</ActionGroup>
+	<ActionGroup name="Change_${bean.className}">
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Change_${bean.className}_cancel">Abbrechen</actionName>
+		</action>
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Change_${bean.className}_remove">Loeschen</actionName>
+		</action>
+		<action technicalBindingType="Button_Druecken">
+			<actionName locator="Change_${bean.className}_save">Speichern</actionName>
+		</action>
+	#foreach($property in $bean.properties)
+		<action technicalBindingType="Pruefe_Wert_vorhanden">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+		<action technicalBindingType="Pruefe_Wert_nicht_vorhanden">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+		<action technicalBindingType="Eingabe_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>		
+		<action technicalBindingType="Leere_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>		
+		<action technicalBindingType="Auswahl_Wert">
+			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
+		</action>
+	#end
+	</ActionGroup>
+#end
+#end
+
+</ActionGroups>

@@ -1,0 +1,82 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+
+import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
+
+import de.akquinet.engineering.vaadinator.util.AbstractPlainJpa;
+
+public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bean.className}Dao {
+
+	public ${bean.className}DaoPlain() {
+		super();
+	}
+
+	public ${bean.className}DaoPlain(EntityManagerFactory entityManagerFactory) {
+		super(entityManagerFactory);
+	}
+
+	${bean.className}Dao backend = null;
+
+	protected ${bean.className}Dao obtainBackend() {
+		if (backend == null) {
+			backend = new ${bean.className}DaoImpl(getEntityManager());
+		}
+		return backend;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ${bean.className} find(final Object id, final Map<String, Object> context) {
+		return (${bean.className}) requireJpaTransaction(new Callback() {
+
+			@Override
+			public ${bean.className} perform() {
+				return obtainBackend().find(id, context);
+			}
+		}, context);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<${bean.className}> list(final ${bean.className}Query ${bean.classNamePass}Query, final Map<String, Object> context) {
+		return (List<${bean.className}>) requireJpaTransaction(new Callback() {
+
+			@Override
+			public List<${bean.className}> perform() {
+				return obtainBackend().list(${bean.classNamePass}Query, context);
+			}
+		}, context);
+	}
+
+	@Override
+	public ${bean.className} merge(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {
+		return (${bean.className}) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().merge(${bean.classNamePass}, context);
+			}
+		}, context);
+	}
+
+}

@@ -1,0 +1,90 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.List;
+import java.util.Map;
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
+#end
+
+import ${common.basePackage}.dao.${bean.className}Dao;
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+import ${common.basePackage}.dao.${bean.className}DaoEjb;
+#end
+import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+@Stateless
+#end
+public class ${bean.className}ServiceImpl implements ${bean.className}Service 
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+, ${bean.className}ServiceEjb
+#end
+{
+
+	public ${bean.className}ServiceImpl() {
+		super();
+	}
+
+	public ${bean.className}ServiceImpl(${bean.className}Dao ${bean.classNamePass}Dao) {
+		super();
+		this.${bean.classNamePass}Dao = ${bean.classNamePass}Dao;
+	}
+
+	private ${bean.className}Dao ${bean.classNamePass}Dao;
+
+	public void set${bean.className}Dao(${bean.className}Dao ${bean.classNamePass}Dao) {
+		this.${bean.classNamePass}Dao = ${bean.classNamePass}Dao;
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@Inject
+	public void set${bean.className}Dao(${bean.className}DaoEjb ${bean.classNamePass}Dao) {
+		this.${bean.classNamePass}Dao = ${bean.classNamePass}Dao;
+	}
+#end
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public List<${bean.className}> listAll${bean.className}(Map<String, Object> context) {
+		return ${bean.classNamePass}Dao.list(new ${bean.className}Query(), context);
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public ${bean.className} addNew${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context) {
+		return ${bean.classNamePass}Dao.merge(${bean.classNamePass}, context);
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public ${bean.className} updateExisting${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context) {
+		return ${bean.classNamePass}Dao.merge(${bean.classNamePass}, context);
+	}
+
+}

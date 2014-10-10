@@ -1,0 +1,37 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+	#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	
+	#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+		${property.propertyName}.setCaption("${property.effectiveCaption}");
+		#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+			${property.propertyName}.setNullSelectionAllowed(false);
+			#if($property.getDisplayPropertyProfile($profileName).fieldType.name()!="CUSTOM")
+			${property.propertyName}.setTextInputAllowed(false);
+			#end
+		#end
+		#if($property.getDisplayPropertyProfile($profileName).required)
+		${property.propertyName}.setRequired(true);
+		#end
+		#if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="TEXTFIELD")
+			${property.propertyName}.setNullRepresentation("");
+		#end
+		#if($property.fieldType.toString()=="DATEPICKER")
+			${property.propertyName}.setUseNative(false);
+		#end
+		${property.propertyName}.addStyleName("styleid-${bean.className}EditViewImpl-${property.propertyName}");
+		section${property.getDisplayPropertyProfile($profileName).section.sectionVarSuffix}.addComponent(${property.propertyName});
+	#end
+	#end

@@ -1,0 +1,91 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+#foreach($import in $bean.imports)
+${import}
+#end
+
+public class ${bean.className}Wrapper extends ${bean.className} implements ${bean.className}Properties {
+
+	// TODO: serial version UID
+
+#foreach($constructor in $bean.constructors)
+	public ${bean.className}Wrapper(${constructor.constructorParamStr}) {
+		super(${constructor.constructorParamPassStr});
+	}
+#end
+	public ${bean.className}Wrapper(${bean.className} ${bean.classNamePass}){
+		super();
+	#foreach($property in $bean.properties)
+	#if($bean.hasGetter($property.propertyGetterName) && $bean.hasSetter($property.propertySetterName))
+		super.${property.propertySetterName}(${bean.classNamePass}.${property.propertyGetterName}());
+	#end
+	#end
+	}
+
+	private Set<String> dirtyProperties = new HashSet<String>();
+
+#foreach($property in $bean.properties)
+#if($bean.hasGetter($property.propertyGetterName))
+	@Override
+	public ${property.propertyClassName} ${property.propertyGetterName}() {
+		return super.${property.propertyGetterName}();
+	}
+#end
+
+#if($bean.hasSetter($property.propertySetterName))
+	@Override
+	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
+		dirtyProperties.add("${property.propertyName}");
+		super.${property.propertySetterName}(${property.propertyName});
+	}
+#end
+#end
+
+	public Set<String> getDirtyProperties() {
+		return Collections.unmodifiableSet(dirtyProperties);
+	}
+	
+	public void restetDirtyProperties() {
+		dirtyProperties.clear();
+	}
+
+	private Map<String, Object> customProperties = new HashMap<String, Object>();
+
+	public Object getCustomProperty(String name) {
+		return customProperties.get(name);
+	}
+	
+	public boolean hasCustomProperty(String name) {
+		return customProperties.containsKey(name);
+	}
+	
+	public void setCustomProperty(String name, Object value) {
+		customProperties.put(name, value);
+	}
+	
+	public void unsetCustomProperty(String name) {
+		customProperties.remove(name);
+	}
+
+}
