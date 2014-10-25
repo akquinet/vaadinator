@@ -495,7 +495,11 @@ Besides being able to generate a UI, Vaadinator also has a helper to create mapp
 
 ## We'd love to hear from you!
 
-Drop us a note or do a comment or pull request - we'd love to hear your thoughts!
+Feel free to share your insights, thoughts and feedback! - you can do this e.g. by using the Comments function of our Blog (bottom part of the page): 
+- [English](http://blog.akquinet.de/2014/10/25/quickstart-vaadin-mobile-applications-with-vaadinator-part-1-introduction/)
+- [German](http://blog-de.akquinet.de/2014/10/25/vaadinator-ein-schneller-weg-zu-mobilen-anwendungen-mit-vaadin-teil-1-einfuhrung/)
+
+(or by issuing a pull request right away)
 
 <hr />
 
@@ -986,5 +990,8 @@ Neben der UI-Erzeugung bietet Vaadinator auch die Möglichkeit des Generierens v
 
 ## Wir freuen uns auf Ihre Rückmeldung!
 
-Schreiben Sie uns eine Mail oder erstellen Sie einen Comment / Pull Request - Ideen und Anregungen sind immer willkommen!
+Ideen und Anregungen sind immer willkommen! Teilen Sie uns Ihr Feedback mit, z.B. über die Kommentarfunktion in unserem Blog (am Ende der Seite): 
+- [Deutsch](http://blog-de.akquinet.de/2014/10/25/vaadinator-ein-schneller-weg-zu-mobilen-anwendungen-mit-vaadin-teil-1-einfuhrung/)
+- [English](http://blog.akquinet.de/2014/10/25/quickstart-vaadin-mobile-applications-with-vaadinator-part-1-introduction/)
 
+(oder stellen Sie direkt einen Pull Request)
