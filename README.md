@@ -33,17 +33,23 @@ cd <checkoutDir>
 mvn install
 cd ../<yourEmptyDir>
 mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+```
+- when specifying groupId, artifactId and package make sure not to use special characters - particularly not the minus sign "-" to avoid trouble
+- the sample class (and thus the generation result) is German - if you want to see an English UI instead download this <a href="misc/messages_en.properties">messages_en.properties</a> and store it to src/main/resources/<i>packageChosenBefore</i>/ui/std/view/messages_en.properties
+```
 cd <artifactId>
 mvn package eclipse:eclipse
 ```
+- eclipse:eclipse is only necessary if you want to open in Eclipse (make sure you have UTF-8 configured as workspace default charset)
 - copy WAR to Tomcat or open in Eclipse and <i>Run on Server</i>
+- you will get a <strong>mobile</strong> base application that runs in the browser
 - open with iPhone or Chrome or other Webkit-based browser
 
 Result - Start:
-<img src="img/first_screen.png" border="0" />
+<img src="img/first_screen_en.png" border="0" />
 
-Result - after tapping "Neue Adresse" (new address):
-<img src="img/second_screen.png" border="0" />  
+Result - after tapping "New Address":
+<img src="img/second_screen_en.png" border="0" />  
 
 (everyone with a little more patience pls. read on)
 
@@ -139,6 +145,8 @@ If you don't want Tomcat and mobile (aka vaadin TouchKit) - the <i>vaadinator-to
 - <i>vaadinator-desktop-tomcat-archetype</i>: Desktop on Tomcat, uses an internal H2 database until you specify otherwise (see below)
 - <i>vaadinator-touchkit-jboss-archetype</i>: Touchkit on JBoss, needs an external data source in place (see below)
 - <i>vaadinator-desktop-jboss-archetype</i>: Desktop on JBoss, needs an external data source in place (see below)
+
+Pls. observe that some TouchKit elements might behave better on actual smartphones than on a desktop browser.
 
 You can also start customizing the domain model classes and check out the results.
 
@@ -452,6 +460,10 @@ public class AddressDaoImplTest {
 
 This example (unlike the archetype) requires you to specify -Ptomcat or -Pjboss plus -Ptouchkit or -Pdesktop 
 
+### Localization
+
+Button captions and other strings are pulled from a generated file called messages.properties. You can define a more specific file like messages_en.properties in src/main/java (and in the same package) to overwrite the defaults (all properties or a subset) there (in this case for English; messages_fr.properties would do the trick for French).
+
 ### Overwriting templates
 
 You you can even overwrite any template file that ships with Vaadinator. This allows you to go one step further and customize the code generation process as such. There are just two criteria: 
@@ -514,10 +526,15 @@ cd <checkoutVerzeichnis>
 mvn install
 cd ../<neuesLeeresVerzeichnis>
 mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+```
+- achten Sie bei der Eingabe von groupId, artifactId und package darauf, keine Sonderzeichen zu verwenden - insbesondere nicht das Minuszeichen "-"
+```
 cd <artifactId>
 mvn package eclipse:eclipse
 ```
+- eclipse:eclipse ist nur nötig, wenn Sie Eclipse verwenden möchten
 - WAR nach Tomcat kopieren oder in Eclipse mit <i>Run on Server</i> starten
+- sie erhalten eine <strong>mobile</strong> Anwendung, die im Browser läuft
 - im iPhone oder Chrome oder anderem Webkit-basierten Browser öffnen
 
 Ergebnis - Startseite:
@@ -619,6 +636,8 @@ Wenn Sie etwas anderes erstellen wollen als Tomcat für mobile (aka vaadin Touch
 - <i>vaadinator-desktop-tomcat-archetype</i>: Desktop auf Tomcat: nutzt per se eine interne H2-Datenbank bis Sie etwas anderes angeben (siehe weiter unten)
 - <i>vaadinator-touchkit-jboss-archetype</i>: Touchkit auf JBoss: braucht zwingend eine externe Data Source (siehe weiter unten)
 - <i>vaadinator-desktop-jboss-archetype</i>: Desktop auf JBoss: braucht zwingend eine externe Data Source (siehe weiter unten)
+
+Bitte beachten Sie, dass die TouchKit-Elemente auf tatsächlichen Smartphones umfangreicher und besser sein können als in Desktop-Browsern.
 
 Außerdem ist es wie gesagt möglich, die Domänen-Klassen zu ändern und die Resultate auszuprobieren.
 
@@ -931,6 +950,10 @@ public class AddressDaoImplTest {
 ```
 
 Dieses Beispiel verlangt (ungleich den Archetypes) die Angabe der Art der Umsetzung als -Ptomcat oder -Pjboss plus -Ptouchkit oder -Pdesktop beim Maven Build der Anwendung.
+
+### Lokalisierung
+
+Button-Beschriftungen und andere Texte werden aus der generierten Datei messages.properties genommen. Sie können eine eigene, spezifischere Datei wie messages_de.properties in src/main/java (und im gleichen Package wie messages.properties) anlegen, um die Defaults (alle oder ausgewählte) zu überschreiben. messages_de.properties wird dabei für Browser mit eingestellter deutscher Sprace gezogen, messages_fr.properties ist das Gegenstück für Französisch.
 
 ### Überschreiben von Vorlagen
 
