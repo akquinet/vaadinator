@@ -22,6 +22,8 @@ import ${modelPackage}.*;
 
 import java.util.List;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 import ${viewPackage}.${bean.className}EditView.Observer;
 
 import com.vaadin.addon.touchkit.gwt.client.theme.StyleNames;
@@ -60,13 +62,14 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		super();
 	}
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	public void initializeUi() {
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_section.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 		setContent(layout);
-		cancel.setCaption("Abbrechen");
+		cancel.setCaption(obtainBundle().getString("cancel"));
 		cancel.addStyleName("styleid-${bean.className}EditViewImpl-cancel");
-		save.setStyleName(StyleNames.BUTTON_BLUE);
 		cancel.addClickListener(new ClickListener() {
 
 			/**
@@ -80,7 +83,8 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 			}
 		});
 		setLeftComponent(cancel);
-		save.setCaption("Speichern");
+		save.setCaption(obtainBundle().getString("save"));
+		save.setStyleName(StyleNames.BUTTON_BLUE);
 		save.addStyleName("styleid-${bean.className}EditViewImpl-save");
 		save.addClickListener(new ClickListener() {
 
@@ -166,7 +170,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		switch(auswahl){
 			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
 			case ${enumVal.value}:
-				return "${enumVal.effectiveCaption}";
+				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
 			#end
 			default: 
 				return null;

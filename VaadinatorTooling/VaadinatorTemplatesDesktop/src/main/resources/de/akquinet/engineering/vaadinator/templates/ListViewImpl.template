@@ -46,6 +46,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 public class ${bean.className}ListViewImpl extends CustomComponent implements ${bean.className}ListView {
 
 	/**
@@ -62,6 +64,8 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	public ${bean.className}ListViewImpl() {
 		super();
 	}
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
 	public void initializeUi() {
@@ -117,7 +121,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 		initSearch();
 		searchField.addStyleName("styleid-${bean.className}ListViewImpl-searchField");
 		
-		add${bean.className}.setCaption("Neue ${bean.effectiveCaption}");
+		add${bean.className}.setCaption(obtainBundle().getString("entity.${bean.className}.new"));
 		add${bean.className}.addClickListener(new ClickListener() {
 
 			/**
@@ -142,7 +146,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 		 * set a caption that would be shown above the field or description to
 		 * be shown in a tooltip.
 		 */
-		searchField.setInputPrompt("Search...");
+		searchField.setInputPrompt(obtainBundle().getString("search"));
 
 		/*
 		 * Granularity for sending events over the wire can be controlled. By
@@ -238,7 +242,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInTable)
-		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", "${property.effectiveCaption}");
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
 #end
 #end
 	}

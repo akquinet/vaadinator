@@ -32,6 +32,8 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 #foreach($import in $bean.imports)
 ${import}
 #end
@@ -52,6 +54,8 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	protected FormLayout editLayout = new FormLayout();
 
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
 	public void initializeUi() {
@@ -152,7 +156,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		switch(auswahl){
 			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
 			case ${enumVal.value}:
-				return "${enumVal.effectiveCaption}";
+				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
 			#end
 			default: 
 				return null;

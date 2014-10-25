@@ -18,6 +18,8 @@ package ${package};
 import java.util.ArrayList;
 import java.util.List;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 import ${common.basePackage}.ui.view.View;
 
 #foreach($import in $bean.imports)
@@ -58,9 +60,11 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		super();
 	}
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	@Override
 	public void initializeUi() {
-		setCaption("${bean.effectiveCaptionPlural}");
+		setCaption(obtainBundle().getString("entity.${bean.className}.plural"));
 		${bean.classNamePass}Table.setSelectable(true);
 		${bean.classNamePass}Table.addItemClickListener(new ItemClickListener() {
 
@@ -129,7 +133,7 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInTable)
-		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", "${property.effectiveCaption}");
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
 #end
 #end
 	}

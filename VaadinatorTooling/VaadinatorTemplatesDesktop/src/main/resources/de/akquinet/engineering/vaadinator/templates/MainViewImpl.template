@@ -24,6 +24,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 import ${common.basePackage}.ui.view.View;
 
 public class MainViewImpl extends CustomComponent implements MainView {
@@ -46,6 +48,8 @@ public class MainViewImpl extends CustomComponent implements MainView {
 		return this;
 	}
 
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	@Override
 	public void initializeUi() {
 		tabs.addStyleName("styleid-MainViewImpl-tabs");
@@ -67,7 +71,7 @@ public class MainViewImpl extends CustomComponent implements MainView {
 	#foreach($bean in $common.beans)
 	#if($bean.displayed)
 		if("${bean.className}".equals(identifier)){
-			return "${bean.effectiveCaption}";
+			return obtainBundle().getString("entity.${bean.className}");
 		}
 	#end
 	#end

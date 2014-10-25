@@ -15,7 +15,7 @@ the License.
 *#
 	#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	
 	#if($property.getDisplayPropertyProfile($profileName).showInDetail)
-		${property.propertyName}.setCaption("${property.effectiveCaption}");
+		${property.propertyName}.setCaption(obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
 		#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 			${property.propertyName}.setNullSelectionAllowed(false);
 			#if($property.getDisplayPropertyProfile($profileName).fieldType.name()!="CUSTOM")

@@ -43,7 +43,7 @@ public class ${bean.className}ChangeViewImpl extends
 	@Override
 	protected void initButtons(AbstractOrderedLayout buttonLayout) {
 
-		remove.setCaption("Loeschen");
+		remove.setCaption(obtainBundle().getString("delete"));
 		remove.addStyleName("styleid-${bean.className}ChangeViewImpl-remove");
 		remove.addClickListener(new Button.ClickListener() {
 
@@ -60,7 +60,7 @@ public class ${bean.className}ChangeViewImpl extends
 		});
 		buttonLayout.addComponent(remove);
 
-		cancel.setCaption("Zurueck");
+		cancel.setCaption(obtainBundle().getString("back"));
 		cancel.addStyleName("styleid-${bean.className}ChangeViewImpl-cancel");
 		cancel.addClickListener(new Button.ClickListener() {
 
@@ -77,7 +77,7 @@ public class ${bean.className}ChangeViewImpl extends
 		});
 		buttonLayout.addComponent(cancel);
 		
-		save.setCaption("Speichern");
+		save.setCaption(obtainBundle().getString("save"));
 		save.addStyleName("styleid-${bean.className}ChangeViewImpl-save");
 		save.addClickListener(new Button.ClickListener() {
 

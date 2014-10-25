@@ -32,7 +32,7 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 	@Override
 	public void initializeUi() {
 		super.initializeUi();
-		setCaption("Neue ${bean.captionText}");
+		setCaption(obtainBundle().getString("entity.${bean.className}.new"));
 		addStyleName("styleid-${bean.className}AddViewImpl");
 	}
 

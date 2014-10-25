@@ -32,7 +32,7 @@ public class ${bean.className}ChangeViewImpl extends ${bean.className}EditViewIm
 	@Override
 	public void initializeUi() {
 		super.initializeUi();
-		setCaption("${bean.captionText} bearbeiten");
+		setCaption(obtainBundle().getString("entity.${bean.className}.edit"));
 		addStyleName("styleid-${bean.className}ChangeViewImpl");
 	}
 

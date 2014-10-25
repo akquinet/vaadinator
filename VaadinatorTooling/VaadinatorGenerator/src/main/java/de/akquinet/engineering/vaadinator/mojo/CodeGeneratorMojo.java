@@ -43,6 +43,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import de.akquinet.engineering.vaadinator.dao.SourceDao;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
+import de.akquinet.engineering.vaadinator.util.UnicodeUtil;
 
 /**
  * Generate Code.
@@ -194,8 +195,15 @@ public class CodeGeneratorMojo extends AbstractMojo {
 					runVelocity(null, commonMap, basePckg, null, null, null, null, "widgetset.template",
 							packageToFile(targetFolderResStart, basePckg, projectName + "Widgetset", ".gwt.xml"), false);
 				}
-				// ditto testeditor
 				if (hasDisplayBeans) {
+					// Internationalization
+					// EINE pro Profile
+					for (String displayProfileName : displayProfileNames) {
+						runVelocity(null, commonMap, basePckg + ".ui." + displayProfileName + ".view", null, basePckg + ".ui." + displayProfileName
+								+ ".presenter", basePckg + ".ui." + displayProfileName + ".view", displayProfileName, "messages.template",
+								packageToFile(targetFolderResStart, basePckg + ".ui." + displayProfileName + ".view", "messages", ".properties"));
+					}
+					// ditto testeditor
 					File tests = existingFolder(targetFolderTesteditStart, projectName + "Tests");
 					runVelocity(null, commonMap, null, null, null, null, null, "test/AllActionGroups.template",
 							new File(tests, "AllActionGroups.xml"));
@@ -547,6 +555,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		context.put("presenterPackage", presenterPckg);
 		context.put("viewPackage", viewPckg);
 		context.put("profileName", profileName);
+		context.put("unicodeUtil", UnicodeUtil.SINGLETON);
 		Writer writer = new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8");
 		template.merge(context, writer);
 		writer.close();

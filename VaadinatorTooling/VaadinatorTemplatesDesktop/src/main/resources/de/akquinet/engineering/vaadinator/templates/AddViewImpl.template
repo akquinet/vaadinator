@@ -40,7 +40,7 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 	@Override
 	protected void initButtons(AbstractOrderedLayout buttonLayout) {
 
-		cancel.setCaption("Zurueck");
+		cancel.setCaption(obtainBundle().getString("back"));
 		cancel.addStyleName("styleid-${bean.className}AddViewImpl-cancel");
 		cancel.addClickListener(new Button.ClickListener() {
 	
@@ -57,7 +57,7 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 		});
 		buttonLayout.addComponent(cancel);
 				
-		save.setCaption("Speichern");
+		save.setCaption(obtainBundle().getString("save"));
 		save.addStyleName("styleid-${bean.className}AddViewImpl-save");
 		save.addClickListener(new Button.ClickListener() {
 

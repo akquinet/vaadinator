@@ -13,8 +13,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 *#
-	#foreach($section in $bean.getDisplayProfile($profileName).sectionsInProfile)	
-		section${section.sectionVarSuffix}.setCaption(obtainBundle().getString("entity.${bean.className}.section.${section.sectionVarSuffix}"));
-		section${section.sectionVarSuffix}.addStyleName("styleid-${bean.className}EditViewImpl-section${section.sectionVarSuffix}");
-		layout.addComponent(section${section.sectionVarSuffix});
-	#end
+	private ResourceBundle bundle = ResourceBundle.getBundle("${package}.messages", UI.getCurrent().getLocale());
+	protected ResourceBundle obtainBundle() {
+		return bundle;
+	}

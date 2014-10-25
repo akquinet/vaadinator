@@ -15,7 +15,7 @@ the License.
 *#
 	#set($firstsection=1)
 	#foreach($section in $bean.getDisplayProfile($profileName).sectionsInProfile)	
-		section${section.sectionVarSuffix}Switch.setCaption("${section.sectionName}");
+		section${section.sectionVarSuffix}Switch.setCaption(obtainBundle().getString("entity.${bean.className}.section.${section.sectionVarSuffix}"));
 		section${section.sectionVarSuffix}Switch.addStyleName("styleid-${bean.className}EditViewImpl-section${section.sectionVarSuffix}Switch");
 		#if($firstsection==1)
 		#set($firstsection=0)

@@ -89,7 +89,7 @@ public class ${bean.className}AddPresenterImpl extends ${bean.className}EditPres
 
 	@Override
 	public void onCancel() {
-		// schliesse Fenster und gehe zurück zur Liste
+		// schliesse Fenster und gehe zurueck zur Liste
 		if (capablePresenter != null) {
 			capablePresenter.setDetailView(null);
 		}
