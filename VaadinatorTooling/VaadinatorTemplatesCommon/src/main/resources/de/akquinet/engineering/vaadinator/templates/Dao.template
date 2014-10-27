@@ -29,4 +29,6 @@ public interface ${bean.className}Dao {
 	
 	public ${bean.className} merge(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
 	
+	public void remove(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
+	
 }

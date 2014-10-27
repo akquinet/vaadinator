@@ -84,4 +84,16 @@ public class ${bean.className}ServicePlain extends AbstractPlainJpa implements $
 		}, context);
 	}
 
+	@Override
+	public void removeExisting${bean.className}(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {
+		requireJpaTransaction(new Callback() {
+
+			@Override
+			public Void perform() {
+				obtainBackend().removeExisting${bean.className}(${bean.classNamePass}, context);
+				return null;
+			}
+		}, context);
+	}
+
 }

@@ -87,4 +87,12 @@ public class ${bean.className}ServiceImpl implements ${bean.className}Service
 		return ${bean.classNamePass}Dao.merge(${bean.classNamePass}, context);
 	}
 
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public void removeExisting${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context) {
+		${bean.classNamePass}Dao.remove(${bean.classNamePass}, context);
+	}
+
 }

@@ -79,4 +79,16 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 		}, context);
 	}
 
+	@Override
+	public void remove(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {
+		requireJpaTransaction(new Callback() {
+
+			@Override
+			public Void perform() {
+				obtainBackend().remove(${bean.classNamePass}, context);
+				return null;
+			}
+		}, context);
+	}
+
 }
