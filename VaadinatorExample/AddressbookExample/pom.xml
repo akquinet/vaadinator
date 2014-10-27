@@ -29,7 +29,7 @@ the License.
 		<version>0.9-SNAPSHOT</version>
 	</parent>
 	<properties>
-		<vaadin.version>7.1.6</vaadin.version>
+		<vaadin.version>7.3.3</vaadin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -71,12 +71,6 @@ the License.
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-theme-compiler</artifactId>
-			<version>${vaadin.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
@@ -94,7 +88,7 @@ the License.
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>vaadin-touchkit-agpl</artifactId>
-			<version>4.0.0.alpha2</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
