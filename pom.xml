@@ -56,31 +56,11 @@ the License.
 		</plugins>
 	</build>
 	
-	<scm>
-		<developerConnection>scm:svn:https://svn.akq-eng.de/repos/vaadinator/trunk/VaadinatorParent</developerConnection>
-	</scm>
-
 	<repositories>
 		<repository>
-			<id>akqeng-releases</id>
-			<name>akquinet engineering - Releases</name>
-			<url>https://repo.akq-eng.de/content/repositories/thirdparty/</url>
-			<layout>default</layout>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
 	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>akqeng-releases</id>
-			<name>akquinet engineering - Releases</name>
-			<url>https://repo.akq-eng.de/content/repositories/releases/</url>
-			<layout>default</layout>
-		</repository>
-		<snapshotRepository>
-			<id>akqeng-snapshots</id>
-			<name>akquinet engineering - Snapshots</name>
-			<url>https://repo.akq-eng.de/content/repositories/snapshots/</url>
-			<layout>default</layout>
-		</snapshotRepository>
-	</distributionManagement>
+	
 </project>

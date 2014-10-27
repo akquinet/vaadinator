@@ -204,7 +204,10 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<!-- widgetset compile is not needed until you create your own -->
-	</profiles>
+	<repositories>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+	</repositories>
 </project>
