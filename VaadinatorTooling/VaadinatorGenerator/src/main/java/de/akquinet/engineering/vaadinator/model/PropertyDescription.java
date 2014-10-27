@@ -16,11 +16,14 @@
 package de.akquinet.engineering.vaadinator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import de.akquinet.engineering.vaadinator.annotations.Constants;
 
 public class PropertyDescription {
 
@@ -43,7 +46,9 @@ public class PropertyDescription {
 	private List<MapPropertyProfileDescription> mapPropertyProfiles = new ArrayList<MapPropertyProfileDescription>();
 	private String captionText = null;
 	private String captionProp = null;
-	private List<DisplayPropertyProfileDescription> displayPropertyProfiles = new ArrayList<DisplayPropertyProfileDescription>();
+	private List<DisplayPropertyProfileDescription> displayPropertyProfiles = new ArrayList<DisplayPropertyProfileDescription>(
+			Collections.singletonList(new DisplayPropertyProfileDescription(
+					this, Constants.DEFAULT_DISPLAY_PROFILE)));
 
 	public BeanDescription getBean() {
 		return bean;

@@ -16,9 +16,12 @@
 package de.akquinet.engineering.vaadinator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import de.akquinet.engineering.vaadinator.annotations.Constants;
 
 public class BeanDescription {
 
@@ -45,7 +48,9 @@ public class BeanDescription {
 	private boolean wrapped = false;
 	private boolean enumeration = false;
 	private List<MapProfileDescription> mapProfiles = new ArrayList<MapProfileDescription>();
-	private List<DisplayProfileDescription> displayProfiles = new ArrayList<DisplayProfileDescription>();
+	private List<DisplayProfileDescription> displayProfiles = new ArrayList<DisplayProfileDescription>(
+			Collections.singletonList(new DisplayProfileDescription(this,
+					Constants.DEFAULT_DISPLAY_PROFILE)));
 	private List<PropertyDescription> properties = new ArrayList<PropertyDescription>();
 	private List<EnumValueDescription> enumValues = new ArrayList<EnumValueDescription>();
 	private List<String> imports = new ArrayList<String>();

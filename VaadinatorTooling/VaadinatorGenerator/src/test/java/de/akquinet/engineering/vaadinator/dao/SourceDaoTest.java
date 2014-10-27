@@ -326,5 +326,47 @@ public class SourceDaoTest {
 		assertFalse(desc.isMapped());
 		assertFalse(desc.isWrapped());
 	}
+	
+	@Test
+	public void testMinimal() throws ParseException {
+		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("AddressMinimal.javainput"));
+		desc.setPckg("de.akquinet.engineering.vaadinator.example.address.model");
+		assertEquals("Address", desc.getClassName());
+		assertTrue(desc.isDisplayed());
+		assertEquals("Address", desc.getEffectiveCaption());
+		assertEquals(1, desc.getSectionNames().size());
+		assertTrue(desc.getSectionNames().toString().contains("Basisdaten"));
+		assertEquals(1, desc.getDisplayProfiles().size());
+		assertNotNull(desc.getDisplayProfile("std"));
+		// assertEquals(7, desc.getProperties().size());
+		assertNull(desc.getProperty("gibtesnicht"));
+		// assertNotNull(desc.getProperty("id"));
+		// assertEquals("long", desc.getProperty("id").getPropertyClassName());
+		// assertFalse(desc.getProperty("id").isDisplayed());
+		assertNotNull(desc.getProperty("anrede"));
+		assertEquals("Anreden", desc.getProperty("anrede").getPropertyClassName());
+		assertTrue(desc.getProperty("anrede").isDisplayed());
+		assertEquals("Anrede", desc.getProperty("anrede").getEffectiveCaption());
+		assertNotNull(desc.getProperty("anrede").getEnumClass(Collections.singletonList(new BeanDescription("Anreden", true))));
+		assertNotNull(desc.getProperty("vorname"));
+		assertEquals("String", desc.getProperty("vorname").getPropertyClassName());
+		assertTrue(desc.getProperty("vorname").isDisplayed());
+		assertEquals("Vorname", desc.getProperty("vorname").getEffectiveCaption());
+		assertEquals(FieldType.TEXTFIELD, desc.getProperty("vorname").getDisplayPropertyProfile("std").getFieldType());
+		assertNotNull(desc.getProperty("nachname"));
+		assertEquals("String", desc.getProperty("nachname").getPropertyClassName());
+		assertTrue(desc.getProperty("nachname").isDisplayed());
+		assertEquals("Nachname", desc.getProperty("nachname").getEffectiveCaption());
+		assertEquals(FieldType.TEXTFIELD, desc.getProperty("nachname").getDisplayPropertyProfile("std").getFieldType());
+		assertNotNull(desc.getProperty("name"));
+		assertEquals("String", desc.getProperty("name").getPropertyClassName());
+		assertTrue(desc.getProperty("name").isDisplayed());
+		assertEquals("Name", desc.getProperty("name").getEffectiveCaption());
+		assertEquals(FieldType.TEXTFIELD, desc.getProperty("name").getDisplayPropertyProfile("std").getFieldType());
+		assertNotNull(desc.getProperty("email"));
+		assertNotNull(desc.getProperty("geburtsdatum"));
+		// noch den Output
+		outputDesc(desc);
+	}
 
 }
