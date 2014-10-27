@@ -28,4 +28,6 @@ public interface ${bean.className}Service {
 	
 	public ${bean.className} updateExisting${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
 	
+	public void removeExisting${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
+	
 }

@@ -136,4 +136,12 @@ public class ${bean.className}DaoImpl implements ${bean.className}Dao
 		return entityManager.merge(${bean.classNamePass});
 	}
 
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public void remove(${bean.className} ${bean.classNamePass}, Map<String, Object> context) {
+		entityManager.remove(${bean.classNamePass});
+	}
+
 }
