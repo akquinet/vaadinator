@@ -129,7 +129,7 @@ Which has the following meaning in detail:
 - the Annotations can be both applied to properties and getters / setters (any way, getters / setters will be invoked) 
 - @DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false) }) => here we have a generated property (available via getter only), and it's only shown in the table, not in details
 
-You can customize (and also rename) this class in any way: add new attributes, change input types - check out what is possible!
+You can customize (and also rename) this class in any way: add new attributes, change input types - check out what is possible! (When renaming: remember persistence.xml!)
 
 You can now compile the project and make it ready for [Eclipse](http://www.eclipse.org) via
 ```
@@ -624,7 +624,7 @@ Das bedeutet im Detail:
 - die Annotationen können nicht nur auf properties, sondern auch auf Getter und Setter angewandt werden (es werden immer Getter / Setter aufgerufen)
 - @DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false) }) => hier haben wir eine zur Laufzeit berechnete Property (via Getter), die nur in der Tabelle, aber nicht in der Detail-Ansicht erscheint.
 
-Sie können diese Klasse beliebig anpassen (und auch umbenennen): neue Attribute hinzufügen, Input-Typen ändern - finden Sie heraus was möglich ist!
+Sie können diese Klasse beliebig anpassen (und auch umbenennen): neue Attribute hinzufügen, Input-Typen ändern - finden Sie heraus was möglich ist! (Wenn Sie umbenennen: vergessen Sie die persistence.xml nicht!)
 
 Das Projekt kann nun kompiliert und für [Eclipse](http://www.eclipse.org) bereit gestellt werden via
 ```
