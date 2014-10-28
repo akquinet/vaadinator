@@ -29,13 +29,13 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}ListPresenter;
 
-import com.vaadin.addon.touchkit.extensions.TouchKitIcon;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -97,7 +97,7 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 				observer.onAdd${bean.className}();
 			}
 		});
-		TouchKitIcon.plus.addTo(add${bean.className});
+		add${bean.className}.setIcon(FontAwesome.PLUS);
 		add${bean.className}.addStyleName("styleid-${bean.className}ListViewImpl-add${bean.className}");
 		setRightComponent(add${bean.className});
 		addStyleName("styleid-${bean.className}ListViewImpl");
