@@ -32,7 +32,7 @@ Our intention is to get people productive with vaadin and excited about vaadin -
 cd <checkoutDir>
 mvn install
 cd ../<yourEmptyDir>
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
 ```
 - when specifying groupId, artifactId and package make sure not to use special characters - particularly not the minus sign "-" to avoid trouble
 - the sample class (and thus the generation result) is German - if you want to see an English UI instead download this <a href="misc/messages_en.properties">messages_en.properties</a> and store it to src/main/resources/<i>packageChosenBefore</i>/ui/std/view/messages_en.properties
@@ -78,7 +78,7 @@ mvn install
 
 As a result of that, Vaadinator's Archetypes are available through the local Maven repository. In order to get started open a command prompt (with Maven installed) and type:
 ```
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
 ```
 Maven will then prompt you for a groupId, an artifactId and a version for your new project. As soon as you have provided and confirmed these, you have a project in place (in the current working directory). 
 
@@ -386,7 +386,7 @@ Customization to the pom.xml in such a case:
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.9-SNAPSHOT</version>
+				<version>0.10-SNAPSHOT</version>
 				...
 				<executions>
 					<execution>
@@ -529,7 +529,7 @@ Unsere Idee ist, Sie schnell mit vaadin produktiv werden zu lassen und Sie für 
 cd <checkoutVerzeichnis>
 mvn install
 cd ../<neuesLeeresVerzeichnis>
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
 ```
 - achten Sie bei der Eingabe von groupId, artifactId und package darauf, keine Sonderzeichen zu verwenden - insbesondere nicht das Minuszeichen "-"
 ```
@@ -573,7 +573,7 @@ mvn install
 ```
 Anschließend stehen die mitgelieferten Archetypes im lokalen Maven Repository zur Verfügung. Um loszulegen: in der Kommandozeile (mit installiertem Maven) folgendes eingeben:
 ```
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.9-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
 ```
 Maven wird nach groupId, artifactId und Version für das Projekt fragen. Sobald diese eingegeben sind ist ein neues Projekt (im aktuellen Verzeichnis) angelegt.
 
@@ -881,7 +881,7 @@ Anpassung der pom.xml der generierten Anwendung:
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.9-SNAPSHOT</version>
+				<version>0.10-SNAPSHOT</version>
 				...
 				<executions>
 					<execution>

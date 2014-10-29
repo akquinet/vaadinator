@@ -19,14 +19,14 @@ the License.
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>CrmWebserviceExample</artifactId>
 	<packaging>war</packaging>
-	<version>0.9-SNAPSHOT</version>
+	<version>0.10-SNAPSHOT</version>
 	<name>CrmWebserviceExample</name>
 	<url>http://www.akquinet.de/java</url>
 	<parent>
 		<relativePath>..</relativePath>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorExample</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.10-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<vaadin.version>7.1.6</vaadin.version>
@@ -35,12 +35,12 @@ the License.
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorAnnotations</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorUtils</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -127,13 +127,13 @@ the License.
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.9-SNAPSHOT</version>
+				<version>0.10-SNAPSHOT</version>
 				<dependencies>
 					<dependency>
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<!-- only mapping templates are needed -->
 						<artifactId>VaadinatorTemplatesCommon</artifactId>
-						<version>0.9-SNAPSHOT</version>
+						<version>0.10-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 				<executions>

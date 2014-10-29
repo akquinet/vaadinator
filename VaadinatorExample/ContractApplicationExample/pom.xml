@@ -19,14 +19,14 @@ the License.
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>ContractApplicationExample</artifactId>
 	<packaging>war</packaging>
-	<version>0.9-SNAPSHOT</version>
+	<version>0.10-SNAPSHOT</version>
 	<name>ContractApplicationExample</name>
 	<url>http://www.akquinet.de/java</url>
 	<parent>
 		<relativePath>..</relativePath>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorExample</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.10-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<vaadin.version>7.3.3</vaadin.version>
@@ -35,12 +35,12 @@ the License.
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorAnnotations</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorUtils</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -174,12 +174,12 @@ the License.
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.9-SNAPSHOT</version>
+				<version>0.10-SNAPSHOT</version>
 				<dependencies>
 					<dependency>
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<artifactId>VaadinatorTemplatesTouchkit</artifactId>
-						<version>0.9-SNAPSHOT</version>
+						<version>0.10-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 				<executions>

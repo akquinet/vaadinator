@@ -18,14 +18,14 @@ the License.
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>VaadinatorArchetypes</artifactId>
 	<packaging>pom</packaging>
-	<version>0.9-SNAPSHOT</version>
+	<version>0.10-SNAPSHOT</version>
 	<name>VaadinatorArchetypes</name>
 	<url>http://www.akquinet.de/java</url>
 	<parent>
 		<relativePath>..</relativePath>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorParent</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.10-SNAPSHOT</version>
 	</parent>
 	<!-- for archetypes, we reference down via modules but not "up" (Parent-POM) -->
 	<modules>

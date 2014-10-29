@@ -18,25 +18,25 @@ the License.
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>VaadinatorTemplatesTouchkit</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9-SNAPSHOT</version>
+	<version>0.10-SNAPSHOT</version>
 	<name>VaadinatorTemplatesTouchkit</name>
 	<url>http://www.akquinet.de/java</url>
 	<parent>
 		<relativePath>..</relativePath>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorTooling</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.10-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorTemplatesMVP</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorTemplatesCommon</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>0.10-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

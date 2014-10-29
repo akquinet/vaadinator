@@ -564,7 +564,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	public static void main(String[] args) throws IOException, ParseException {
 		// only for local development (in Project root of gen)
 		processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"), new File(
-				"../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(), "AddressbookExample", "0.9-SNAPSHOT", true,
+				"../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(), "AddressbookExample", "0.10-SNAPSHOT", true,
 				ArtifactType.ALL, GenType.ALL, "C:\\Users\\srothbucher\\testedit", "C:\\Users\\srothbucher\\.testeditor");
 	}
 
