@@ -123,6 +123,19 @@ public class AddressDaoPlainTest extends AbstractDaoPlainTest {
 		verify(trans, never()).commit();
 		verify(trans, atMost(1)).rollback();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testRemove() {
+		Address address = new Address(Anreden.FRAU, "Angela", "Merkel", "mrsmerkel@gmail.berlin");
+		dao.remove(address, new HashMap<String, Object>());
+		verify(emf, atMost(1)).createEntityManager();
+		verify(em, atMost(1)).getTransaction();
+		verify(trans, atMost(1)).begin();
+		verify(backend, atMost(1)).merge(eq(address), anyMap());
+		verify(backend, atMost(1)).remove(eq(address), anyMap());
+		verify(trans, atMost(1)).commit();
+	}
 
 	@Override
 	@Before

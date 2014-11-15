@@ -85,7 +85,8 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 
 			@Override
 			public Void perform() {
-				obtainBackend().remove(${bean.classNamePass}, context);
+			    ${bean.className} merge${bean.classNamePass} = obtainBackend().merge(${bean.classNamePass}, context);
+				obtainBackend().remove(merge${bean.classNamePass}, context);
 				return null;
 			}
 		}, context);
