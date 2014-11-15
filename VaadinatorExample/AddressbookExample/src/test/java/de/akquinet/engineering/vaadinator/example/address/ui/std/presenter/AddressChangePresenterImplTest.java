@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -27,9 +28,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.verification.AtMost;
 
 import de.akquinet.engineering.vaadinator.example.address.model.Address;
 import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
@@ -148,6 +151,21 @@ public class AddressChangePresenterImplTest {
 		assertEquals("st@test.com", pres.getAddress().getEmail());
 		assertNull(pres.getAddress().getGeburtsdatum());
 		verify(service, never()).updateExistingAddress(eq(pres.getAddress()), anyMap());
+		verify(returnPres).returnToThisPresener((Presenter) any());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testOnRemove() {
+		pres.setAddress(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		pres.startPresenting();
+		assertEquals(Anreden.FROLLEIN, pres.getAddress().getAnrede());
+		assertEquals("Test", pres.getAddress().getNachname());
+		assertEquals("Sabine", pres.getAddress().getVorname());
+		assertEquals("st@test.com", pres.getAddress().getEmail());
+		assertNull(pres.getAddress().getGeburtsdatum());
+		pres.onRemove();
+		verify(service, atMost(1)).removeExistingAddress(eq(pres.getAddress()), anyMap());
 		verify(returnPres).returnToThisPresener((Presenter) any());
 	}
 

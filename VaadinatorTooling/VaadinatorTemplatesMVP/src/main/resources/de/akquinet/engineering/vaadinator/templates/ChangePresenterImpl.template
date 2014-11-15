@@ -101,8 +101,13 @@ public class ${bean.className}ChangePresenterImpl extends ${bean.className}EditP
 
 	@Override
 	public void onRemove() {
-		// TODO hier fehlt noch etwas ;-).
-		// this.service.delete${bean.className}();
+        try {
+        	this.service.removeExisting${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
+        } catch (RuntimeException exc) {
+			view.showErrorMessage(exc.toString());
+			throw exc;
+		}
+		
 		if (capablePresenter != null) {
 			capablePresenter.setDetailView(null);
 		}
