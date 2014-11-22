@@ -18,7 +18,7 @@ the License.
 ${property.propertyName}.setCaption(obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
 #if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 ${property.propertyName}.setNullSelectionAllowed(false);
-#if($property.getDisplayPropertyProfile($profileName).fieldType.name()!="CUSTOM")
+#if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="DROPDOWN")
 ${property.propertyName}.setTextInputAllowed(false);
 #end
 #end
