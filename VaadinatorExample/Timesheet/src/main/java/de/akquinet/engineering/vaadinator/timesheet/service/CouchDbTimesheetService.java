@@ -146,6 +146,13 @@ public class CouchDbTimesheetService extends AbstractCouchDbService implements T
 		}
 	}
 
+	@Override
+	public void removeExistingTimesheet(Timesheet timesheet,
+			Map<String, Object> context) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static class TimesheetCouch extends Timesheet {
 
 		/**

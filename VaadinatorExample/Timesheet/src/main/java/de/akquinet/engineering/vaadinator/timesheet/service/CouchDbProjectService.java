@@ -64,6 +64,13 @@ public class CouchDbProjectService extends AbstractCouchDbService implements Pro
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public void removeExistingProject(Project project,
+			Map<String, Object> context) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static class ProjectCouch extends Project {
 
 		/**
