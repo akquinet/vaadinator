@@ -23,7 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +38,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
@@ -537,16 +538,20 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		Velocity.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		Template template;
-		try {
-			template = Velocity.getTemplate(TEMPLATE_PACKAGE + templateName);
-		} catch (ResourceNotFoundException rnfe) {
-			if (mandatory) {
-				throw rnfe;
-			} else {
-				// optional - just let it go
-				return;
-			}
+		// Issue #6: for optional templates check whether it's there
+		boolean runTemplate;
+		if (mandatory) {
+			runTemplate = true;
+		} else {
+			Enumeration<URL> templateResEnum = Velocity.class
+					.getClassLoader().getResources(
+							TEMPLATE_PACKAGE.substring(1) + templateName);
+			runTemplate = templateResEnum.hasMoreElements();
 		}
+		if (!runTemplate) {
+			return;
+		}
+		template = Velocity.getTemplate(TEMPLATE_PACKAGE + templateName);
 		VelocityContext context = new VelocityContext();
 		context.put("bean", desc);
 		context.put("common", commonMap);
