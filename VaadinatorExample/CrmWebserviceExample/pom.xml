@@ -29,9 +29,7 @@ the License.
 		<version>0.10-SNAPSHOT</version>
 	</parent>
 	<properties>
-		<vaadin.version>7.1.6</vaadin.version>
-		<!-- keep all to execute all test cases all the time -->
-		<backendArtifactType>PLAIN</backendArtifactType>
+		<backendArtifactType>EJB</backendArtifactType>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -135,18 +133,6 @@ the License.
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<!-- only mapping templates are needed -->
 						<artifactId>VaadinatorTemplatesCommon</artifactId>
-						<version>0.10-SNAPSHOT</version>
-					</dependency>
-					<dependency>
-						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
-						<!-- only mapping templates are needed -->
-						<artifactId>VaadinatorTemplatesMVP</artifactId>
-						<version>0.10-SNAPSHOT</version>
-					</dependency>
-					<dependency>
-						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
-						<!-- only mapping templates are needed -->
-						<artifactId>VaadinatorTemplatesDesktop</artifactId>
 						<version>0.10-SNAPSHOT</version>
 					</dependency>
 				</dependencies>

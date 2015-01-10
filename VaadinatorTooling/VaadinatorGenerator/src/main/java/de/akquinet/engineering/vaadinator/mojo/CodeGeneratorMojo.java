@@ -298,7 +298,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				}
 				// dazu gehoert auch die Startseite und die Factories
 				// EINE pro Profile
-				for (String displayProfileName : displayProfileNames) {
+				if (hasDisplayBeans) {
+					for (String displayProfileName : displayProfileNames) {
 					runVelocity(null, commonMap, basePckg + ".ui." + displayProfileName + ".presenter", null, basePckg + ".ui." + displayProfileName
 							+ ".presenter", basePckg + ".ui." + displayProfileName + ".view", displayProfileName, "PresenterFactory.template",
 							packageToFile(targetFolderSrcStart, basePckg + ".ui." + displayProfileName + ".presenter", "PresenterFactory", ".java"));
@@ -359,6 +360,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 					runVelocity(null, commonMap, basePckg + ".ui." + displayProfileName + ".view", null, basePckg + ".ui." + displayProfileName
 							+ ".presenter", basePckg + ".ui." + displayProfileName + ".view", displayProfileName, "MainViewImpl.template",
 							packageToFile(targetFolderSrcStart, basePckg + ".ui." + displayProfileName + ".view", "MainViewImpl", ".java"), false);
+				}
 				}
 				// Bean-spezifisch
 				for (BeanDescription desc : beanDescriptions) {
