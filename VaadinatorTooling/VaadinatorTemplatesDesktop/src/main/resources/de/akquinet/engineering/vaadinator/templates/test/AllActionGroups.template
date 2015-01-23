@@ -55,7 +55,7 @@ the License.
 			<actionName locator="Liste_${bean.className}_add${bean.className}">Neue ${bean.effectiveCaption}</actionName>
 		</action>
 		<action technicalBindingType="Warte_Element">
-			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table">${bean.className}Tabelle</actionName>
+			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table_asis">${bean.className}Tabelle</actionName>
 		</action>
 		<action technicalBindingType="Tabellenzeile_Waehlen">
 			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table">${bean.className}Tabelle</actionName>

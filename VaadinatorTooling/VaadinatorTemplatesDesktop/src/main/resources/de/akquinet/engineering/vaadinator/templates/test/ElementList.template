@@ -13,10 +13,10 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 *##Einstieg
-Einstieg_Tabs=//div[contains(@class, 'v-tabsheet-tabs-styleid-MainViewImpl-tabs')]
+Einstieg_Tabs=//table[contains(@class, 'v-tabsheet-tabs-styleid-MainViewImpl-tabs')]
 #foreach($bean in $common.beans)
 #if($bean.displayed)
-Einstieg_${bean.className}Tab=//div[contains(@class, 'v-tabsheet-tabs-styleid-MainViewImpl-tabs')]//div[contains(@class, 'v-tabsheet-tabitem') and string(.)='${bean.effectiveCaption}']
+Einstieg_${bean.className}Tab=//table[contains(@class, 'v-tabsheet-tabs-styleid-MainViewImpl-tabs')]//div[contains(@class, 'v-tabsheet-tabitem') and string(.)='${bean.effectiveCaption}']
 #end
 #end
 
@@ -26,6 +26,7 @@ Einstieg_${bean.className}Tab=//div[contains(@class, 'v-tabsheet-tabs-styleid-Ma
 Liste_${bean.className}_${bean.classNamePass}Search=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-searchField')]/input
 Liste_${bean.className}_add${bean.className}=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-add${bean.className}')]
 Liste_${bean.className}_${bean.classNamePass}Table=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//tr[{0}]/td[1]/div
+Liste_${bean.className}_${bean.classNamePass}Table_asis=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]
 #end
 #end
 

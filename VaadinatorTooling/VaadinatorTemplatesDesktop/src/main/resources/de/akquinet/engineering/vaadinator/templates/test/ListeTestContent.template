@@ -22,7 +22,7 @@ the License.
 |klicke auf|Einstieg_${bean.className}Tab|
 # Maske: Liste_${bean.className}
 -!|script|
-|warte auf Element|Liste_${bean.className}_${bean.classNamePass}Table|
+|warte auf Element|Liste_${bean.className}_${bean.classNamePass}Table_asis|
 # Maske: Allgemein Browser
 -!|script|
 |beende Browser|
