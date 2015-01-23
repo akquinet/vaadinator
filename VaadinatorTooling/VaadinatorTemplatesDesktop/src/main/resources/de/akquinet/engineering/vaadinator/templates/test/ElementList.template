@@ -23,9 +23,11 @@ Einstieg_${bean.className}Tab=//table[contains(@class, 'v-tabsheet-tabs-styleid-
 #foreach($bean in $common.beans)
 #if($bean.displayed)
 #Liste_${bean.className}
+Liste_${bean.className}_${bean.classNamePass}=//div[contains(@class, 'styleid-${bean.className}ListViewImpl')]
 Liste_${bean.className}_${bean.classNamePass}Search=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-searchField')]/input
-Liste_${bean.className}_add${bean.className}=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-add${bean.className}')]
-Liste_${bean.className}_${bean.classNamePass}Table=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//tr[{0}]/td[1]/div
+Liste_${bean.className}_add${bean.className}=//div[contains(@class, 'v-button-styleid-${bean.className}ListViewImpl-add${bean.className}')]
+Liste_${bean.className}_${bean.classNamePass}Table=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//div[contains(@class, 'v-table-body')]//tr[{0}]/td[1]/div
+Liste_${bean.className}_${bean.classNamePass}Table_bystring=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//div[contains(@class, 'v-table-body')]//tr[contains(string(.), '{0}')]/td[1]/div
 Liste_${bean.className}_${bean.classNamePass}Table_asis=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]
 #end
 #end
@@ -33,11 +35,13 @@ Liste_${bean.className}_${bean.classNamePass}Table_asis=//div[contains(@class, '
 #foreach($bean in $common.beans)
 #if($bean.displayed)
 #Liste_${bean.className}
-Add_${bean.className}_cancel=//div[contains(@class, 'styleid-${bean.className}AddViewImpl-cancel')]
-Change_${bean.className}_cancel=//div[contains(@class, 'styleid-${bean.className}ChangeViewImpl-cancel')]
-Add_${bean.className}_save=//div[contains(@class, 'styleid-${bean.className}AddViewImpl-save')]
-Change_${bean.className}_save=//div[contains(@class, 'styleid-${bean.className}ChangeViewImpl-save')]
-Change_${bean.className}_remove=//div[contains(@class, 'styleid-${bean.className}ChangeViewImpl-remove')]
+Add_${bean.className}=//div[contains(@class, 'styleid-${bean.className}AddViewImpl')]
+Change_${bean.className}=//div[contains(@class, 'styleid-${bean.className}ChangeViewImpl')]
+Add_${bean.className}_cancel=//div[contains(@class, 'v-button-styleid-${bean.className}AddViewImpl-cancel')]
+Change_${bean.className}_cancel=//div[contains(@class, 'v-button-styleid-${bean.className}ChangeViewImpl-cancel')]
+Add_${bean.className}_save=//div[contains(@class, 'v-button-styleid-${bean.className}AddViewImpl-save')]
+Change_${bean.className}_save=//div[contains(@class, 'v-button-styleid-${bean.className}ChangeViewImpl-save')]
+Change_${bean.className}_remove=//div[contains(@class, 'v-button-styleid-${bean.className}ChangeViewImpl-remove')]
 #foreach($property in $bean.properties)
 Edit_${bean.className}_${property.propertyName}=//input[contains(@class, 'styleid-${bean.className}EditViewImpl-${property.propertyName}') or contains(../@class, 'styleid-${bean.className}EditViewImpl-${property.propertyName}')]
 #end

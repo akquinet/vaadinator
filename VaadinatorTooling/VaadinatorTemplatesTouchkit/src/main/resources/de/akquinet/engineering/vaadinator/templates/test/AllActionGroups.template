@@ -60,6 +60,9 @@ the License.
 		<action technicalBindingType="Button_Druecken">
 			<actionName locator="Liste_${bean.className}_add${bean.className}">PLUS</actionName>
 		</action>
+		<action technicalBindingType="Tabellenzeile_Waehlen_Text">
+			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table_bystring">${bean.className}Tabelle</actionName>
+		</action>
 		<action technicalBindingType="Tabellenzeile_Waehlen">
 			<actionName locator="Liste_${bean.className}_${bean.classNamePass}Table">${bean.className}Tabelle</actionName>
 		</action>
@@ -75,12 +78,6 @@ the License.
 			<actionName locator="Edit_${bean.className}_save">Speichern</actionName>
 		</action>
 	#foreach($property in $bean.properties)
-		<action technicalBindingType="Pruefe_Wert_vorhanden">
-			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
-		</action>
-		<action technicalBindingType="Pruefe_Wert_nicht_vorhanden">
-			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
-		</action>
 		<action technicalBindingType="Eingabe_Wert">
 			<actionName locator="Edit_${bean.className}_${property.propertyName}">${property.propertyName}</actionName>
 		</action>		

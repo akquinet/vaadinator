@@ -30,10 +30,17 @@ the License.
 		<actionPart position="2" type="ACTION_NAME"/>
 	</TechnicalBindingType>
 
+	<TechnicalBindingType id="Tabellenzeile_Waehlen_Text" name="Tabellenzeile waehlen nach Text">
+		<actionPart position="1" type="TEXT" value="waehle aus" />
+		<actionPart position="2" type="ACTION_NAME"/>
+		<actionPart position="3" type="TEXT" value="die Zeile mit Text" />
+		<actionPart position="4" type="ARGUMENT"/>
+	</TechnicalBindingType>
+
 	<TechnicalBindingType id="Tabellenzeile_Waehlen" name="Tabellenzeile waehlen">
 		<actionPart position="1" type="TEXT" value="waehle aus" />
 		<actionPart position="2" type="ACTION_NAME"/>
-		<actionPart position="3" type="TEXT" value="die Zeile" />
+		<actionPart position="3" type="TEXT" value="die Zeile mit Nummer" />
 		<actionPart position="4" type="ARGUMENT"/>
 	</TechnicalBindingType>
 
