@@ -26,7 +26,7 @@ the License.
 !define IEWEBDRIVERSERVER {${common.testeditorInstall}\org.testeditor.fitnesse.server\lib\IEDriverServer_64.exe}
 !define COMMAND_PATTERN {java -Dwebdriver.ie.driver=${IEWEBDRIVERSERVER} -Dlog4j.configuration=file:${LOGGING} -cp %p %m -i org.testeditor.fixture.core.interaction.TestEditorLoggingInteraction }
 
-!define ELEMENT_LISTE {${common.testeditorWorkspace}\\${common.projectName}Tests\FitNesseRoot\\${common.projectName}Tests\ElementListe\content.txt}
+!define ELEMENT_LISTE {${APPLICATION_WORK}/${common.projectName}Tests/ElementList.conf}
 
 **********!
 

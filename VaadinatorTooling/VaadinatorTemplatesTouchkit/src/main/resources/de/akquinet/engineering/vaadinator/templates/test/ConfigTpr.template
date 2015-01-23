@@ -12,14 +12,32 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
-*##TestEditor Config created on Fri Apr 25 12:12:12 CEST 2014
-#Fri Apr 25 12:12:12 CEST 2014
+*#####################################################################
+# Test-Editor project configuration                               #
+# ---------------------------------                               #
+#                                                                 #
+# Config file for the local settings of each Test-Editor project. #
+# You may edit this file directly or via the Test-Editor's UI.    #
+###################################################################
+
+tpr-version=1.2
+
+
+# library (project specific meta data for any test case)
+###################################################################
+
 library_id=org.testeditor.xmllibrary
-pathToTestFiles=
-port=8061
-pathToBrowser=
-classFixtures=org.testeditor.fitnesse.web.fixture
-pathXmlActionGroup=${common.projectName}Tests/AllActionGroups.xml
-tpr-version=1.1
-pathXmlTechnicalBindings=${common.projectName}Tests/TechnicalBindingTypeCollection.xml
-pathToJar=
+library.xmllibrary.actiongroup=${common.projectName}Tests/AllActionGroups.xml
+library.xmllibrary.technicalbindings=${common.projectName}Tests/TechnicalBindingTypeCollection.xml
+
+
+# testautomat (FitNesse server settings)
+####################################################################
+
+testautomat.port=8071
+testautomat.serverid=fitnesse_based_1.2
+
+# synchronization (team sharing e.g. via SVN)
+####################################################################
+
+teamshare_plugin_id=

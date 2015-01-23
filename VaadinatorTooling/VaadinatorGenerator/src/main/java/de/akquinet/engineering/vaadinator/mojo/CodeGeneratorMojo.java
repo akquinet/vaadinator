@@ -211,6 +211,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 					runVelocity(null, commonMap, null, null, null, null, null, "test/ConfigTpr.template", new File(tests, "config.tpr"));
 					runVelocity(null, commonMap, null, null, null, null, null, "test/TechnicalBindingTypeCollection.template", new File(tests,
 							"TechnicalBindingTypeCollection.xml"));
+					runVelocity(null, commonMap, null, null, null, null, null, "test/ElementList.template", new File(tests,
+							"ElementList.conf"));
 					File fitnesseRoot = existingFolder(tests, "FitNesseRoot");
 					runVelocity(null, commonMap, null, null, null, null, null, "test/FitnesseRootProperties.template", new File(fitnesseRoot,
 							"properties"));
@@ -224,13 +226,6 @@ public class CodeGeneratorMojo extends AbstractMojo {
 							"WhereUsed" });
 					runVelocity(null, commonMap, null, null, null, null, null, "test/Properties.template", new File(projectTests, "properties.xml"));
 					commonMap.remove("prop");
-					File elementListe = existingFolder(projectTests, "ElementListe");
-					runVelocity(null, commonMap, null, null, null, null, null, "test/ElementListeContent.template", new File(elementListe,
-							"content.txt"));
-					commonMap.put("prop", new String[] { "Edit", "Files", "Properties", "RecentChanges", "Refactor", "Search", "Versions",
-							"WhereUsed" });
-					runVelocity(null, commonMap, null, null, null, null, null, "test/Properties.template", new File(elementListe, "properties.xml"));
-					commonMap.remove("prop");
 					File scenarioLibrary = existingFolder(projectTests, "ScenarioLibrary");
 					runVelocity(null, commonMap, null, null, null, null, null, "test/ScenarioLibraryContent.template", new File(scenarioLibrary,
 							"content.txt"));
@@ -239,13 +234,12 @@ public class CodeGeneratorMojo extends AbstractMojo {
 					runVelocity(null, commonMap, null, null, null, null, null, "test/Properties.template",
 							new File(scenarioLibrary, "properties.xml"));
 					commonMap.remove("prop");
-					File testKomponenten = existingFolder(projectTests, "TestKomponenten");
-					runVelocity(null, commonMap, null, null, null, null, null, "test/TestKomponentenContent.template", new File(testKomponenten,
+					File testSzenarien = existingFolder(projectTests, "TestSzenarien");
+					runVelocity(null, commonMap, null, null, null, null, null, "test/TestSzenarienContent.template", new File(testSzenarien,
 							"content.txt"));
-					commonMap.put("prop", new String[] { "Edit", "Files", "Properties", "RecentChanges", "Refactor", "Search", "Suite", "Test",
-							"Versions", "WhereUsed" });
+					commonMap.put("prop", new String[] { "Edit", "Files", "Properties", "RecentChanges", "Refactor", "Search", "Versions", "WhereUsed" });
 					runVelocity(null, commonMap, null, null, null, null, null, "test/Properties.template",
-							new File(testKomponenten, "properties.xml"));
+							new File(testSzenarien, "properties.xml"));
 					commonMap.remove("prop");
 					File frontPage = existingFolder(fitnesseRoot, "FrontPage");
 					runVelocity(null, commonMap, null, null, null, null, null, "test/FrontPageContent.template", new File(frontPage, "content.txt"));

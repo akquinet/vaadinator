@@ -15,7 +15,7 @@ the License.
 *#<?xml version="1.0" encoding="UTF-8"?>
 
 <ActionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../../../org.testeditor.xmllibrary/resources/AllActionGroups.xsd"
+	xsi:noNamespaceSchemaLocation="http://testeditor.org/xsd_schema/v_1_1/AllActionGroups.xsd"
 	schemaVersion="1.1">
 
 	<ActionGroup name="Allgemein Browser">

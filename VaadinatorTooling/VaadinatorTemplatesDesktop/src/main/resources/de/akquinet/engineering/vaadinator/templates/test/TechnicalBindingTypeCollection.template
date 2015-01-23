@@ -14,7 +14,7 @@ License for the specific language governing permissions and limitations under
 the License.
 *#<?xml version="1.0" encoding="UTF-8"?>
 <TechnicalBindingTypes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../../org.testeditor.xmllibrary/resources/TechnicalBindingTypeCollection.xsd"
+	xsi:noNamespaceSchemaLocation="http://testeditor.org/xsd_schema/v_1_1/TechnicalBindingTypeCollection.xsd"
 	schemaVersion="1.1">
 
 	<TechnicalBindingType id="Eingabe_Wert" name="Wert eingeben">
