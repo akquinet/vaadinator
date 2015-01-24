@@ -412,5 +412,72 @@ the License.
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>tomcatex</id>
+			<properties>
+				<backendArtifactType>PLAIN</backendArtifactType>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>javax.persistence</artifactId>
+					<version>2.0.0</version>
+					<scope>compile</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>eclipselink</artifactId>
+					<version>2.4.2</version>
+					<scope>compile</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<version>1.3.175</version>
+					<!-- scope can be test when PostgreSQL et al is used as DB -->
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>add-source</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>target/generated-sources/java</source>
+									</sources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>add-resource</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
+								<configuration>
+									<resources>
+										<resource>
+											<directory>src/tomcatex/main/resources</directory>
+										</resource>
+										<resource>
+											<directory>target/generated-sources/resources</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
