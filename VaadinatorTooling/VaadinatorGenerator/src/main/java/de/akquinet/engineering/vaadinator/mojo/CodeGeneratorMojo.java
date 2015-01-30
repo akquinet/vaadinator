@@ -25,6 +25,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -147,6 +149,16 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File targetFolderWebStart = new File(targetFolderBaseStart, "webapp");
 		targetFolderWebStart.mkdirs();
 		exploreFolders(sourceFolderStart, targetFolderSrcStart, "", sourceDao, beanDescriptions);
+		// ensure bean descriptions are sorted as e.g. Presenter Factories need
+		// a definite order of classes ("null" as cls name can be accepted)
+		Collections.sort(beanDescriptions, new Comparator<BeanDescription>() {
+
+			@Override
+			public int compare(BeanDescription o1, BeanDescription o2) {
+				return String.valueOf(o1.getClassName()).compareTo(
+						String.valueOf(o2.getClassName()));
+			}
+		});
 		boolean hasDisplayBeans = false;
 		boolean hasServiceBeans = false;
 		for (BeanDescription beanDescription : beanDescriptions) {
