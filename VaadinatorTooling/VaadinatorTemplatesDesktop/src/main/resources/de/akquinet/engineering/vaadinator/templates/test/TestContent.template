@@ -19,12 +19,11 @@ the License.
 
 !define classpath_fixtures {org.testeditor.fitnesse.web.fixture}
 
-!path ${common.testeditorInstall}\org.testeditor.fitnesse.server\lib\TestEditorFixtureWeb-1.6.0-jar-with-dependencies.jar
-!define BROWSER_PATH {${common.testeditorInstall}\windows\FirefoxPortable.exe}
+!path ${FIXTURE_JAR_PATH}TestEditorFixtureWeb-*.jar
+!define BROWSER_PATH {${path.browser}}
 
-!define LOGGING {${common.testeditorWorkspace}\.metadata\testEditorLog4j\log4j.xml}
-!define IEWEBDRIVERSERVER {${common.testeditorInstall}\org.testeditor.fitnesse.server\lib\IEDriverServer_64.exe}
-!define COMMAND_PATTERN {java -Dwebdriver.ie.driver=${IEWEBDRIVERSERVER} -Dlog4j.configuration=file:${LOGGING} -cp %p %m -i org.testeditor.fixture.core.interaction.TestEditorLoggingInteraction }
+!define LOGGING {${LOG4J_RELATIV_PATH}}
+!define COMMAND_PATTERN {java -Dwaits.after.teststep=${waits.afterteststep} -Dwebdriver.ie.driver=${SLIM_CMD_VAR_IEWEBDRIVERSERVER} -Dlog4j.configuration=file:${SLIM_CMD_VAR_LOG4J_RELATIV_PATH} -cp %p %m -i org.testeditor.fixture.core.interaction.TestEditorLoggingInteraction }
 
 !define ELEMENT_LISTE {${APPLICATION_WORK}/${common.projectName}Tests/ElementList.conf}
 

@@ -98,20 +98,6 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 */
 	private boolean generateServlet = true;
 	
-	/**
-	 * Install dir of the test editor - incl Browser and fixtures (otherwise edit content of test suite)
-	 * 
-	 * @parameter
-	 */
-	private String testeditorInstall=System.getProperty("user.home")+File.separator+"testedit";
-	
-	/**
-	 * Workspace dir of the test editor (otherwise edit content of test suite)
-	 * 
-	 * @parameter
-	 */
-	private String testeditorWorkspace=System.getProperty("user.home")+File.separator+".testeditor";
-	
 	private static enum GenType {
 		SOURCES, RESOURCES, ALL, NONE
 	}
@@ -128,7 +114,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
 			processJavaFiles(src, genSrc, new SourceDao(), project.getArtifactId(), project.getVersion(), generateServlet,
-					ArtifactType.valueOf(artifactType.toUpperCase()), GenType.valueOf(genType.toUpperCase()), testeditorInstall, testeditorWorkspace);
+					ArtifactType.valueOf(artifactType.toUpperCase()), GenType.valueOf(genType.toUpperCase()));
 		} catch (IOException e) {
 			throw new MojoExecutionException("Fehler bei Generieren", e);
 		} catch (ParseException e) {
@@ -137,7 +123,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	}
 
 	private static void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao, String projectName, String version,
-			boolean genServletBase, ArtifactType artifactTypeEn, GenType genTypeEn, String testeditorInstall, String testeditorWorkspace)
+			boolean genServletBase, ArtifactType artifactTypeEn, GenType genTypeEn)
 			throws ParseException, IOException {
 		List<BeanDescription> beanDescriptions = new ArrayList<BeanDescription>();
 		File targetFolderSrcStart = new File(targetFolderBaseStart, "java");
@@ -187,8 +173,6 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			commonMap.put("projectVersion", version);
 			commonMap.put("artifactType", artifactTypeEn.toString());
 			commonMap.put("basePackage", basePckg);
-			commonMap.put("testeditorInstall", testeditorInstall);
-			commonMap.put("testeditorWorkspace", testeditorWorkspace);
 			commonMap.put("beans", beanDescriptions);
 			if (genTypeEn == GenType.RESOURCES || genTypeEn == GenType.ALL) {
 				// bei Resources bisher nur common
@@ -578,7 +562,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// only for local development (in Project root of gen)
 		processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"), new File(
 				"../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(), "AddressbookExample", "0.10-SNAPSHOT", true,
-				ArtifactType.ALL, GenType.ALL, "C:\\Users\\srothbucher\\testedit", "C:\\Users\\srothbucher\\.testeditor");
+				ArtifactType.ALL, GenType.ALL);
 	}
 
 }
