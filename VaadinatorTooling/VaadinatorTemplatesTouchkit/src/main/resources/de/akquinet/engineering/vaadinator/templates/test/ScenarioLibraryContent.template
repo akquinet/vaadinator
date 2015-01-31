@@ -18,7 +18,7 @@ the License.
   
 
 !|Library|
-|GenericFixture|
+|WebFixture|
 
 -!|script|
 |setElementlist|${ELEMENT_LISTE}|
