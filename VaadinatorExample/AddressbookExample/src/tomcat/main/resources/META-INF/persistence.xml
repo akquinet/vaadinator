@@ -34,23 +34,4 @@ the License.
 			<property name="eclipselink.target-server" value=""/>
 		</properties>
 	</persistence-unit>
-	<!-- 
-	<persistence-unit name="AddressbookExample" transaction-type="RESOURCE_LOCAL">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		< ! - - (Tomcat) - - >
-		<non-jta-data-source>java:comp/env/jdbc/vaadin</non-jta-data-source>
-		<class>de.akquinet.engineering.vaadinator.example.address.model.Address</class>
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-		<properties>
-			<property name="javax.persistence.target-database" value="PostgreSQL" />
-			<property name="eclipselink.application-location" value="." />
-			<property name="eclipselink.ddl-generation" value="create-tables"/>
-			<property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
-			<property name="eclipselink.create-ddl-jdbc-file-name" value="create-tables.sql"/>
-			<property name="eclipselink.drop-ddl-jdbc-file-name" value="drop-tables.sql"/>
-			< ! - - (Tomcat 4 Server Plug-In) - - >
-			<property name="eclipselink.target-server" value=""/>
-		</properties>
-	</persistence-unit>
-	 -->
 </persistence>

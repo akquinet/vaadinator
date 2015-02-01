@@ -17,11 +17,11 @@ the License.
 <persistence version="1.0"
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-	<persistence-unit name="AddressbookExample" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="ContractApplicationExample" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<!-- (Tomcat) -->
 		<non-jta-data-source>java:comp/env/jdbc/vaadin</non-jta-data-source>
-		<class>de.akquinet.engineering.vaadinator.example.address.model.Address</class>
+		<class>de.akquinet.engineering.vaadinator.example.contractapplication.model.ContractApplication</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.target-database" value="PostgreSQL" />
