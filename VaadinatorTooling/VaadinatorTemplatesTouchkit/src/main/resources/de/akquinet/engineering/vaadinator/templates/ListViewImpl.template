@@ -41,7 +41,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 
 public class ${bean.className}ListViewImpl extends NavigationView implements ${bean.className}ListView {
@@ -51,7 +50,7 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Table ${bean.classNamePass}Table = new Table();
+	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
 	protected Button add${bean.className} = new Button();
 
 	private ${bean.className}ListView.Observer observer;
