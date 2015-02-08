@@ -18,8 +18,8 @@ package ${package};
 import ${common.basePackage}.ui.presenter.Presenter;
 import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
 import ${viewPackage}.${bean.className}AddView;
-import ${common.basePackage}.model.${bean.className};
 import ${common.basePackage}.service.${bean.className}Service;
+import ${modelPackage}.${bean.className};
 
 import java.util.HashMap;
 import java.util.Map;
