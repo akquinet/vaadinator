@@ -19,8 +19,8 @@ the License.
 
 !define classpath_fixtures {org.testeditor.fitnesse.web.fixture}
 
-!define LOGGING {${LOG4J_RELATIV_PATH}}
-!define COMMAND_PATTERN {java -Dwaits.after.teststep=${waits.afterteststep} -Dwebdriver.ie.driver=${SLIM_CMD_VAR_IEWEBDRIVERSERVER} -Dlog4j.configuration=file:${SLIM_CMD_VAR_LOG4J_RELATIV_PATH} -cp %p %m -i org.testeditor.fixture.core.interaction.TestEditorLoggingInteraction }
+!path ${FIXTURE_JAR_PATH}TestEditorFixtureWeb-*.jar
+!define BROWSER_PATH {${path.browser}}
 
 !define LOGGING {${LOG4J_RELATIV_PATH}}
 !define COMMAND_PATTERN {java -Dwaits.after.teststep=${waits.afterteststep} -Dwebdriver.ie.driver=${SLIM_CMD_VAR_IEWEBDRIVERSERVER} -Dlog4j.configuration=file:${SLIM_CMD_VAR_LOG4J_RELATIV_PATH} -cp %p %m -i org.testeditor.fixture.core.interaction.TestEditorLoggingInteraction }

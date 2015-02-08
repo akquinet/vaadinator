@@ -57,10 +57,12 @@ the License.
 
 '''Wahl aus Tabelle Text''' --------
 !|scenario|waehle aus|guiElement|die Zeile mit Text|zeileText|
+|click;|@guiElement|[@zeileText]|
 |doubleClick;|@guiElement|[@zeileText]|
 
 '''Wahl aus Tabelle Nummer''' --------
 !|scenario|waehle aus|guiElement|die Zeile mit Nummer|zeileNr|
+|click;|@guiElement|[@zeileNr]|
 |doubleClick;|@guiElement|[@zeileNr]|
 
 '''Pruefe ob Text sichtbar ist ''' --------
