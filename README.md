@@ -174,6 +174,31 @@ import all selected projects:
 
 <img src="img/import_project.PNG" border="0" />
 
+It will normally be sufficient to run mvn eclipse:eclipse once.
+
+### Notes on m2eclipse
+
+If you're using m2eclipse (i.e. not mvn eclipse:eclipse), you might want to configure the lifecycle integration by adding to the pom.xml:
+```
+<plugin>
+	<groupId>org.eclipse.m2e</groupId>
+	<artifactId>lifecycle-mapping</artifactId>
+	<version>1.0.0</version>
+	<configuration>
+		<lifecycleMappingMetadata>
+		<!-- you go from here ... --> 
+```
+Vaadinator has exactly one goal named codegenerator that can be configured. Check out the m2eclipse Website for more on this topic.
+
+
+### Field types
+
+Vaadinator allows setting a field type along with the @DisplayPropertySetting annotation. You can choose from several types or specify your own class. In the earlier case (predefined types), the <i>value</i> bean property of the chosen field type must match your bean property. For text field, text area and label that would be java.lang.String, for checkbox that would be boolean, for datepicker off course date and for combobox and radio the type is any java.lang.Object - as long as the choices match. Enums are allowed and populated automatically. When choosing custom (and giving a class name), the class ideally implements com.vaadin.ui.Field (or at least provides methods with simmilar names).
+
+You can mitigate lots of issues, however, when offering an additional pair of getter and setter for the same property that use a UI-friendly data type. Assume you have com.me.MyCustomType getSomething() along with void setSomething(com.me.MyCustomType something) and you want to bind this to a field, go offer java.lang.String getSomethingAsString() and void setSomethingAsString(String somethingAsString) providing type conversion within this method.
+
+Note: make sure getter return type and setter parameter type are always equal.
+
 
 ### Using an external data source
 
@@ -692,6 +717,33 @@ In Eclipse mit dem vaadinator Workspace im Project Explorer -> rechte Mouse -> i
 
 Alle vorselektieren Projekte importieren.
 <img src="img/import_project.PNG" border="0" />
+
+Im Normalfall reicht die einmalige Ausführung von mvn eclipse:eclipse
+
+
+### Anmerkung zi m2eclipse
+
+Wenn Sie m2eclipse verwenden möchten (sprich nicht mvn eclipse:eclipse), dann macht eine Konfiguration der Lifecycle-Integration via pom.xml Sinn:
+```
+<plugin>
+	<groupId>org.eclipse.m2e</groupId>
+	<artifactId>lifecycle-mapping</artifactId>
+	<version>1.0.0</version>
+	<configuration>
+		<lifecycleMappingMetadata>
+		<!-- hier kommt Konfiguration ... --> 
+```
+Vaadinator kennt genau ein goal namens codegenerator, das konfiguriert werden kann. Die m2eclipse-Website hält mehr Informationen dazu bereit.
+
+
+### Feldtypen
+
+Vaadinator erlaubt die Angabe eines Feldtyps in der @DisplayPropertySetting-Annotation (fieldType). Sie können zwischen mehreren vordefinierten Typen wählen oder eine eigene Klasse angeben. Im ersteren Fall (vordefinierte Typen) muss die <i>value</i> Bean-Property des gewählten Feldtyps mit Ihrer Bean-Property übereinstimmen. Für TextField, TextArea und Label ist das java.lang.String, für die Checkbox ist dies boolean, für den Datepicker java.util.Date und für ComboBox und RadioGroup jedes java.lang.Object - so lange es zu Ihrer Bean passt. Enums sind erlaubt und werden automatisch als Auswahl angeboten. Wenn Custom als Typ gewählt und eine Klasse angegeben wird, dann implementiert diese Klasse im Idealfall com.vaadin.ui.Field (oder stellt zumindest Methoden mit gleichen Namen bereit). 
+
+Sie können etliche dieser Probleme dadurch lösen, dass Sie ein zusätzliches Getter/Setter-Paar anbieten. Nehmen wir an, es gibt com.me.MyCustomType getSomething() und void setSomething(com.me.MyCustomType something). Wollen Sie dies an ein Feld binden, dann können Sie java.lang.String getSomethingAsString() und void setSomethingAsString(String somethingAsString) anbieten und in diesen Methoden die Typkonversion vornehmen.
+
+Hinweis: stellen Sie sicher, dass Getter-Return-Typ und Setter-Parameter-Typ immer gleich sind.
+
 
 ### Einrichten einer externen Data Source
 
