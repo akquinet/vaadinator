@@ -80,11 +80,11 @@ public class ${common.projectName}UI extends UI {
 			#foreach($bean in $common.beans)
 			#if($bean.displayed)
 				${bean.classNamePass}Service = (${bean.className}Service) initialContext.lookup("java:global" + contextPath + "/${bean.className}ServiceImpl!${common.basePackage}.service.${bean.className}ServiceEjb");
+			#end
+			#end
 			} catch (NamingException e) {
 				throw new RuntimeException(e);
 			}
-			#end
-			#end
 			#else
 			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("${common.projectName}");
 		 	#foreach($bean in $common.beans)
