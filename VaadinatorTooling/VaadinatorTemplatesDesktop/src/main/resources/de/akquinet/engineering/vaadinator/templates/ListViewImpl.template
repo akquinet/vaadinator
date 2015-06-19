@@ -116,6 +116,19 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 		});
 		setOrRefreshData(new ArrayList<${bean.className}>());
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
+		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String getStyle(com.vaadin.ui.Table source, Object itemId,
+					Object propertyId) {
+				return "cell-" + propertyId;
+			}
+		});
 		
 		initSearch();
 		searchField.addStyleName("styleid-${bean.className}ListViewImpl-searchField");
