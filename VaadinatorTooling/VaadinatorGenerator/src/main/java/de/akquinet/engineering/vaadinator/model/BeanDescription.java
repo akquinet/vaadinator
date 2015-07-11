@@ -247,12 +247,14 @@ public class BeanDescription {
 		return res;
 	}
 
-	public Set<String> getSectionNames() {
-		Set<String> res = new HashSet<String>();
+	public List<String> getSectionNames() {
+		List<String> res = new ArrayList<String>();
 		for (PropertyDescription p : getProperties()) {
 			if (p.isDisplayed()) {
 				for (DisplayPropertyProfileDescription pp : p.getDisplayPropertyProfiles()) {
-					res.add(pp.getSectionName());
+					if (!res.contains(pp.getSectionName())) {
+						res.add(pp.getSectionName());
+					}
 				}
 			}
 		}

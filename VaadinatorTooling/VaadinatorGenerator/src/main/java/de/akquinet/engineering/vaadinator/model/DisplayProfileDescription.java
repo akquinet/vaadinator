@@ -128,10 +128,14 @@ public class DisplayProfileDescription {
 		return res;
 	}
 
-	public Set<SectionDescription> getSectionsInProfile() {
-		Set<SectionDescription> res = new HashSet<SectionDescription>();
+	public List<SectionDescription> getSectionsInProfile() {
+		List<SectionDescription> res = new ArrayList<SectionDescription>();
 		for (PropertyDescription p : getPropertiesInProfile()) {
-			res.add(new SectionDescription(p.getDisplayPropertyProfile(this).getSectionName()));
+			SectionDescription desc = new SectionDescription(p
+					.getDisplayPropertyProfile(this).getSectionName());
+			if (!res.contains(desc)) {
+				res.add(desc);
+			}
 		}
 		return res;
 	}
