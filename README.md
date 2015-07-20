@@ -387,7 +387,39 @@ You can also find more info on MVP (with JEE / vaadin) in [Oliver Damm's article
 
 ### First steps to customize
 
-As soon as you got your first example running, you most probably will want to customize (custom Presenters / Views, custom logic for the UI entry point, etc.). Here is how that works:
+As soon as you got your first example running, you most probably will want to customize (custom Presenters / Views, custom logic for the UI entry point, etc.). 
+
+Here is how you can make this work: 
+- Overwrite the UI class, i.e. create a <i>basepackage</i>.<i>ArtifactId</i>UIEx extending <i>basepackage</i>.<i>ArtifactId</i>UI (as this is the entry point, virtually every possible modification will start there)
+- for theme customizations, do the same: overwrite the UI and specify the new theme name in @Theme. This way, you can specify additional CSS settings.
+- extend the web.xml to explicitly define the servlet (so you can overwrite the generated settings there). To achieve this, define a servlet <i>named</i> like the class and specify all you want to overwrite. 
+
+Here is an example (code is taken from the AddressbookExample shipping with Vaadinator, pls. find the full example there - including CSS): 
+
+```XML
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>AddressbookExample</display-name>
+	<!-- welcome-file-list here -->
+	<!-- overwrite servlet / UI defaults -->
+	<servlet>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <servlet-class>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-class>
+		 <init-param>
+		 	<param-name>UI</param-name>
+		 	<param-value>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleUIEx</param-value>
+		 </init-param>
+	</servlet>
+	<servlet-mapping>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>
+```
+
+Alternatively, cou can:
 - copy <i>basepackage</i>.<i>ArtifactId</i>Servlet and <i>basepackage</i>.<i>ArtifactId</i>UI from target/generated-sources/java to src/main/java
 - in the pom.xml of your project, turn <i>generateServlet</i> to false (for code + resource generation)
 - (for touchkit): copy the styles and other artifacts from target/generated-sources/webapp to src/main/webapp
@@ -933,6 +965,36 @@ Mehr zu MVP finden Sie auch in [Oliver Damm's Artikel](http://www.sigs-datacom.d
 ### Erste Schritte für Anpassungen
 
 Um Anpassungen vorzunehmen (z.B. eigene Presenter / Views, Anpassungen am Einstiegspunkt der UI, etc.) sind folgende Schritte nötig:
+- Überschreiben Sie die UI-Klasse, sprich: erstellen Sie eine Klasse <i>basepackage</i>.<i>ArtifactId</i>UIEx welche <i>basepackage</i>.<i>ArtifactId</i>UI erweitert. (Da die UI der Einstiegspunkt in die Anwendung ist werden so gut wie alle Anpassungen hier beginnen.)
+- auch für die Anpassung des Theme überschreiben Sie die UI und geben Sie den neuen Theme-Namen in @Theme an. Damit können Sie weitere CSS-Einstellungen angeben.
+- erweitern Sie die web.xml Datei um das Servlet explizit zu definieren (Einstellungen aus der generierten Annotation werden dabei überschrieben). Um das zu erreichen müssen Sie ein Servlet definieren, das so <i>benannt</i> ist wie seine Klasse, und dann alle Einstellungen angeben, die Sie überschreiben wollen.
+
+Hier ist ein Beispiel (entnommen dem AddressbookExample - das den vollständigen Weg dafür auch zeigt, inklusive CSS): 
+
+```XML
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>AddressbookExample</display-name>
+	<!-- welcome-file-list here -->
+	<!-- overwrite servlet / UI defaults -->
+	<servlet>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <servlet-class>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-class>
+		 <init-param>
+		 	<param-name>UI</param-name>
+		 	<param-value>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleUIEx</param-value>
+		 </init-param>
+	</servlet>
+	<servlet-mapping>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>
+```
+
+Alternativ ist folgendes möglich:
 - kopieren von <i>basepackage</i>.<i>ArtifactId</i>Servlet und <i>basepackage</i>.<i>ArtifactId</i>UI von target/generated-sources/java nach src/main/java
 - in der the pom.xml des Projekts den Wert <i>generateServlet</i> auf false setzen (für code + resource generation)
 - (für touchkit): kopieren der Styles und anderer Artefakte von target/generated-sources/webapp nach src/main/webapp

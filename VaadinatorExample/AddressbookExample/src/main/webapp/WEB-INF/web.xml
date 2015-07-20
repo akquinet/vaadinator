@@ -27,4 +27,17 @@ the License.
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- overwrite servlet / UI defaults -->
+	<servlet>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <servlet-class>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-class>
+		 <init-param>
+		 	<param-name>UI</param-name>
+		 	<param-value>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleUIEx</param-value>
+		 </init-param>
+	</servlet>
+	<servlet-mapping>
+		 <servlet-name>de.akquinet.engineering.vaadinator.example.address.AddressbookExampleServlet</servlet-name>
+		 <url-pattern>/*</url-pattern>
+	</servlet-mapping>
 </web-app>
