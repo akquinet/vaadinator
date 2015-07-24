@@ -26,7 +26,6 @@ import ${viewPackage}.${bean.className}ListView;
 #end
 
 import ${common.basePackage}.ui.presenter.Presenter;
-import ${common.basePackage}.ui.std.presenter.PresenterFactory;
 import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
 import ${common.basePackage}.ui.view.View;
 
