@@ -13,66 +13,65 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 *#|import|
-|org.testeditor.fixture.core|
-|org.testeditor.fixture.web|  
-  
+|org.testeditor.fixture.web|
 
 !|Library|
-|WebFixture|
+|org.testeditor.fixture.web.HtmlWebFixture|
 
 -!|script|
+|setTimeout|10|
 |setElementlist|${ELEMENT_LISTE}|
 
 '''Starte Browser''' --------
 !|scenario|starte Browser|browser|
-|open browser;|@browser|${BROWSER_PATH}|
+|open browser;|@browser|
 
 '''Navigiere zu URL''' --------
 !|scenario|navigiere auf die Seite|url|
-|navigate to Url|@url|
+|navigateToUrl|@url|
 
 '''Textfeld ausfuellen''' --------
 !|scenario|gebe in das Feld|guiid|den Wert|text|ein|
-|insert|@text|into field|@guiid|
+|insertIntoField;|@text|@guiid|
 
 '''Auswahl auswaehlen ''' --------
 !|scenario|waehle in Feld|guiid|den Wert|text|aus|
-|insert|@text|into field|@guiid|
+|selectOption;|@text|@guiid|
 
 '''Textfeld leeren''' --------
 !|scenario|leere das Feld|guiid|
-|clear|@guiid|
+|clearElement;|@guiid|
 
 '''Warte in Sekunden''' --------
 !|scenario|warte|anzahlSekunden|Sekunden|
-|wait|@anzahlSekunden|seconds|
+|waitSeconds;|@anzahlSekunden|
 
 '''Warte auf Element''' --------
 !|scenario|warte auf Element|warteElement|
-|wait for Element|@warteElement|
+|checkElementIsAvailable;|@warteElement|
 
 '''Klick auf ein Gui Element''' --------
 !|scenario|klicke auf|guiElement|
-|click|@guiElement|
+|clickElement;|@guiElement|
 
 '''Wahl aus Tabelle Text''' --------
 !|scenario|waehle aus|guiElement|die Zeile mit Text|zeileText|
-|click;|@guiElement|[@zeileText]|
-|doubleClick;|@guiElement|[@zeileText]|
+|clickElement;|@guiElement|[@zeileText]|
+|doubleClickElement;|@guiElement|[@zeileText]|
 
 '''Wahl aus Tabelle Nummer''' --------
 !|scenario|waehle aus|guiElement|die Zeile mit Nummer|zeileNr|
-|click;|@guiElement|[@zeileNr]|
-|doubleClick;|@guiElement|[@zeileNr]|
+|clickElement;|@guiElement|[@zeileNr]|
+|doubleClickElement;|@guiElement|[@zeileNr]|
 
 '''Pruefe ob Text sichtbar ist ''' --------
 !|scenario|ueberpruefe ob der Text|textVorhanden|vorhanden ist|
-|text|@textVorhanden|is visible|
+|checkTextIsPresentOnPage;|@textVorhanden|
 
 '''Pruefe ob Text nicht sichtbar ist ''' --------
 !|scenario|ueberpruefe ob nicht der Text|textVorhanden|vorhanden ist|
-|text|@textVorhanden|is unvisible|
+|checkTextIsNotPresentOnPage;|@textVorhanden|
 
 '''Beenden des Browsers''' --------
 !|scenario|beende Browser|
-|close browser|
+|closeBrowser;|
