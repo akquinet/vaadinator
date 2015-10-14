@@ -15,7 +15,7 @@
  */
 package de.akquinet.engineering.vaadinator.mojo;
 
-import japa.parser.ParseException;
+import com.github.javaparser.ParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
