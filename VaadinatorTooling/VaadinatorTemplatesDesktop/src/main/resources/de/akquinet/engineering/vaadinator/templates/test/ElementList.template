@@ -26,8 +26,8 @@ Einstieg_${bean.className}Tab=//table[contains(@class, 'v-tabsheet-tabs-styleid-
 Liste_${bean.className}_${bean.classNamePass}=//div[contains(@class, 'styleid-${bean.className}ListViewImpl')]
 Liste_${bean.className}_${bean.classNamePass}Search=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-searchField')]/input
 Liste_${bean.className}_add${bean.className}=//div[contains(@class, 'v-button-styleid-${bean.className}ListViewImpl-add${bean.className}')]
-Liste_${bean.className}_${bean.classNamePass}Table=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//div[contains(@class, 'v-table-body')]//tr[{0}]/td[1]/div
-Liste_${bean.className}_${bean.classNamePass}Table_bystring=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]//div[contains(@class, 'v-table-body')]//tr[contains(string(.), '{0}')]/td[1]/div
+Liste_${bean.className}_${bean.classNamePass}Table=//div[contains(@class, ''styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table'')]//div[contains(@class, ''v-table-body'')]//tr[{0}]/td[1]/div
+Liste_${bean.className}_${bean.classNamePass}Table_bystring=//div[contains(@class, ''styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table'')]//div[contains(@class, ''v-table-body'')]//tr[contains(string(.), ''{0}'')]/td[1]/div
 Liste_${bean.className}_${bean.classNamePass}Table_asis=//div[contains(@class, 'styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table')]
 #end
 #end
