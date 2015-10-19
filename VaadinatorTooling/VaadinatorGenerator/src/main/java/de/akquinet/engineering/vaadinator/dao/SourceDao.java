@@ -15,25 +15,25 @@
  */
 package de.akquinet.engineering.vaadinator.dao;
 
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.ImportDeclaration;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-import japa.parser.ast.body.ConstructorDeclaration;
-import japa.parser.ast.body.EnumConstantDeclaration;
-import japa.parser.ast.body.EnumDeclaration;
-import japa.parser.ast.body.FieldDeclaration;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.Parameter;
-import japa.parser.ast.expr.AnnotationExpr;
-import japa.parser.ast.expr.ArrayInitializerExpr;
-import japa.parser.ast.expr.ClassExpr;
-import japa.parser.ast.expr.Expression;
-import japa.parser.ast.expr.MemberValuePair;
-import japa.parser.ast.expr.NormalAnnotationExpr;
-import japa.parser.ast.expr.StringLiteralExpr;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseException;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.EnumConstantDeclaration;
+import com.github.javaparser.ast.body.EnumDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.InputStream;
 

@@ -15,7 +15,7 @@
  */
 package de.akquinet.engineering.vaadinator.mojo;
 
-import japa.parser.ParseException;
+import com.github.javaparser.ParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -113,7 +114,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), project.getArtifactId(), project.getVersion(), generateServlet,
+			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()), project.getVersion(), generateServlet,
 					ArtifactType.valueOf(artifactType.toUpperCase()), GenType.valueOf(genType.toUpperCase()));
 		} catch (IOException e) {
 			throw new MojoExecutionException("Fehler bei Generieren", e);
@@ -558,6 +559,10 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		writer.close();
 	}
 
+	protected String toValidJavaClassName(String name) {
+		return WordUtils.capitalize(name,
+				new char[] {' ','_','-' }).replaceAll(" ", "").replaceAll("-", "").replaceAll("_", "");
+	}
 	public static void main(String[] args) throws IOException, ParseException {
 		// only for local development (in Project root of gen)
 		processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"), new File(
