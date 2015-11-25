@@ -182,21 +182,16 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 	private static void generateCode(VaadinatorConfig vaadinatorConfig) throws IOException {
 		
-		File targetFolderTesteditStart = new File(vaadinatorConfig.getTargetFolderBaseStart(), "testeditor");
-		targetFolderTesteditStart.mkdirs();
-		File targetFolderWebStart = new File(vaadinatorConfig.getTargetFolderBaseStart(), "webapp");
-		targetFolderWebStart.mkdirs();
+		File targetFolderTesteditStart = existingFolder(vaadinatorConfig.getTargetFolderBaseStart(), "testeditor");
+		File targetFolderWebStart = existingFolder(vaadinatorConfig.getTargetFolderBaseStart(), "webapp");
 		
 		if (vaadinatorConfig.getGenTypeEn() == GenType.RESOURCES || vaadinatorConfig.getGenTypeEn() == GenType.ALL) {
 			// bei Resources bisher nur common
-			File targetFolderWebInf = new File(targetFolderWebStart, "WEB-INF");
-			targetFolderWebInf.mkdir();
-			File targetFolderVaadin = new File(targetFolderWebStart, "VAADIN");
-			targetFolderVaadin.mkdir();
-			File targetFolderThemes = new File(targetFolderVaadin, "themes");
-			targetFolderThemes.mkdir();
-			File targetFolderTouchkitex = new File(targetFolderThemes, "touchkitex");
-			targetFolderTouchkitex.mkdir();
+			File targetFolderWebInf = existingFolder(targetFolderWebStart, "WEB-INF");
+			File targetFolderVaadin = existingFolder(targetFolderWebStart, "VAADIN");
+			File targetFolderThemes = existingFolder(targetFolderVaadin, "themes");
+			File targetFolderTouchkitex = existingFolder(targetFolderThemes, "touchkitex");
+			
 			if (vaadinatorConfig.isHasDisplayBeans() && vaadinatorConfig.isGenServletBase()) {
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null, null, "stylescss.template", (new File(targetFolderTouchkitex, "styles.css")), false);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null, null, "touchkitexcss.template", (new File(targetFolderTouchkitex, "touchkitex.css")), false);
