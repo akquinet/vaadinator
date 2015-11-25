@@ -179,9 +179,9 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				// bei Resources bisher nur common
 				File targetFolderWebInf = new File(targetFolderWebStart, "WEB-INF");
 				targetFolderWebInf.mkdir();
-				File targetFolderVaddin = new File(targetFolderWebStart, "VAADIN");
-				targetFolderVaddin.mkdir();
-				File targetFolderThemes = new File(targetFolderVaddin, "themes");
+				File targetFolderVaadin = new File(targetFolderWebStart, "VAADIN");
+				targetFolderVaadin.mkdir();
+				File targetFolderThemes = new File(targetFolderVaadin, "themes");
 				targetFolderThemes.mkdir();
 				File targetFolderTouchkitex = new File(targetFolderThemes, "touchkitex");
 				targetFolderTouchkitex.mkdir();
