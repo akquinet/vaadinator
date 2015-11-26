@@ -34,5 +34,6 @@ the License.
 		<module>VaadinatorTemplatesDesktop</module>
 		<module>VaadinatorTemplatesTouchkit</module>
 		<module>VaadinatorGenerator</module>
+		<module>VaadinatorGeneratorBase</module>
 	</modules>
 </project>

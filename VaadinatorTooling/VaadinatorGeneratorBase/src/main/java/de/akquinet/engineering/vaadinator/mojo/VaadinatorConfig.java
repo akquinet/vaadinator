@@ -6,10 +6,16 @@ import java.util.Map;
 import java.util.Set;
 
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
-import de.akquinet.engineering.vaadinator.mojo.CodeGeneratorMojo.ArtifactType;
-import de.akquinet.engineering.vaadinator.mojo.CodeGeneratorMojo.GenType;
 
 public class VaadinatorConfig {
+	public static enum GenType {
+		SOURCES, RESOURCES, ALL, NONE
+	}
+
+	public static enum ArtifactType {
+		PLAIN, EJB, ALL, NONE
+	}
+
 	private String projectName;
 	private String basePckg;
 	private List<BeanDescription> beanDescriptions;

@@ -18,8 +18,8 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
 import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig;
-import de.akquinet.engineering.vaadinator.mojo.CodeGeneratorMojo.ArtifactType;
-import de.akquinet.engineering.vaadinator.mojo.CodeGeneratorMojo.GenType;
+import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig.ArtifactType;
+import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig.GenType;
 import de.akquinet.engineering.vaadinator.util.UnicodeUtil;
 
 public class DefaultCodeGenerator implements CodeGenerator {
@@ -30,7 +30,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws IOException {
 		File targetFolderWebStart = existingFolder(vaadinatorConfig.getTargetFolderBaseStart(), "webapp");
 		
-		if (vaadinatorConfig.getGenTypeEn() == GenType.RESOURCES || vaadinatorConfig.getGenTypeEn() == GenType.ALL) {
+		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.RESOURCES || vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			// bei Resources bisher nur common
 			File targetFolderWebInf = existingFolder(targetFolderWebStart, "WEB-INF");
 			File targetFolderVaadin = existingFolder(targetFolderWebStart, "VAADIN");
@@ -112,7 +112,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
-		if (vaadinatorConfig.getGenTypeEn() == GenType.SOURCES || vaadinatorConfig.getGenTypeEn() == GenType.ALL) {
+		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES || vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			// jetzt common generieren
 			if (vaadinatorConfig.isHasDisplayBeans()) {
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.presenter", null, null, null, null, "Presenter.template",
@@ -276,30 +276,30 @@ public class DefaultCodeGenerator implements CodeGenerator {
 					// Service
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".service", desc.getPckg(), null, null, null, "Service.template",
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".service", desc.getClassName(), "Service.java"));
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".service", desc.getPckg(), null, null, null, "ServiceImpl.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".service", desc.getClassName(), "ServiceImpl.java"));
 					}
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".service", desc.getPckg(), null, null, null, "ServiceEjb.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".service", desc.getClassName(), "ServiceEjb.java"));
 					}
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".service", desc.getPckg(), null, null, null, "ServicePlain.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".service", desc.getClassName(), "ServicePlain.java"));
 					}
 					// ditto Dao
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".dao", desc.getPckg(), null, null, null, "Dao.template",
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".dao", desc.getClassName(), "Dao.java"));
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".dao", desc.getPckg(), null, null, null, "DaoImpl.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".dao", desc.getClassName(), "DaoImpl.java"));
 					}
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".dao", desc.getPckg(), null, null, null, "DaoEjb.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".dao", desc.getClassName(), "DaoEjb.java"));
 					}
-					if (vaadinatorConfig.getArtifactTypeEn() == ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == ArtifactType.ALL) {
+					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN || vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".dao", desc.getPckg(), null, null, null, "DaoPlain.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getBasePckg() + ".dao", desc.getClassName(), "DaoPlain.java"));
 					}

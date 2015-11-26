@@ -71,14 +71,14 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	/**
 	 * Generate which type of artifacts
 	 */
-	private String genType = GenType.ALL.toString();
+	private String genType = VaadinatorConfig.GenType.ALL.toString();
 
 	/**
 	 * Generate EJB or Plain artifacts
 	 * 
 	 * @parameter
 	 */
-	private String artifactType = ArtifactType.PLAIN.toString();
+	private String artifactType = VaadinatorConfig.ArtifactType.PLAIN.toString();
 
 	/**
 	 * Generate the servlet (and web.xml et al)
@@ -87,14 +87,6 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 */
 	private boolean generateServlet = true;
 	
-	public static enum GenType {
-		SOURCES, RESOURCES, ALL, NONE
-	}
-
-	public static enum ArtifactType {
-		PLAIN, EJB, ALL, NONE
-	}
-
 	public void execute() throws MojoExecutionException {
 //		System.out.println(FileUtils.getFiles((new File(project.getBasedir(), "src/main/java")), includes, excludes));
 //		if(true)return;
@@ -103,14 +95,14 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
 			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()), project.getVersion(), generateServlet,
-					ArtifactType.valueOf(artifactType.toUpperCase()), GenType.valueOf(genType.toUpperCase()));
+					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()), VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
 		} catch (Exception e) {
 			throw new MojoExecutionException("Fehler beim Generieren", e);
 		}
 	}
 
 	private static void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao, String projectName, String version,
-			boolean genServletBase, ArtifactType artifactTypeEn, GenType genTypeEn)
+			boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn, VaadinatorConfig.GenType genTypeEn)
 			throws Exception {
 		List<BeanDescription> beanDescriptions = new ArrayList<BeanDescription>();
 		
@@ -224,7 +216,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// only for local development (in Project root of gen)
 		processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"), new File(
 				"../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(), "AddressbookExample", "0.10-SNAPSHOT", true,
-				ArtifactType.ALL, GenType.ALL);
+				VaadinatorConfig.ArtifactType.ALL, VaadinatorConfig.GenType.ALL);
 	}
 
 }
