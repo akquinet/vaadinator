@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class PresenterFactory {
 
-	private Map<String, Object> context;
-	private ViewFactory viewFactory;
+	protected Map<String, Object> context;
+	protected ViewFactory viewFactory;
 
 	public PresenterFactory(Map<String, Object> context, ViewFactory viewFactory
 #foreach($bean in $common.beans)
@@ -51,7 +51,7 @@ public class PresenterFactory {
 
 #foreach($bean in $common.beans)
 #if($bean.displayed)
-	private ${bean.className}Service ${bean.classNamePass}Service;
+	protected ${bean.className}Service ${bean.classNamePass}Service;
 
 	public ${bean.className}AddPresenter create${bean.className}AddPresenter(Presenter returnPresenter) {
 		return new ${bean.className}AddPresenterImpl(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
