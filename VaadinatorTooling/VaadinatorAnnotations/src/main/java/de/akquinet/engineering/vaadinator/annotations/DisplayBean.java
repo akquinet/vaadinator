@@ -30,4 +30,12 @@ public @interface DisplayBean {
 	DisplayBeanSetting[] profiles() default { @DisplayBeanSetting(profileName = Constants.DEFAULT_DISPLAY_PROFILE) };
 
 	boolean ignore() default false;
+	
+	/**
+	 * If set to true, java bean validation (JSR-303) will be enabled. This will
+	 * also set fields to immediate.
+	 * <p>
+	 * A JSR-303 implementation must be present at the classpath.
+	 */
+	boolean beanValidation() default false;
 }

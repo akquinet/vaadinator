@@ -47,6 +47,8 @@ public class BeanDescription {
 	private boolean service = false;
 	private boolean wrapped = false;
 	private boolean enumeration = false;
+	private boolean beanValidation = false;
+	
 	private List<MapProfileDescription> mapProfiles = new ArrayList<MapProfileDescription>();
 	private List<DisplayProfileDescription> displayProfiles = new ArrayList<DisplayProfileDescription>(
 			Collections.singletonList(new DisplayProfileDescription(this,
@@ -414,10 +416,18 @@ public class BeanDescription {
 		return getBasePckg() + ".ui." + profileName + ".presenter";
 	}
 
+	public boolean isBeanValidation() {
+		return beanValidation;
+	}
+
+	public void setBeanValidation(boolean beanValidation) {
+		this.beanValidation = beanValidation;
+	}
+
 	@Override
 	public String toString() {
 		return "BeanDescription [className=" + className + ", superClassName=" + superClassName + ", mapped=" + mapped + ", displayed=" + displayed
-				+ ", service=" + service+ ", wrapped=" + wrapped + ", enumeration=" + enumeration + ", captionText=" + captionText + ", captionProp=" + captionProp
+				+ ", service=" + service+ ", wrapped=" + wrapped + ", enumeration=" + enumeration + ", beanValidation=" + beanValidation + ", captionText=" + captionText + ", captionProp=" + captionProp
 				+ ", pckg=" + pckg + ", hasSuperClass()=" + hasSuperClass() + ", getClassNameMultiple()=" + getClassNameMultiple()
 				+ ", getClassNamePass()=" + getClassNamePass() + ", getDeepPropertyClassNames()=" + getDeepPropertyClassNames()
 				+ ", getEffectiveCaption()=" + getEffectiveCaption() + ", getEffectiveCaptionPlural()=" + getEffectiveCaptionPlural() + "]";

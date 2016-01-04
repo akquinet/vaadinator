@@ -267,6 +267,8 @@ public class SourceDaoTest {
 		assertTrue(desc.hasSetter("setAnrede"));
 		assertTrue(desc.hasGetter("getName"));
 		assertFalse(desc.hasSetter("setName"));
+		assertFalse(desc.isBeanValidation());
+		
 		// noch den Output
 		outputDesc(desc);
 	}
@@ -325,6 +327,12 @@ public class SourceDaoTest {
 		assertFalse(desc.isDisplayed());
 		assertFalse(desc.isMapped());
 		assertFalse(desc.isWrapped());
+	}
+	
+	@Test
+	public void testMinimalJSR303() throws ParseException {
+		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("AddressMinimalJSR-303.javainput"));
+		assertTrue(desc.isBeanValidation());
 	}
 	
 	@Test

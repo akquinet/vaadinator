@@ -28,6 +28,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MemberValuePair;
@@ -361,6 +362,8 @@ public class SourceDao {
 							descriptionToFill.setCaptionProp(((StringLiteralExpr) pair.getValue()).getValue());
 						} else if ("captionText".equals(pair.getName())) {
 							descriptionToFill.setCaptionText(((StringLiteralExpr) pair.getValue()).getValue());
+						} else if ("beanValidation".equals(pair.getName())) {
+							descriptionToFill.setBeanValidation(((BooleanLiteralExpr) pair.getValue()).getValue());
 						} else if ("profiles".equals(pair.getName())) {
 							if (pair.getValue() instanceof ArrayInitializerExpr) {
 								ArrayInitializerExpr array = (ArrayInitializerExpr) pair.getValue();
