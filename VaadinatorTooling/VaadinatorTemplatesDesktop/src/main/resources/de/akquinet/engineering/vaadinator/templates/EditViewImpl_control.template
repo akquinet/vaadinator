@@ -32,6 +32,10 @@ ${property.propertyName}.setNullRepresentation("");
 ${property.propertyName}.setResolution(Resolution.DAY);
 #end
 ${property.propertyName}.addStyleName("styleid-${bean.className}EditViewImpl-${property.propertyName}");
+#if($bean.beanValidation==true)
+${property.propertyName}.addValidator(new BeanValidator(${bean.className}.class, "${property.propertyName}"));
+${property.propertyName}.setImmediate(true);
+#end
 
 #end
 #end
