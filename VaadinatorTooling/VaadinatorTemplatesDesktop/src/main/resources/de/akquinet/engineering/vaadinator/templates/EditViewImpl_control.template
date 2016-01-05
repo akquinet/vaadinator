@@ -36,6 +36,8 @@ ${property.propertyName}.addStyleName("styleid-${bean.className}EditViewImpl-${p
 ${property.propertyName}.addValidator(new BeanValidator(${bean.className}.class, "${property.propertyName}"));
 ${property.propertyName}.setImmediate(true);
 #end
-
+#if($property.converterClassName)
+${property.propertyName}.setConverter(new ${property.converterClassName}());
+#end
 #end
 #end

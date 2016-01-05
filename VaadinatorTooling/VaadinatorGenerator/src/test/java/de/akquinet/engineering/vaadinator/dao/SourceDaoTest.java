@@ -47,6 +47,15 @@ public class SourceDaoTest {
 	}
 
 	@Test
+	public void testCreateConverterImportString() {
+		assertEquals("import com.vaadin.data.util.converter.StringToBigDecimalConverter;",
+				daoUnderTest.createConverterImportString("StringToBigDecimalConverter"));
+		
+		assertEquals("import net.vergien.vaadin.CustomConverter;",
+				daoUnderTest.createConverterImportString("net.vergien.vaadin.CustomConverter"));
+	}	
+	
+	@Test
 	public void testGeneral() throws ParseException {
 		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("Address.javainput"));
 		desc.setPckg("de.akquinet.engineering.vaadinator.example.address.model");

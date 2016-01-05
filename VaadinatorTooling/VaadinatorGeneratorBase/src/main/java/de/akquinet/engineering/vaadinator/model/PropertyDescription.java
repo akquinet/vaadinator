@@ -46,6 +46,8 @@ public class PropertyDescription {
 	private List<MapPropertyProfileDescription> mapPropertyProfiles = new ArrayList<MapPropertyProfileDescription>();
 	private String captionText = null;
 	private String captionProp = null;
+	private String converterClassName = null;
+	
 	private List<DisplayPropertyProfileDescription> displayPropertyProfiles = new ArrayList<DisplayPropertyProfileDescription>(
 			Collections.singletonList(new DisplayPropertyProfileDescription(
 					this, Constants.DEFAULT_DISPLAY_PROFILE)));
@@ -273,6 +275,14 @@ public class PropertyDescription {
 
 	public boolean hasEnumClass(List<BeanDescription> candidates) {
 		return getEnumClass(candidates) != null;
+	}
+
+	public String getConverterClassName() {
+		return converterClassName;
+	}
+
+	public void setConverterClassName(String converterClassName) {
+		this.converterClassName = converterClassName;
 	}
 
 	@Override

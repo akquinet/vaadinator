@@ -125,6 +125,8 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		return (${property.propertyClassName}) ${property.propertyName}.getValue();
 	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
 		return ${property.propertyName}.getValue();
+	#elseif($property.converterClassName)
+	    return (${property.propertyClassName}) ${property.propertyName}.getConvertedValue();
 	#elseif($property.propertyUnboxed)
 		return ${property.propertyUnboxedFromString}(${property.propertyName}.getValue());
 	#else
@@ -139,6 +141,8 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		this.${property.propertyName}.setValue(${property.propertyName});
 	#elseif($property.propertyUnboxed)
 		this.${property.propertyName}.setValue(${property.propertyUnboxedToString}(${property.propertyName}));
+	#elseif($property.converterClassName)
+	    this.${property.propertyName}.setConvertedValue(${property.propertyName});
 	#else
 		this.${property.propertyName}.setValue(${property.propertyName});
 	#end

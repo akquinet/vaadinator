@@ -30,4 +30,11 @@ public @interface DisplayProperty {
 	DisplayPropertySetting[] profileSettings() default {};
 
 	boolean ignore() default false;
+	
+	/**
+	 * The name of the converter class which should be used for the input field.
+	 * <p>
+	 * If the name is not a full qualified class name the package com.vaadin.data.util.converter will be used
+	 */
+	String converterClassName() default "";
 }

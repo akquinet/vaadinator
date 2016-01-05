@@ -185,6 +185,9 @@ public class SourceDao {
 					for (MemberValuePair pair : ((NormalAnnotationExpr) an).getPairs()) {
 						if ("captionProp".equals(pair.getName())) {
 							newProp.setCaptionProp(((StringLiteralExpr) pair.getValue()).getValue());
+						} else if ("converterClassName".equals(pair.getName())) {
+							newProp.setConverterClassName(((StringLiteralExpr) pair.getValue()).getValue());
+							descriptionToFill.addImport(createConverterImportString(newProp.getConverterClassName()));
 						} else if ("captionText".equals(pair.getName())) {
 							newProp.setCaptionText(((StringLiteralExpr) pair.getValue()).getValue());
 						} else if ("profileSettings".equals(pair.getName())) {
@@ -454,5 +457,14 @@ public class SourceDao {
 			}
 		}).visit(cu, null);
 		return descriptionToFill;
+	}	
+
+	protected String createConverterImportString(String converterClassName) {
+		if(converterClassName.contains(".")) {
+			return "import " + converterClassName + ";";
+		}
+		else {
+			return "import com.vaadin.data.util.converter." + converterClassName+";"; 
+		}
 	}
 }
