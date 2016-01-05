@@ -32,8 +32,7 @@ public @interface DisplayBean {
 	boolean ignore() default false;
 	
 	/**
-	 * If set to true, java bean validation (JSR-303) will be enabled. This will
-	 * also set fields to immediate.
+	 * If set to true, java bean validation (JSR-303) will be enabled.
 	 * <p>
 	 * A JSR-303 implementation must be present at the classpath.
 	 */
