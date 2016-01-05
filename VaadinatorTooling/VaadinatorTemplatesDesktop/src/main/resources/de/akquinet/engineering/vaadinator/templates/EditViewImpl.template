@@ -101,16 +101,17 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 
 	@Override
 	public boolean checkAllFieldsValid() {
-		try {
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+	    boolean valid = true;
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
 #if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false)
+        try {
 			${property.propertyName}.validate();
-#end
-#end
 		} catch (InvalidValueException e) {
-			return false;
+			valid = false;
 		}
-		return true;
+#end
+#end		
+		return valid;
 	}
 
 	@Override
