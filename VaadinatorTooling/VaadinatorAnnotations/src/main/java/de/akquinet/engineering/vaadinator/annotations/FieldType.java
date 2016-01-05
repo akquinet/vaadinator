@@ -18,7 +18,7 @@ package de.akquinet.engineering.vaadinator.annotations;
 public enum FieldType {
 
 	TEXTFIELD("com.vaadin.ui.TextField"), TEXTAREA("com.vaadin.ui.TextArea"), LABEL("com.vaadin.ui.Label"), DROPDOWN("com.vaadin.ui.ComboBox", true), DATEPICKER(
-			"com.vaadin.addon.touchkit.ui.DatePicker"), CHECKBOX("com.vaadin.ui.CheckBox", false, true), RADIO("com.vaadin.ui.OptionGroup", true), CUSTOM(
+			"com.vaadin.addon.touchkit.ui.DatePicker"), CHECKBOX("com.vaadin.ui.CheckBox", false, true), RADIO("com.vaadin.ui.OptionGroup", true), PASSWORD("com.vaadin.ui.PasswordField"), CUSTOM(
 			null);
 
 	private FieldType(String vaadinClassName) {
