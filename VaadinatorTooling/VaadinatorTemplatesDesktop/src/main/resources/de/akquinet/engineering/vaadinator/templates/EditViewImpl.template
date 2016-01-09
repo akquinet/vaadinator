@@ -157,9 +157,35 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		}
 	}
 	#end
+	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	public void ${property.propertySetChoicesForMethodName}(${property.propertyClassName} ${property.propertyChoicesForParamName}) {
+		for (${property.propertyClassTypeParameter} auswahl : ${property.propertyChoicesForParamName}) {
+			${property.propertyName}.addItem(auswahl);
+			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
+		}
+	}
+	#end
 
 	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
+		#if($property.hasEnumClass($common.beans))
+		switch(auswahl){
+			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
+			case ${enumVal.value}:
+				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
+			#end
+			default: 
+				return null;
+		}		
+		#else
+		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
+		#end
+	} 
+	#end
+	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassTypeParameter} auswahl) {
 		#if($property.hasEnumClass($common.beans))
 		switch(auswahl){
 			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)

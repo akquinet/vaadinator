@@ -221,6 +221,8 @@ public class SourceDao {
 						newProfile.setCustomClassName(((StringLiteralExpr) innerpair.getValue()).getValue());
 					} else if ("customAuswahlAusListe".equals(innerpair.getName())) {
 						newProfile.setCustomAuswahlAusListe(Boolean.valueOf(innerpair.getValue().toString()));
+					} else if ("customMultiAuswahlAusListe".equals(innerpair.getName())) {
+						newProfile.setCustomMultiAuswahlAusListe(Boolean.valueOf(innerpair.getValue().toString()));
 					} else if ("customUnboxed".equals(innerpair.getName())) {
 						newProfile.setCustomUnboxed(Boolean.valueOf(innerpair.getValue().toString()));
 					} else if ("exclude".equals(innerpair.getName())) {

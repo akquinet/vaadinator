@@ -36,6 +36,7 @@ public class DisplayPropertyProfileDescription {
 	private FieldType fieldType = FieldType.TEXTFIELD;
 	private String customClassName = null;
 	private boolean customAuswahlAusListe = false;
+	private boolean customMultiAuswahlAusListe = false;
 	private boolean customUnboxed = false;
 	private int order = 0;
 	private boolean showInTable = false;
@@ -109,6 +110,13 @@ public class DisplayPropertyProfileDescription {
 		}
 		return getFieldType() == null ? false : getFieldType().isAuswahlAusListe();
 	}
+	
+	public boolean isFieldTypeMultiAuswahlAusListe() {
+		if (FieldType.CUSTOM.equals(getFieldType())) {
+			return isCustomMultiAuswahlAusListe();
+		}
+		return false;
+	}
 
 	public boolean isFieldTypeUnboxed() {
 		if (FieldType.CUSTOM.equals(getFieldType())) {
@@ -133,6 +141,14 @@ public class DisplayPropertyProfileDescription {
 		this.customAuswahlAusListe = customAuswahlAusListe;
 	}
 
+	public boolean isCustomMultiAuswahlAusListe() {
+		return customMultiAuswahlAusListe;
+	}
+	
+	public void setCustomMultiAuswahlAusListe(boolean customMultiAuswahlAusListe) {
+		this.customMultiAuswahlAusListe = customMultiAuswahlAusListe;
+	}
+	
 	public boolean isCustomUnboxed() {
 		return customUnboxed;
 	}

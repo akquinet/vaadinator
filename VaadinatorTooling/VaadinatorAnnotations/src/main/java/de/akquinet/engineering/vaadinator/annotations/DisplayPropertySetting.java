@@ -19,6 +19,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collection;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.ANNOTATION_TYPE })
@@ -32,9 +33,20 @@ public @interface DisplayPropertySetting {
 	FieldType fieldType() default FieldType.TEXTFIELD;
 
 	String customClassName() default "";
-	
+
 	boolean customAuswahlAusListe() default false;
-	
+
+	/**
+	 * Indicates if the custom class is a multi select vaadin component.
+	 * <p>
+	 * The property must be a typed {@link Collection}. The vaadin component
+	 * must implement the methods {@code addItem(Object)} and
+	 * {@code addItemCaption(Object, String)} like a
+	 * {@link com.vaadin.ui.AbstractSelect}.
+	 * 
+	 **/
+	boolean customMultiAuswahlAusListe() default false;
+
 	boolean customUnboxed() default false;
 
 	String sectionName() default "Basisdaten";
@@ -48,6 +60,6 @@ public @interface DisplayPropertySetting {
 	float tableExpandRatio() default 1.0f;
 
 	boolean readOnly() default false;
-	
+
 	boolean required() default false;
 }

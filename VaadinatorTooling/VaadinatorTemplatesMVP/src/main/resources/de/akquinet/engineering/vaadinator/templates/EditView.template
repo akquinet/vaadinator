@@ -39,6 +39,10 @@ public interface ${bean.className}EditView<O extends ${bean.className}EditView.O
 	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassName}> ${property.propertyChoicesForParamName});
 	#end
 	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	public void ${property.propertySetChoicesForMethodName}(${property.propertyClassName} ${property.propertyChoicesForParamName});
+	#end
+	
 #end
 #end
 	public boolean checkAllFieldsValid();

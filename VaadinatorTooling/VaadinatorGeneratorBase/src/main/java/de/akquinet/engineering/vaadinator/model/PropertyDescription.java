@@ -108,6 +108,10 @@ public class PropertyDescription {
 		return propertyClassName;
 	}
 
+	public String getPropertyClassTypeParameter() {
+		return propertyClassName.substring(propertyClassName.indexOf("<")+1, propertyClassName.length()-1);
+	}
+	
 	public void setPropertyClassName(String propertyClassName) {
 		this.propertyClassName = propertyClassName;
 	}
