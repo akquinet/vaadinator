@@ -45,7 +45,7 @@ public class DisplayPropertyProfileDescription {
 	private float tableExpandRatio = 1.0f;
 	private boolean readOnly = false;
 	private boolean required = false;
-	
+	private boolean allowTextInput = false;
 
 	public PropertyDescription getProperty() {
 		return property;
@@ -218,6 +218,14 @@ public class DisplayPropertyProfileDescription {
 
 	public void setRequired(boolean required) {
 		this.required = required;
+	}
+
+	public boolean isAllowTextInput() {
+		return allowTextInput;
+	}
+
+	public void setAllowTextInput(boolean allowTextInput) {
+		this.allowTextInput = allowTextInput;
 	}
 
 	@Override

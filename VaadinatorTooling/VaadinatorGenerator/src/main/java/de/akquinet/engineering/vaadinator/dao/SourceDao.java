@@ -247,6 +247,8 @@ public class SourceDao {
 						newProfile.setShowInTable(Boolean.valueOf(innerpair.getValue().toString()));
 					} else if ("tableExpandRatio".equals(innerpair.getName())) {
 						newProfile.setTableExpandRatio(Float.parseFloat(innerpair.getValue().toString()));
+					} else if ("allowTextInput".equals(innerpair.getName())) {
+						newProfile.setAllowTextInput(Boolean.valueOf(innerpair.getValue().toString()));
 					}
 				}
 			}

@@ -19,7 +19,7 @@ ${property.propertyName}.setCaption(obtainBundle().getString("entity.${bean.clas
 #if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 ${property.propertyName}.setNullSelectionAllowed(false);
 #if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="DROPDOWN")
-${property.propertyName}.setTextInputAllowed(false);
+${property.propertyName}.setTextInputAllowed(${property.getDisplayPropertyProfile($profileName).allowTextInput});
 #end
 #end
 #if($property.getDisplayPropertyProfile($profileName).required)

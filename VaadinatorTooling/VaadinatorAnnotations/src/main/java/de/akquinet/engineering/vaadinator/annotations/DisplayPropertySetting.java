@@ -62,4 +62,10 @@ public @interface DisplayPropertySetting {
 	boolean readOnly() default false;
 
 	boolean required() default false;
+	
+	/**
+	 * Sets weather it's allowed to enter text, e.g. for search.
+	 * @return
+	 */
+	boolean allowTextInput() default false;
 }
