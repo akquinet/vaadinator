@@ -27,6 +27,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import de.akquinet.engineering.vaadinator.annotations.MapBean;
 import de.akquinet.engineering.vaadinator.annotations.MapBeanSetting;
@@ -34,6 +35,7 @@ import de.akquinet.engineering.vaadinator.annotations.MapProperty;
 import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 import de.akquinet.engineering.vaadinator.annotations.ServiceBean;
 import de.akquinet.engineering.vaadinator.example.crmws.dto.ContactDto;
+import de.akquinet.engineering.vaadinator.example.crmws.dto.HistoryDto;
 
 @MapBean(profiles = { @MapBeanSetting(profileName = "contactWithoutHistory", target = ContactDto.class, bidirectional = true),
 		@MapBeanSetting(profileName = "contactInclHistory", target = ContactDto.class) })
@@ -65,6 +67,19 @@ public class Contact implements Serializable {
 	// composition
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<History> history = new ArrayList<History>();
+	
+	@Transient
+	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "contactWithoutHistory", exclude = true),
+			@MapPropertySetting(profileName = "contactInclHistory", deep = true, targetPropertyClassName = "HistoryDto") })
+	private History historyOne;
+
+	public History getHistoryOne() {
+		return historyOne;
+	}
+
+	public void setHistoryOne(History historyOne) {
+		this.historyOne = historyOne;
+	}
 
 	public long getId() {
 		return id;

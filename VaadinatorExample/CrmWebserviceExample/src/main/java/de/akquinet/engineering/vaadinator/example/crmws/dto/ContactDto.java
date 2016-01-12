@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.akquinet.engineering.vaadinator.example.crmws.model.History;
+
 public class ContactDto implements Serializable {
 
 	/**
@@ -30,6 +32,16 @@ public class ContactDto implements Serializable {
 	private long revision;
 	private String name;
 	private List<HistoryDto> history = new ArrayList<HistoryDto>();
+	
+	private HistoryDto historyOne;
+
+	public HistoryDto getHistoryOne() {
+		return historyOne;
+	}
+
+	public void setHistoryOne(HistoryDto historyOne) {
+		this.historyOne = historyOne;
+	}
 
 	public long getId() {
 		return id;
