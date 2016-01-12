@@ -125,6 +125,10 @@ public class DefaultCodeGenerator implements CodeGenerator {
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), vaadinatorConfig.getBasePckg() + ".ui.view", "ObservableView", ".java"));
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null, null, null, null, "ErrorHandlerView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), vaadinatorConfig.getBasePckg() + ".ui.view", "ErrorHandlerView", ".java"));
+				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null, null, null, null, "ExceptionMappingStrategy.template",
+						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), vaadinatorConfig.getBasePckg() + ".ui.view", "ExceptionMappingStrategy", ".java"));
+				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null, null, null, null, "DefaultExceptionMappingStrategy.template",
+						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), vaadinatorConfig.getBasePckg() + ".ui.view", "DefaultExceptionMappingStrategy", ".java"));
 			}
 			// auch für Service-Layer
 			if (vaadinatorConfig.isHasDisplayBeans() || vaadinatorConfig.isHasServiceBeans()) {

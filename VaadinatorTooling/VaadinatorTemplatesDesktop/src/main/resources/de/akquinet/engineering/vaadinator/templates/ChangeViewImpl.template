@@ -20,6 +20,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
 import ${viewPackage}.${bean.className}ChangeView;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 public class ${bean.className}ChangeViewImpl extends
 		${bean.className}EditViewImpl<${bean.className}ChangeView.Observer> implements
@@ -33,6 +34,10 @@ public class ${bean.className}ChangeViewImpl extends
 	protected Button remove = new Button();
 	protected Button cancel = new Button();
 	protected Button save = new Button();
+	
+	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super(exceptionMappingStrategy);
+	}
 	
 	@Override
 	public void initializeUi() {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
 ${import}
@@ -57,11 +58,13 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
 	protected TextField searchField = new TextField();
 	protected Button add${bean.className} = new Button();
-
+    protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    
 	private ${bean.className}ListView.Observer observer;
 
-	public ${bean.className}ListViewImpl() {
+	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
 		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
 	}
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
@@ -279,5 +282,11 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	public void showErrorMessage(String message) {
 		Notification.show(message, Notification.Type.ERROR_MESSAGE);
 	}
+	
+    @Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 
+	}
 }

@@ -34,7 +34,7 @@ import com.vaadin.ui.VerticalLayout;
 #if($bean.beanValidation==true)
 import com.vaadin.data.validator.BeanValidator;
 #end
-
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 #foreach($import in $bean.imports)
@@ -55,11 +55,16 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	protected VerticalLayout mainLayout = new VerticalLayout();
 	protected HorizontalLayout buttonLayout = new HorizontalLayout();
 	protected FormLayout editLayout = new FormLayout();
-
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
+    public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+    	super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+	}
+	
 	@Override
 	public void initializeUi() {
 
@@ -117,6 +122,13 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	@Override
 	public void showErrorMessage(String message) {
 		Notification.show(message, Type.ERROR_MESSAGE);
+	}
+	
+	@Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+
 	}
 
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)

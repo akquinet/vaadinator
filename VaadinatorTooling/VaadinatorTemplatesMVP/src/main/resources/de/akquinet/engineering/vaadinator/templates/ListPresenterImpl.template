@@ -78,7 +78,7 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 		try {
 			view.setOrRefreshData(service.listAll${bean.className}(new HashMap<String, Object>(context)));
 		} catch (RuntimeException exc) {
-			view.showErrorMessage(exc.toString());
+			view.showErrorMessage(exc);
 			throw exc;
 		}
 	}

@@ -76,7 +76,7 @@ public class ${bean.className}AddPresenterImpl extends ${bean.className}EditPres
 		try {
 			this.service.addNew${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
 		} catch (RuntimeException exc) {
-			view.showErrorMessage(exc.toString());
+			view.showErrorMessage(exc);
 			throw exc;
 		}
 		if (capablePresenter != null) {

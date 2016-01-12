@@ -1,5 +1,5 @@
 #*
-Copyright 2014 akquinet engineering GmbH
+Copyright 2016 Daniel Nordhoff-Vergien
  
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
@@ -15,9 +15,22 @@ the License.
 *#
 package ${common.basePackage}.ui.view;
 
-public interface ErrorHandlerView extends View {
+import com.vaadin.ui.Notification.Type;
 
-	public void showErrorMessage(String message);
-	public void showErrorMessage(Exception exception);
+public class DefaultExceptionMappingStrategy implements ExceptionMappingStrategy {
 
+	@Override
+	public String getCaption(Exception e) {
+		return null;
+	}
+
+	@Override
+	public String getMessage(Exception e) {
+		return e.getMessage();
+	}
+
+	@Override
+	public Type getType(Exception exception) {
+		return Type.ERROR_MESSAGE;
+	}
 }

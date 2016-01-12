@@ -77,7 +77,7 @@ public class ${bean.className}ChangePresenterImpl extends ${bean.className}EditP
         try {
         	this.service.updateExisting${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
         } catch (RuntimeException exc) {
-			view.showErrorMessage(exc.toString());
+			view.showErrorMessage(exc);
 			throw exc;
 		}
 		if (capablePresenter != null) {
@@ -104,7 +104,7 @@ public class ${bean.className}ChangePresenterImpl extends ${bean.className}EditP
         try {
         	this.service.removeExisting${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
         } catch (RuntimeException exc) {
-			view.showErrorMessage(exc.toString());
+			view.showErrorMessage(exc);
 			throw exc;
 		}
 		
