@@ -18,6 +18,6 @@ the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>vaadinator-desktop-jboss-archetype</artifactId>
-	<version>0.10-SNAPSHOT</version>
+	<version>0.20-SNAPSHOT</version>
 	<packaging>jar</packaging>
 </project>
