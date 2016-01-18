@@ -15,6 +15,8 @@
  */
 package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
+
 
 public class ContractApplicationChangeViewImplEx extends ContractApplicationChangeViewImpl {
 
@@ -23,8 +25,8 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationChangeViewImplEx() {
-		super();
+	public ContractApplicationChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super(exceptionMappingStrategy);
 	}
 
 	@Override

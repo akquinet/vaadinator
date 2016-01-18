@@ -19,22 +19,22 @@ public class VaadinViewFactoryEx extends VaadinViewFactory {
 
 	@Override
 	public ContractApplicationAddView createContractApplicationAddView() {
-		return new ContractApplicationAddViewImplEx();
+		return new ContractApplicationAddViewImplEx(exceptionMappingStrategy);
 	}
 
 	@Override
 	public ContractApplicationChangeView createContractApplicationChangeView() {
-		return new ContractApplicationChangeViewImplEx();
+		return new ContractApplicationChangeViewImplEx(exceptionMappingStrategy);
 	}
 
 	@Override
 	public ContractApplicationListView createContractApplicationListView() {
-		return new ContractApplicationListViewImplEx();
+		return new ContractApplicationListViewImplEx(exceptionMappingStrategy);
 	}
 
 	@Override
 	public FirstPageView createFirstPageView() {
-		return new FirstPageViewImplEx();
+		return new FirstPageViewImplEx(exceptionMappingStrategy);
 	}
 
 }

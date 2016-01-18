@@ -17,6 +17,7 @@ package ${package};
 
 import ${presenterPackage}.${bean.className}ChangePresenter;
 import ${presenterPackage}.${bean.className}EditPresenter;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 public class ${bean.className}ChangeViewImpl extends ${bean.className}EditViewImpl<${bean.className}ChangeView.Observer> implements	${bean.className}ChangeView  {
 
@@ -25,8 +26,8 @@ public class ${bean.className}ChangeViewImpl extends ${bean.className}EditViewIm
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ${bean.className}ChangeViewImpl() {
-		super();
+	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super(exceptionMappingStrategy);
 	}
 
 	@Override

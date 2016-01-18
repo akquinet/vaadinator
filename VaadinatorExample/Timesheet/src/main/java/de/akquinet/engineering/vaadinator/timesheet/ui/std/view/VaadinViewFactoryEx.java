@@ -23,17 +23,17 @@ public class VaadinViewFactoryEx extends VaadinViewFactory implements ViewFactor
 
 	@Override
 	public TimesheetChangeViewEx createTimesheetChangeView() {
-		return new TimesheetChangeViewImplEx();
+		return new TimesheetChangeViewImplEx(exceptionMappingStrategy);
 	}
 
 	@Override
 	public TimesheetDayChangeViewEx createTimesheetDayChangeView() {
-		return new TimesheetDayChangeViewImplEx();
+		return new TimesheetDayChangeViewImplEx(exceptionMappingStrategy);
 	}
 
 	@Override
 	public TimesheetDayEntryChangeViewEx createTimesheetDayEntryChangeView() {
-		return new TimesheetDayEntryChangeViewImplEx();
+		return new TimesheetDayEntryChangeViewImplEx(exceptionMappingStrategy);
 	}
 
 }

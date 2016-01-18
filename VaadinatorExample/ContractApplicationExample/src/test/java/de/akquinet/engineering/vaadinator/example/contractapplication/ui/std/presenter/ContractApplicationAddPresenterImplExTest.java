@@ -157,12 +157,13 @@ public class ContractApplicationAddPresenterImplExTest {
 		when(view.isLazinessProtection()).thenReturn(false);
 		when(view.isRetirementProtection()).thenReturn(true);
 		when(view.checkAllFieldsValid()).thenReturn(true);
-		when(service.addNewContractApplication((ContractApplication) any(), anyMap())).thenThrow(new RuntimeException("Exception test"));
+		Exception exc = new RuntimeException("Exception test");
+		when(service.addNewContractApplication((ContractApplication) any(), anyMap())).thenThrow(exc);
 		try {
 			pres.onSave();
 		} catch (RuntimeException rte) {
 		}
-		verify(view).showErrorMessage("java.lang.RuntimeException: Exception test");
+		verify(view).showErrorMessage(exc);
 		verify(returnPres, never()).returnToThisPresener((Presenter) any());
 	}
 

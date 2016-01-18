@@ -21,6 +21,7 @@ import java.util.List;
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
 ${import}
@@ -55,10 +56,13 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 
 	private ${bean.className}ListView.Observer observer;
 
-	public ${bean.className}ListViewImpl() {
-		super();
-	}
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 
+	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+ 		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+ 	}
+ 	
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
@@ -169,6 +173,13 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	@Override
 	public void showErrorMessage(String message) {
 		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+	
+	@Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+
 	}
 
 }
