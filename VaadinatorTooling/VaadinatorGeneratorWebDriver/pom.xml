@@ -21,7 +21,7 @@ the License.
 		<artifactId>VaadinatorTooling</artifactId>
 		<version>0.10-SNAPSHOT</version>
 	</parent>
-	<artifactId>VaadinatorGeneratorTestedit</artifactId>
+	<artifactId>VaadinatorGeneratorWebDriver</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
