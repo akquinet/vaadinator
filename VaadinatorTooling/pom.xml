@@ -35,6 +35,6 @@ the License.
 		<module>VaadinatorTemplatesTouchkit</module>
 		<module>VaadinatorGenerator</module>
 		<module>VaadinatorGeneratorBase</module>
-		<module>VaadinatorGeneratorTestedit</module>
+		<module>VaadinatorGeneratorWebDriver</module>
 	</modules>
 </project>

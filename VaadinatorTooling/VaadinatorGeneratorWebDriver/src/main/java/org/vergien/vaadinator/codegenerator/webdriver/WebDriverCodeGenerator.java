@@ -1,15 +1,14 @@
-package org.vergien;
+package org.vergien.vaadinator.codegenerator.webdriver;
 
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
 import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig;
 
-public class TestCodeGenerator implements CodeGenerator {
+public class WebDriverCodeGenerator implements CodeGenerator {
 
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
-		throw new Exception("Not yet implemented");
-
+		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
 	}
 
 }
