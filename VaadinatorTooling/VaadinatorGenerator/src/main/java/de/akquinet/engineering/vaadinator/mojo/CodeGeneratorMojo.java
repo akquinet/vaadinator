@@ -163,7 +163,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			for (CodeGenerator codeGenerator : codeGenerators) {
 				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
 						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, commonMap,
-						displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans));
+						displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans, getLog()));
 			}
 		}
 	}
