@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.maven.plugin.logging.Log;
+
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 
 public class VaadinatorConfig {
@@ -29,11 +31,12 @@ public class VaadinatorConfig {
 	private boolean genServletBase;
 	private boolean hasDisplayBeans;
 	private boolean hasServiceBeans;
-
+	private Log log;
+	
 	public VaadinatorConfig(String projectName, String basePckg, List<BeanDescription> beanDescriptions,
 			ArtifactType artifactTypeEn, GenType genTypeEn, File targetFolderBaseStart, File targetFolderSrcStart,
 			File targetFolderResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
-			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans) {
+			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log) {
 		this.projectName = projectName;
 		this.basePckg = basePckg;
 		this.beanDescriptions = beanDescriptions;
@@ -47,6 +50,7 @@ public class VaadinatorConfig {
 		this.genServletBase = genServletBase;
 		this.hasDisplayBeans = hasDisplayBeans;
 		this.hasServiceBeans = hasServiceBeans;
+		this.log = log;
 	}
 
 	public String getProjectName() {
@@ -151,5 +155,9 @@ public class VaadinatorConfig {
 
 	public void setHasServiceBeans(boolean hasServiceBeans) {
 		this.hasServiceBeans = hasServiceBeans;
+	}
+	
+	public Log getLog() {
+		return log;
 	}
 }
