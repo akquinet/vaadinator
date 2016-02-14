@@ -24,6 +24,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 
 import de.akquinet.engineering.vaadinator.annotations.DisplayBean;
 import de.akquinet.engineering.vaadinator.annotations.DisplayProperty;
@@ -34,7 +35,7 @@ import de.akquinet.engineering.vaadinator.annotations.MapBeanSetting;
 import de.akquinet.engineering.vaadinator.annotations.MapProperty;
 import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 
-@DisplayBean(captionText = "Adresse")
+@DisplayBean(captionText = "Adresse", beanValidation = true)
 @MapBean(profiles = { @MapBeanSetting(profileName = "full", target = Address.class),
 		@MapBeanSetting(profileName = "restricted", target = Address.class), @MapBeanSetting(profileName = "mini", target = Address.class) })
 @Entity
@@ -77,6 +78,7 @@ public class Address implements Serializable {
 	@DisplayProperty
 	private int handicap1 = 40;
 	@DisplayProperty(converterClassName = "com.vaadin.data.util.converter.StringToIntegerConverter")
+	@Min(10)
 	private int handicap2 = 40;
 
 	public Anreden getAnrede() {
