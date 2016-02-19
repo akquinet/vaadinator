@@ -42,7 +42,7 @@ public class ${bean.className}ListViewComponent extends WebComponent {
 	
 	@FindBy(className = "styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table")
 	protected WebElement ${bean.classNamePass}Table;
-	@FindBy(className ="styleid-${bean.className}ListViewImpl-${bean.classNamePass}SearchField")
+	@FindBy(className ="styleid-${bean.className}ListViewImpl-searchField")
 	protected WebElement searchField;
 	@FindBy(className = "styleid-${bean.className}ListViewImpl-add${bean.className}")
 	protected WebElement add${bean.className};
