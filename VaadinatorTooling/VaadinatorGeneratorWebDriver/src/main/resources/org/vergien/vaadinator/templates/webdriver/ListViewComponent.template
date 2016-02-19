@@ -61,7 +61,7 @@ public class ${bean.className}ListViewComponent extends WebComponent {
 		return add${bean.className};
 	}
 	
-	public List<${bean.className}ListTableRowComponent> get${bean.classNamePass}ListTableRows() {
+	public List<${bean.className}ListTableRowComponent> get${bean.className}ListTableRows() {
 		return ${bean.classNamePass}ListTableRows;
 	}
 }
