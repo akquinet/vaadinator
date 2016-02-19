@@ -42,4 +42,15 @@ public class TestAddress extends AbstractWebDriverCase {
 		assertValueEquals("Nordhoff-Vergien", addressPage.getAddressChangeViewComponent().getNachnameWebElement());
 		assertThat(addressPage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));
 	}
+	
+	@Test
+	public void cancelAddingPerson() {
+		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
+		waitForVaadin();
+		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
+		
+		clickAndWait(addressPage.getAddressAddViewComponent().getCancelWebElement());
+		
+		assertIsNotDisplayed(addressPage.getAddressAddViewComponent());
+	}
 }
