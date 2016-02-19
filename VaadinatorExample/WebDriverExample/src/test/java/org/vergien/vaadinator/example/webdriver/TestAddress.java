@@ -21,7 +21,6 @@ public class TestAddress extends AbstractWebDriverCase {
 
 	@Test
 	public void addPerson() {
-		// "http://localhost:9998/"
 		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
 		waitForVaadin();
 		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
@@ -29,11 +28,18 @@ public class TestAddress extends AbstractWebDriverCase {
 		type("Daniel", addressPage.getAddressAddViewComponent().getVornameWebElement());
 		type("Nordhoff-Vergien", addressPage.getAddressAddViewComponent().getNachnameWebElement());
 
+		addressPage.getAddressAddViewComponent().getAnredeVaadinComboBox().selectItemFromFilter(0);
 		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
 
 		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().size(), is(1));
 
 		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().get(0).getNameCellWebElement()
 				.getText(), is("Daniel Nordhoff-Vergien"));
+
+		clickAndWait(addressPage.getAddressListViewComponent().getAddressListTableRows().get(0));
+			
+		assertValueEquals("Daniel", addressPage.getAddressChangeViewComponent().getVornameWebElement());
+		assertValueEquals("Nordhoff-Vergien", addressPage.getAddressChangeViewComponent().getNachnameWebElement());
+		assertThat(addressPage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));
 	}
 }
