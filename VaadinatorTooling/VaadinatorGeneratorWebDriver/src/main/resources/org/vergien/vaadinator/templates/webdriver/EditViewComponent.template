@@ -16,6 +16,7 @@ the License.
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.vaadin.addonhelpers.components.VaadinComboBox;
 
 import com.github.webdriverextensions.WebComponent;
 
@@ -32,6 +33,13 @@ public abstract class ${bean.className}EditViewComponent extends WebComponent{
 	public WebElement ${property.propertyGetterName}WebElement() {
 		return ${property.propertyName};
 	}
+	
+#if($property.getDisplayPropertyProfile($profileName).fieldTypeClassName == "com.vaadin.ui.ComboBox")
+	public VaadinComboBox ${property.propertyGetterName}VaadinComboBox() {
+		return new VaadinComboBox(${property.propertyName});
+	}
+	
+#end 
 #end
 #end
 }
