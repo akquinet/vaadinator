@@ -31,9 +31,9 @@ public class TestAddress extends AbstractWebDriverCase {
 
 		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
 
-		assertThat(addressPage.getAddressListViewComponent().getaddressListTableRows().size(), is(1));
+		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().size(), is(1));
 
-		assertThat(addressPage.getAddressListViewComponent().getaddressListTableRows().get(0).getNameCellWebElement()
+		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().get(0).getNameCellWebElement()
 				.getText(), is("Daniel Nordhoff-Vergien"));
 	}
 }
