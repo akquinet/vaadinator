@@ -23,6 +23,8 @@ public class TestAddress extends AbstractWebDriverCase {
 	public void addPerson() {
 		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
 		waitForVaadin();
+		assertIsOpen(addressPage);
+		
 		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
 
 		type("Daniel", addressPage.getAddressAddViewComponent().getVornameWebElement());
@@ -47,6 +49,8 @@ public class TestAddress extends AbstractWebDriverCase {
 	public void cancelAddingPerson() {
 		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
 		waitForVaadin();
+		assertIsOpen(addressPage);
+		
 		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
 		
 		clickAndWait(addressPage.getAddressAddViewComponent().getCancelWebElement());

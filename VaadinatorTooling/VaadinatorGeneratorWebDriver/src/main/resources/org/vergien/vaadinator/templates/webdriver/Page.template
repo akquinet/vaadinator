@@ -14,6 +14,8 @@ License for the specific language governing permissions and limitations under
 the License.
 *#package ${package};
 
+import static com.github.webdriverextensions.Bot.assertIsDisplayed;
+
 import org.openqa.selenium.support.FindBy;
 import ${viewPackage}.webdriver.component.${bean.ClassName}ListViewComponent;
 import ${viewPackage}.webdriver.component.${bean.ClassName}AddViewComponent;
@@ -31,6 +33,7 @@ public class ${bean.ClassName}Page extends WebPage {
 
 	@Override
 	public void assertIsOpen(Object... arg0) throws AssertionError {
+		assertIsDisplayed(${bean.ClassNamePass}ListViewComponent);
 	}
 
 	@Override
