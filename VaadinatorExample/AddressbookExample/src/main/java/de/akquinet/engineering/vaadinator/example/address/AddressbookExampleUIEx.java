@@ -1,7 +1,6 @@
 package de.akquinet.engineering.vaadinator.example.address;
 
 import com.vaadin.addon.touchkit.server.TouchKitServlet;
-import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 

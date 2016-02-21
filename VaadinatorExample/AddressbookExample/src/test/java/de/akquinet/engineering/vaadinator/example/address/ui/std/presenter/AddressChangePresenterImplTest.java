@@ -19,6 +19,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
@@ -28,14 +29,16 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.verification.AtMost;
 
 import de.akquinet.engineering.vaadinator.example.address.model.Address;
 import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
+import de.akquinet.engineering.vaadinator.example.address.model.Filme;
 import de.akquinet.engineering.vaadinator.example.address.service.AddressService;
 import de.akquinet.engineering.vaadinator.example.address.ui.presenter.Presenter;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.AddressChangeView;
@@ -66,6 +69,42 @@ public class AddressChangePresenterImplTest {
 		pres.startPresenting();
 		verify(view).setObserver(pres);
 		verify(view).initializeUi();
+		verify(view).setChoicesForAnrede(argThat(new BaseMatcher<List<Anreden>>() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public boolean matches(Object arg0) {
+				for (Anreden a : Anreden.values()) {
+					if (!((List<Anreden>) arg0).contains(a)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			@Override
+			public void describeTo(Description arg0) {
+				arg0.appendText("Contains all Anreden");
+			}
+		}));
+		verify(view).setChoicesForMagFilme(argThat(new BaseMatcher<List<Filme>>() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public boolean matches(Object arg0) {
+				for (Filme f : Filme.values()) {
+					if (!((List<Filme>) arg0).contains(f)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			@Override
+			public void describeTo(Description arg0) {
+				arg0.appendText("Contains all Anreden");
+			}
+		}));
 		verify(view).setNachname("Test");
 		verify(view).setVorname("Sabine");
 		verify(view).setAnrede(Anreden.FROLLEIN);
