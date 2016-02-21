@@ -23,28 +23,28 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 							String componentPckg = desc.getViewPckg(p) + ".webdriver.component";
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"EditViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									"EditViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
 											componentPckg, desc.getClassName(), "EditViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"AddViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									"AddViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
 											componentPckg, desc.getClassName(), "AddViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ChangeViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									"ChangeViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
 											componentPckg, desc.getClassName(), "ChangeViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ListViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									"ListViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
 											componentPckg, desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							String pagePckg =  desc.getViewPckg(p) + ".webdriver.page";
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"Page.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
 											pagePckg, desc.getClassName(), "Page.java"),
 									TEMPLATE_PACKAGE);
 						}

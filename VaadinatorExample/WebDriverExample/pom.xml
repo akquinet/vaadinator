@@ -147,6 +147,18 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>add-test-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/testjava</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>add-resource</id>
 						<phase>generate-resources</phase>
 						<goals>
@@ -156,6 +168,20 @@
 							<resources>
 								<resource>
 									<directory>target/generated-sources/resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>target/generated-sources/testresources</directory>
 								</resource>
 							</resources>
 						</configuration>
