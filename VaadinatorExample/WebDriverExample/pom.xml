@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorExample</artifactId>
-		<version>0.10-SNAPSHOT</version>
+		<version>0.20-SNAPSHOT</version>
 	</parent>
 	<groupId>org.vergien.vaadinator</groupId>
 	<artifactId>WebDriverExample</artifactId>
@@ -34,12 +34,12 @@
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorAnnotations</artifactId>
-			<version>0.10-SNAPSHOT</version>
+			<version>0.20-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorUtils</artifactId>
-			<version>0.10-SNAPSHOT</version>
+			<version>0.20-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -183,7 +183,7 @@
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.20-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<id>generate-sources</id>
@@ -214,12 +214,12 @@
 					<dependency>
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<artifactId>VaadinatorTemplatesDesktop</artifactId>
-						<version>0.10-SNAPSHOT</version>
+						<version>0.20-SNAPSHOT</version>
 					</dependency>
 					<dependency>
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<artifactId>VaadinatorGeneratorWebDriver</artifactId>
-						<version>0.10-SNAPSHOT</version>
+						<version>0.20-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>
