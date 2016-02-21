@@ -273,6 +273,9 @@ public class PropertyDescription {
 			if (candidate.getClassName() != null && candidate.getClassName().equals(getPropertyClassName()) && candidate.isEnumeration()) {
 				return candidate;
 			}
+			if (candidate.getClassName() != null && candidate.getClassName().equals(getPropertyClassTypeParameter()) && candidate.isEnumeration()) {
+				return candidate;
+			}
 		}
 		return null;
 	}

@@ -40,7 +40,7 @@ public interface ${bean.className}EditView<O extends ${bean.className}EditView.O
 	#end
 	
 	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	public void ${property.propertySetChoicesForMethodName}(${property.propertyClassName} ${property.propertyChoicesForParamName});
+	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassTypeParameter}> ${property.propertyChoicesForParamName});
 	#end
 	
 #end

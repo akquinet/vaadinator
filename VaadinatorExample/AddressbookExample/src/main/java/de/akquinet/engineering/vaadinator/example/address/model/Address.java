@@ -17,13 +17,20 @@ package de.akquinet.engineering.vaadinator.example.address.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import de.akquinet.engineering.vaadinator.annotations.DisplayBean;
@@ -35,10 +42,11 @@ import de.akquinet.engineering.vaadinator.annotations.MapBeanSetting;
 import de.akquinet.engineering.vaadinator.annotations.MapProperty;
 import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 
-@DisplayBean(captionText = "Adresse", beanValidation = true)
+@DisplayBean(captionText = "Adresse", beanValidation = false)
 @MapBean(profiles = { @MapBeanSetting(profileName = "full", target = Address.class),
 		@MapBeanSetting(profileName = "restricted", target = Address.class), @MapBeanSetting(profileName = "mini", target = Address.class) })
 @Entity
+@Access(AccessType.FIELD)
 public class Address implements Serializable {
 
 	/**
@@ -75,11 +83,13 @@ public class Address implements Serializable {
 	private String email;
 	@Temporal(TemporalType.DATE)
 	private Date geburtsdatum;
-	@DisplayProperty
-	private int handicap1 = 40;
-	@DisplayProperty(converterClassName = "com.vaadin.data.util.converter.StringToIntegerConverter")
-	@Min(10)
-	private int handicap2 = 40;
+	@DisplayProperty(converterClassName = "com.vaadin.data.util.converter.StringToIntegerConverter", captionText="# Katzen")
+	@Max(9)
+	@Min(0)
+	private int numberCats = 0;
+	@DisplayProperty(profileSettings = @DisplayPropertySetting(customMultiAuswahlAusListe = true, customClassName = "com.vaadin.ui.TwinColSelect", fieldType = FieldType.CUSTOM))
+	@Transient
+	private Set<Filme> magFilme = new HashSet<>();
 
 	public Anreden getAnrede() {
 		return anrede;
@@ -138,20 +148,48 @@ public class Address implements Serializable {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public int getHandicap1() {
-		return handicap1;
+	public int getNumberCats() {
+		return numberCats;
 	}
 
-	public void setHandicap1(int handicap1) {
-		this.handicap1 = handicap1;
+	public void setNumberCats(int numberCats) {
+		this.numberCats = numberCats;
+	}
+	
+	public Set<Filme> getMagFilme() {
+		return magFilme;
+	}
+	
+	public void setMagFilme(Set<Filme> magFilme) {
+		this.magFilme = magFilme;
+	}
+	
+	@Column(length = 1024)
+	@Access(AccessType.PROPERTY)
+	public String getMagFilmeAsString() {
+		StringBuffer res = new StringBuffer();
+		Set<Filme> set = getMagFilme();
+		if (set != null) {
+			for (Filme f : set) {
+				if (res.length() > 0) {
+					res.append(",");
+				}
+				res.append(f.name());
+			}
+		}
+		return res.toString();
 	}
 
-	public int getHandicap2() {
-		return handicap2;
-	}
-
-	public void setHandicap2(int handicap2) {
-		this.handicap2 = handicap2;
+	public void setMagFilmeAsString(String magFilmeAsString) {
+		String[] names = (magFilmeAsString != null ? magFilmeAsString : "").split(",");
+		HashSet<Filme> set = new HashSet<>();
+		for (String name : names) {
+			if (name == null || "".equals(name)) {
+				continue;
+			}
+			set.add(Filme.valueOf(name));
+		}
+		setMagFilme(set);
 	}
 
 	@Override
@@ -209,7 +247,7 @@ public class Address implements Serializable {
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", anrede=" + anrede + ", vorname=" + vorname + ", nachname=" + nachname + ", email=" + email
-				+ ", geburtsdatum=" + geburtsdatum + ", handicap1=" + handicap1 + ", handicap2=" + handicap2 + ", getName()=" + getName() + "]";
+				+ ", geburtsdatum=" + geburtsdatum + ", numberCats=" + numberCats+ ", magFilme=" + magFilme + ", getName()=" + getName() + "]";
 	}
 
 }
