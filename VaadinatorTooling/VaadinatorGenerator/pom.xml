@@ -33,12 +33,13 @@ the License.
 			<artifactId>VaadinatorGeneratorBase</artifactId>
 			<version>0.20-SNAPSHOT</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorGeneratorTestedit</artifactId>
 			<version>0.10-SNAPSHOT</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
