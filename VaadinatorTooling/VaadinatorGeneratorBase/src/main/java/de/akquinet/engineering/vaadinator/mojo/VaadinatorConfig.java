@@ -41,6 +41,8 @@ public class VaadinatorConfig {
 	private File targetFolderBaseStart;
 	private File targetFolderSrcStart;
 	private File targetFolderResStart;
+	private File targetFolderTestSrcStart;
+	private File targetFolderTestResStart;
 	private Map<String, Object> commonMap;
 	private Set<String> displayProfileNames;
 	private boolean genServletBase;
@@ -50,7 +52,7 @@ public class VaadinatorConfig {
 	
 	public VaadinatorConfig(String projectName, String basePckg, List<BeanDescription> beanDescriptions,
 			ArtifactType artifactTypeEn, GenType genTypeEn, File targetFolderBaseStart, File targetFolderSrcStart,
-			File targetFolderResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
+			File targetFolderResStart, File targetFolderTestSrcStart, File targetFolderTestResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
 			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log) {
 		this.projectName = projectName;
 		this.basePckg = basePckg;
@@ -60,6 +62,8 @@ public class VaadinatorConfig {
 		this.targetFolderBaseStart = targetFolderBaseStart;
 		this.targetFolderSrcStart = targetFolderSrcStart;
 		this.targetFolderResStart = targetFolderResStart;
+		this.targetFolderTestSrcStart = targetFolderTestSrcStart;
+		this.targetFolderTestResStart = targetFolderTestResStart;
 		this.commonMap = commonMap;
 		this.displayProfileNames = displayProfileNames;
 		this.genServletBase = genServletBase;
@@ -130,6 +134,22 @@ public class VaadinatorConfig {
 
 	public void setTargetFolderResStart(File targetFolderResStart) {
 		this.targetFolderResStart = targetFolderResStart;
+	}
+
+	public File getTargetFolderTestSrcStart() {
+		return targetFolderTestSrcStart;
+	}
+
+	public void setTargetFolderTestSrcStart(File targetFolderTestSrcStart) {
+		this.targetFolderTestSrcStart = targetFolderTestSrcStart;
+	}
+
+	public File getTargetFolderTestResStart() {
+		return targetFolderTestResStart;
+	}
+
+	public void setTargetFolderTestResStart(File targetFolderTestResStart) {
+		this.targetFolderTestResStart = targetFolderTestResStart;
 	}
 
 	public Map<String, Object> getCommonMap() {

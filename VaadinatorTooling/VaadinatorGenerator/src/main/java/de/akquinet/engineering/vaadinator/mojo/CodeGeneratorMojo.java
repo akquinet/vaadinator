@@ -118,8 +118,12 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		targetFolderSrcStart.mkdirs();
 		File targetFolderResStart = new File(targetFolderBaseStart, "resources");
 		targetFolderResStart.mkdirs();
+		File targetFolderTestSrcStart = new File(targetFolderBaseStart, "testjava");
+		targetFolderTestSrcStart.mkdirs();
+		File targetFolderTestResStart = new File(targetFolderBaseStart, "testresources");
+		targetFolderTestResStart.mkdirs();
 
-		exploreFolders(sourceFolderStart, targetFolderSrcStart, "", sourceDao, beanDescriptions);
+		exploreFolders(sourceFolderStart, targetFolderSrcStart, targetFolderTestSrcStart, "", sourceDao, beanDescriptions);
 		// ensure bean descriptions are sorted as e.g. Presenter Factories need
 		// a definite order of classes ("null" as cls name can be accepted)
 		Collections.sort(beanDescriptions, new Comparator<BeanDescription>() {
@@ -162,8 +166,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			List<CodeGenerator> codeGenerators = initGenerators();
 			for (CodeGenerator codeGenerator : codeGenerators) {
 				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
-						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, commonMap,
-						displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans, getLog()));
+						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
+						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans, getLog()));
 			}
 		}
 	}
@@ -200,18 +204,20 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		return basePckg;
 	}
 
-	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, String pckgStart,
+	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
 			SourceDao sourceDao, List<BeanDescription> beanDescriptions) throws ParseException, IOException {
 		for (File f : sourceFolderStart.listFiles()) {
 			if (f.isDirectory()) {
 				File targetFolder = new File(targetFolderStart, f.getName());
 				targetFolder.mkdir();
+				File targetFolderTest = new File(targetFolderTestStart, f.getName());
+				targetFolderTest.mkdir();
 				String pckg = pckgStart;
 				if (pckg.length() > 0) {
 					pckg += ".";
 				}
 				pckg += f.getName();
-				exploreFolders(f, targetFolder, pckg, sourceDao, beanDescriptions);
+				exploreFolders(f, targetFolder, targetFolderTest, pckg, sourceDao, beanDescriptions);
 			}
 			if (f.isFile() && f.getName().endsWith(".java")) {
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
