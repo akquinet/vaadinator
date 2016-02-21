@@ -4,7 +4,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
@@ -28,7 +27,6 @@ public class CodeGeneratorMojoTest {
 	}
 
 	@Test
-	@Ignore
 	public void testInitGenerators() {
 		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
 
