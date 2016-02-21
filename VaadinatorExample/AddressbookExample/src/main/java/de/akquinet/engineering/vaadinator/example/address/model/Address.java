@@ -42,7 +42,7 @@ import de.akquinet.engineering.vaadinator.annotations.MapBeanSetting;
 import de.akquinet.engineering.vaadinator.annotations.MapProperty;
 import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 
-@DisplayBean(captionText = "Adresse", beanValidation = false)
+@DisplayBean(captionText = "Adresse", beanValidation = true)
 @MapBean(profiles = { @MapBeanSetting(profileName = "full", target = Address.class),
 		@MapBeanSetting(profileName = "restricted", target = Address.class), @MapBeanSetting(profileName = "mini", target = Address.class) })
 @Entity
