@@ -96,7 +96,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 * 
 	 * @parameter
 	 */
-	private Map<String, String> generatorOptions = new HashMap<>();
+	private Map<String, String> generatorOptions = new HashMap<String, String>();
 	
 	public void execute() throws MojoExecutionException {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
