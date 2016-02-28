@@ -106,10 +106,20 @@ public class ${bean.className}Mapper {
 		return new ${deepPropertyClassName}();
 	#end
 	}
-
+	
 	protected ${deepPropertyClassName}Mapper obtain${deepPropertyClassName}Mapper() {
 		return new ${deepPropertyClassName}Mapper();
 	}
 #end
+
+#foreach($profile in $bean.mapProfiles)
+#foreach($property in $profile.propertiesInProfile)
+#if($property.getMapPropertyProfile($profile).deep)
+	protected ${property.getMapPropertyProfile($profile).targetPropertyClassName} create${property.getMapPropertyProfile($profile).targetPropertyClassName}() {
+		return new ${property.getMapPropertyProfile($profile).targetPropertyClassName}();
+	}
+#end
+#end
+#end	
 
 }

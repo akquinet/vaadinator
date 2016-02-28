@@ -75,6 +75,11 @@ public abstract class ${bean.className}EditPresenterImpl implements ${bean.class
 		view.${property.propertySetChoicesForMethodName}(Arrays.asList(${property.propertyClassName}.values()));
 		#end
 		#end
+		#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+		#if($property.hasEnumClass($common.beans))
+		view.${property.propertySetChoicesForMethodName}(Arrays.asList(${property.propertyClassTypeParameter}.values()));
+		#end
+		#end
 	#end
 #end
 		

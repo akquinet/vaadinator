@@ -32,7 +32,7 @@ entity.${bean.className}.section.${section.sectionVarSuffix}=${unicodeUtil.escap
 #end
 #foreach($property in $bean.properties)
 entity.${bean.className}.property.${property.propertyName}=${unicodeUtil.escape($property.effectiveCaption)}
-#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
 #if($property.hasEnumClass($common.beans))
 #foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
 entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}=${unicodeUtil.escape($enumVal.effectiveCaption)}

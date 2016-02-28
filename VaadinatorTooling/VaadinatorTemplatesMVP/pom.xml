@@ -18,14 +18,14 @@ the License.
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>VaadinatorTemplatesMVP</artifactId>
 	<packaging>jar</packaging>
-	<version>0.10-SNAPSHOT</version>
+	<version>0.20-SNAPSHOT</version>
 	<name>VaadinatorTemplatesMVP</name>
 	<url>http://www.akquinet.de/java</url>
 	<parent>
 		<relativePath>..</relativePath>
 		<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 		<artifactId>VaadinatorTooling</artifactId>
-		<version>0.10-SNAPSHOT</version>
+		<version>0.20-SNAPSHOT</version>
 	</parent>
 	<build>
 		<resources>

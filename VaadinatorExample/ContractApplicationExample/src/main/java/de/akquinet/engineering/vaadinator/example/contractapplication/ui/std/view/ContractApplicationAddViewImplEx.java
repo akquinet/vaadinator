@@ -18,6 +18,8 @@ package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.vi
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
+
 public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl {
 
 	/**
@@ -25,8 +27,8 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationAddViewImplEx() {
-		super();
+	public ContractApplicationAddViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super(exceptionMappingStrategy);
 	}
 
 	@Override

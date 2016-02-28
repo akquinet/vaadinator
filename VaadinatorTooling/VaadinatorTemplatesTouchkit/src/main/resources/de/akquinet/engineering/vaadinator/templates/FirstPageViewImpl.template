@@ -18,6 +18,7 @@ package ${package};
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
@@ -48,9 +49,12 @@ public class FirstPageViewImpl extends NavigationView implements FirstPageView {
 
 	private FirstPageView.Observer observer;
 
-	public FirstPageViewImpl() {
-		super();
-	}
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+
+	public FirstPageViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+ 		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+ 	}
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
@@ -125,6 +129,13 @@ public class FirstPageViewImpl extends NavigationView implements FirstPageView {
 	@Override
 	public void showErrorMessage(String message) {
 		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+	
+	@Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+
 	}
 
 }

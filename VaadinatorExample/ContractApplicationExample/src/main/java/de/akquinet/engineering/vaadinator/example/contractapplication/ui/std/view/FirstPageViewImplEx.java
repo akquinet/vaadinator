@@ -15,6 +15,8 @@
  */
 package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
+
 public class FirstPageViewImplEx extends FirstPageViewImpl {
 
 	/**
@@ -22,8 +24,8 @@ public class FirstPageViewImplEx extends FirstPageViewImpl {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FirstPageViewImplEx() {
-		super();
+	public FirstPageViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super(exceptionMappingStrategy);
 	}
 
 	@Override

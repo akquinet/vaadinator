@@ -14,12 +14,12 @@
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorAnnotations</artifactId>
-			<version>0.10-SNAPSHOT</version>
+			<version>0.20-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorUtils</artifactId>
-			<version>0.10-SNAPSHOT</version>
+			<version>0.20-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -161,12 +161,12 @@
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.20-SNAPSHOT</version>
 				<dependencies>
 					<dependency>
 						<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 						<artifactId>VaadinatorTemplatesDesktop</artifactId>
-						<version>0.10-SNAPSHOT</version>
+						<version>0.20-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 				<executions>
