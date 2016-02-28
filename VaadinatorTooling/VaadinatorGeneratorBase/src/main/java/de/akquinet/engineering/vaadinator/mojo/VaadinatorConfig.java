@@ -1,6 +1,7 @@
 package de.akquinet.engineering.vaadinator.mojo;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,11 +35,11 @@ public class VaadinatorConfig {
 	private boolean hasDisplayBeans;
 	private boolean hasServiceBeans;
 	private Log log;
-	
+	private Map<String, String> generatorOptions;
 	public VaadinatorConfig(String projectName, String basePckg, List<BeanDescription> beanDescriptions,
 			ArtifactType artifactTypeEn, GenType genTypeEn, File targetFolderBaseStart, File targetFolderSrcStart,
 			File targetFolderResStart, File targetFolderTestSrcStart, File targetFolderTestResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
-			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log) {
+			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log, Map<String, String> generatorOptions) {
 		this.projectName = projectName;
 		this.basePckg = basePckg;
 		this.beanDescriptions = beanDescriptions;
@@ -55,6 +56,7 @@ public class VaadinatorConfig {
 		this.hasDisplayBeans = hasDisplayBeans;
 		this.hasServiceBeans = hasServiceBeans;
 		this.log = log;
+		this.generatorOptions = generatorOptions;
 	}
 
 	public String getProjectName() {
@@ -179,5 +181,9 @@ public class VaadinatorConfig {
 	
 	public Log getLog() {
 		return log;
+	}
+	
+	public Map<String, String> getGeneratorOptions() {
+		return generatorOptions;
 	}
 }

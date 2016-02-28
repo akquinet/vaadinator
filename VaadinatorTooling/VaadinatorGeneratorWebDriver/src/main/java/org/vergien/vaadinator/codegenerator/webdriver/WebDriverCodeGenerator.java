@@ -13,7 +13,10 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
 		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
-
+		boolean generatePages = true;
+		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
+			generatePages = false;
+		}
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			if (vaadinatorConfig.isHasDisplayBeans()) {
@@ -23,30 +26,36 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 							String componentPckg = desc.getViewPckg(p) + ".webdriver.component";
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"EditViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "EditViewComponent.java"),
+									"EditViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "EditViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"AddViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "AddViewComponent.java"),
+									"AddViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "AddViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ChangeViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "ChangeViewComponent.java"),
+									"ChangeViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "ChangeViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ListViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "ListViewComponent.java"),
+									"ListViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE);
-							String pagePckg =  desc.getViewPckg(p) + ".webdriver.page";
-							runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
-									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											pagePckg, desc.getClassName(), "Page.java"),
-									TEMPLATE_PACKAGE);
+							if (generatePages) {
+								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
+								runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+										desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+										"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
+												pagePckg, desc.getClassName(), "Page.java"),
+										TEMPLATE_PACKAGE);
+							}
 						}
 					}
 				}
