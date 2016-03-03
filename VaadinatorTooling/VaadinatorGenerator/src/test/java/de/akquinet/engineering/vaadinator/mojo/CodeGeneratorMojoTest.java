@@ -2,7 +2,12 @@ package de.akquinet.engineering.vaadinator.mojo;
 
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
+
+import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
+
 import static org.hamcrest.CoreMatchers.*;
 
 public class CodeGeneratorMojoTest {
@@ -19,5 +24,14 @@ public class CodeGeneratorMojoTest {
 		assertThat(mojo.toValidJavaClassName("vaadinatorExample-test_1"), is("VaadinatorExampleTest1"));
 		assertThat(mojo.toValidJavaClassName("VaadinatorExample-test_1"), is("VaadinatorExampleTest1"));
 		assertThat(mojo.toValidJavaClassName("Vaadinatorexample-test_1"), is("VaadinatorexampleTest1"));
+	}
+
+	@Test
+	public void testInitGenerators() {
+		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
+
+		List<CodeGenerator> codeGenerators = mojo.initGenerators();
+
+		assertThat("There should be the default code generator and the test edit one", codeGenerators.size(), is(2));
 	}
 }

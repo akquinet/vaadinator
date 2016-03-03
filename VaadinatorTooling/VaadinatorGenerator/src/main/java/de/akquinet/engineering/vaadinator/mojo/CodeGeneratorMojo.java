@@ -23,10 +23,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -53,14 +57,14 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 * @readonly
 	 */
 	private MavenProject project;
-	
+
 	/**
 	 * The includes
 	 * 
 	 * @parameter
 	 */
 	private String[] includes = null;
-	
+
 	/**
 	 * The excludes
 	 * 
@@ -86,41 +90,47 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	private boolean generateServlet = true;
-	
+
 	public void execute() throws MojoExecutionException {
-//		System.out.println(FileUtils.getFiles((new File(project.getBasedir(), "src/main/java")), includes, excludes));
-//		if(true)return;
+		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
+		// "src/main/java")), includes, excludes));
+		// if(true)return;
 		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType);
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()), project.getVersion(), generateServlet,
-					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()), VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
+			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()),
+					project.getVersion(), generateServlet,
+					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
+					VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
 		} catch (Exception e) {
 			throw new MojoExecutionException("Fehler beim Generieren", e);
 		}
 	}
 
-	private static void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao, String projectName, String version,
-			boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn, VaadinatorConfig.GenType genTypeEn)
-			throws Exception {
+	private void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao,
+			String projectName, String version, boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn,
+			VaadinatorConfig.GenType genTypeEn) throws Exception {
 		List<BeanDescription> beanDescriptions = new ArrayList<BeanDescription>();
-		
+
 		// ensure general target folders exist
 		File targetFolderSrcStart = new File(targetFolderBaseStart, "java");
 		targetFolderSrcStart.mkdirs();
 		File targetFolderResStart = new File(targetFolderBaseStart, "resources");
 		targetFolderResStart.mkdirs();
-		
-		exploreFolders(sourceFolderStart, targetFolderSrcStart, "", sourceDao, beanDescriptions);
+		File targetFolderTestSrcStart = new File(targetFolderBaseStart, "testjava");
+		targetFolderTestSrcStart.mkdirs();
+		File targetFolderTestResStart = new File(targetFolderBaseStart, "testresources");
+		targetFolderTestResStart.mkdirs();
+
+		exploreFolders(sourceFolderStart, targetFolderSrcStart, targetFolderTestSrcStart, "", sourceDao, beanDescriptions);
 		// ensure bean descriptions are sorted as e.g. Presenter Factories need
 		// a definite order of classes ("null" as cls name can be accepted)
 		Collections.sort(beanDescriptions, new Comparator<BeanDescription>() {
 
 			@Override
 			public int compare(BeanDescription o1, BeanDescription o2) {
-				return String.valueOf(o1.getClassName()).compareTo(
-						String.valueOf(o2.getClassName()));
+				return String.valueOf(o1.getClassName()).compareTo(String.valueOf(o2.getClassName()));
 			}
 		});
 		boolean hasDisplayBeans = false;
@@ -152,20 +162,28 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			commonMap.put("artifactType", artifactTypeEn.toString());
 			commonMap.put("basePackage", basePckg);
 			commonMap.put("beans", beanDescriptions);
-			
+
 			List<CodeGenerator> codeGenerators = initGenerators();
-			for(CodeGenerator codeGenerator: codeGenerators) {
-				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn, genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, commonMap,
-					displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans));
+			for (CodeGenerator codeGenerator : codeGenerators) {
+				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
+						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
+						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans, getLog()));
 			}
 		}
 	}
 
-	
-
-	private static List<CodeGenerator> initGenerators() {
+	protected List<CodeGenerator> initGenerators() {
 		List<CodeGenerator> codeGenerators = new ArrayList<>();
 		codeGenerators.add(new DefaultCodeGenerator());
+		ServiceLoader<CodeGenerator> serviceLoader = ServiceLoader.load(CodeGenerator.class,
+				this.getClass().getClassLoader());
+
+		Iterator<CodeGenerator> iterator = serviceLoader.iterator();
+		while (iterator.hasNext()) {
+			codeGenerators.add(iterator.next());
+		}
+
+		getLog().info("Loaded code generators: " + StringUtils.join(codeGenerators, ","));
 		return codeGenerators;
 	}
 
@@ -186,18 +204,20 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		return basePckg;
 	}
 
-	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, String pckgStart, SourceDao sourceDao,
-			List<BeanDescription> beanDescriptions) throws ParseException, IOException {
+	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
+			SourceDao sourceDao, List<BeanDescription> beanDescriptions) throws ParseException, IOException {
 		for (File f : sourceFolderStart.listFiles()) {
 			if (f.isDirectory()) {
 				File targetFolder = new File(targetFolderStart, f.getName());
 				targetFolder.mkdir();
+				File targetFolderTest = new File(targetFolderTestStart, f.getName());
+				targetFolderTest.mkdir();
 				String pckg = pckgStart;
 				if (pckg.length() > 0) {
 					pckg += ".";
 				}
 				pckg += f.getName();
-				exploreFolders(f, targetFolder, pckg, sourceDao, beanDescriptions);
+				exploreFolders(f, targetFolder, targetFolderTest, pckg, sourceDao, beanDescriptions);
 			}
 			if (f.isFile() && f.getName().endsWith(".java")) {
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
@@ -208,15 +228,17 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	}
 
 	protected String toValidJavaClassName(String name) {
-		return WordUtils.capitalize(name,
-				new char[] {' ','_','-' }).replaceAll(" ", "").replaceAll("-", "").replaceAll("_", "");
+		return WordUtils.capitalize(name, new char[] { ' ', '_', '-' }).replaceAll(" ", "").replaceAll("-", "")
+				.replaceAll("_", "");
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		// only for local development (in Project root of gen)
-		processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"), new File(
-				"../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(), "AddressbookExample", "0.10-SNAPSHOT", true,
-				VaadinatorConfig.ArtifactType.ALL, VaadinatorConfig.GenType.ALL);
+		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
+		mojo.processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"),
+				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(),
+				"AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
+				VaadinatorConfig.GenType.ALL);
 	}
 
 }

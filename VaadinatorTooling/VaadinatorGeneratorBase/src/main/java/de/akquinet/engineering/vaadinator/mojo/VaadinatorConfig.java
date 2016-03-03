@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.maven.plugin.logging.Log;
+
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 
 public class VaadinatorConfig {
@@ -39,16 +41,19 @@ public class VaadinatorConfig {
 	private File targetFolderBaseStart;
 	private File targetFolderSrcStart;
 	private File targetFolderResStart;
+	private File targetFolderTestSrcStart;
+	private File targetFolderTestResStart;
 	private Map<String, Object> commonMap;
 	private Set<String> displayProfileNames;
 	private boolean genServletBase;
 	private boolean hasDisplayBeans;
 	private boolean hasServiceBeans;
-
+	private Log log;
+	
 	public VaadinatorConfig(String projectName, String basePckg, List<BeanDescription> beanDescriptions,
 			ArtifactType artifactTypeEn, GenType genTypeEn, File targetFolderBaseStart, File targetFolderSrcStart,
-			File targetFolderResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
-			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans) {
+			File targetFolderResStart, File targetFolderTestSrcStart, File targetFolderTestResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
+			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log) {
 		this.projectName = projectName;
 		this.basePckg = basePckg;
 		this.beanDescriptions = beanDescriptions;
@@ -57,11 +62,14 @@ public class VaadinatorConfig {
 		this.targetFolderBaseStart = targetFolderBaseStart;
 		this.targetFolderSrcStart = targetFolderSrcStart;
 		this.targetFolderResStart = targetFolderResStart;
+		this.targetFolderTestSrcStart = targetFolderTestSrcStart;
+		this.targetFolderTestResStart = targetFolderTestResStart;
 		this.commonMap = commonMap;
 		this.displayProfileNames = displayProfileNames;
 		this.genServletBase = genServletBase;
 		this.hasDisplayBeans = hasDisplayBeans;
 		this.hasServiceBeans = hasServiceBeans;
+		this.log = log;
 	}
 
 	public String getProjectName() {
@@ -128,6 +136,22 @@ public class VaadinatorConfig {
 		this.targetFolderResStart = targetFolderResStart;
 	}
 
+	public File getTargetFolderTestSrcStart() {
+		return targetFolderTestSrcStart;
+	}
+
+	public void setTargetFolderTestSrcStart(File targetFolderTestSrcStart) {
+		this.targetFolderTestSrcStart = targetFolderTestSrcStart;
+	}
+
+	public File getTargetFolderTestResStart() {
+		return targetFolderTestResStart;
+	}
+
+	public void setTargetFolderTestResStart(File targetFolderTestResStart) {
+		this.targetFolderTestResStart = targetFolderTestResStart;
+	}
+
 	public Map<String, Object> getCommonMap() {
 		return commonMap;
 	}
@@ -166,5 +190,9 @@ public class VaadinatorConfig {
 
 	public void setHasServiceBeans(boolean hasServiceBeans) {
 		this.hasServiceBeans = hasServiceBeans;
+	}
+	
+	public Log getLog() {
+		return log;
 	}
 }
