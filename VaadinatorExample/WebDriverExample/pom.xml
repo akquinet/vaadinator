@@ -41,6 +41,11 @@ the License.
 			<!-- includes test server and some WebElement wrappers for vaadin components -->
 		</dependency>
 		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.52.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.github.webdriverextensions</groupId>
 			<artifactId>webdriverextensions</artifactId>
 			<version>2.5.0</version>
