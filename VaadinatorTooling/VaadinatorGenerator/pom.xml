@@ -47,12 +47,15 @@ the License.
 			<version>0.20-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency> -->
+<<<<<<< HEAD
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 			<artifactId>VaadinatorGeneratorTestedit</artifactId>
 			<version>0.10-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
+=======
+>>>>>>> refs/remotes/upstream/master
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
