@@ -10,6 +10,8 @@ target
 *.war
 *.ear
 
+vaadin.*.db
+
 README.html
 
 vaadin.*.db
