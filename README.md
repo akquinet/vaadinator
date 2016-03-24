@@ -25,6 +25,7 @@ Our intention is to get people productive with vaadin and excited about vaadin -
 <img src="img/overview.png" alt="Install Archetype, Generate Project, Customize Model Class, Package & run Webapp, Be excited!" />
 
 - have [Maven](http://maven.apache.org) and [Tomcat](http://tomcat.apache.org) in place (optionally also Eclipse)
+- (alternatively, you can run via Maven and Jetty)
  
 - download + unpack or clone project
 - open command prompt:
@@ -41,7 +42,11 @@ cd <artifactId>
 mvn package eclipse:eclipse
 ```
 - eclipse:eclipse is only necessary if you want to open in Eclipse (make sure you have UTF-8 configured as workspace default charset)
-- copy WAR to Tomcat or open in Eclipse and <i>Run on Server</i>
+- copy WAR to Tomcat or open in Eclipse and <i>Run on Server</i> (OR:  run 
+```
+mvn jetty:run -Pstageres
+```
+)
 - you will get a <strong>mobile</strong> base application that runs in the browser
 - open with iPhone or Chrome or other Webkit-based browser
 
@@ -603,6 +608,7 @@ Unsere Idee ist, Sie schnell mit vaadin produktiv werden zu lassen und Sie für 
 <img src="img/overview.png" alt="Install Archetype, Generate Project, Customize Model Class, Package & run Webapp, Be excited!" />
 
 - [Maven](http://maven.apache.org) und [Tomcat](http://tomcat.apache.org) installieren (optional auch Eclipse)
+- (alternativ kann über Maven und Jetty gestartet werden)
 - das Projekt herunterladen und auspacken oder klonen
 - Kommandozeile öffnen:
 ```
@@ -617,7 +623,11 @@ cd <artifactId>
 mvn package eclipse:eclipse
 ```
 - eclipse:eclipse ist nur nötig, wenn Sie Eclipse verwenden möchten
-- WAR nach Tomcat kopieren oder in Eclipse mit <i>Run on Server</i> starten
+- WAR nach Tomcat kopieren oder in Eclipse mit <i>Run on Server</i> starten (ODER: ausführen von
+```
+mvn jetty:run -Pstageres
+```
+)
 - sie erhalten eine <strong>mobile</strong> Anwendung, die im Browser läuft
 - im iPhone oder Chrome oder anderem Webkit-basierten Browser öffnen
 
