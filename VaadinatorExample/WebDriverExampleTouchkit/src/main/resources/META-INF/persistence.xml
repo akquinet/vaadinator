@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="WebDriverExampleTouchkit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>org.vergien.vaadinator.webdriver.touchkit.model.Address</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<!-- simple file-based database -->
+			<property name="javax.persistence.target-database" value="HSQL" />
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:vaadin" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="eclipselink.application-location" value="." />
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+			<!-- (Tomcat 4 Server Plug-In) -->
+			<property name="eclipselink.target-server" value=""/>
+		</properties>
+	</persistence-unit>
+	<!-- 
+	<persistence-unit name="WebDriverExampleTouchkit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		< ! - - (Tomcat) - - >
+		<non-jta-data-source>java:comp/env/jdbc/vaadin</non-jta-data-source>
+		<class>org.vergien.vaadinator.webdriver.touchkit.model.Address</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="javax.persistence.target-database" value="PostgreSQL" />
+			<property name="eclipselink.application-location" value="." />
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
+			<property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>
+			<property name="eclipselink.create-ddl-jdbc-file-name" value="create-tables.sql"/>
+			<property name="eclipselink.drop-ddl-jdbc-file-name" value="drop-tables.sql"/>
+			< ! - - (Tomcat 4 Server Plug-In) - - >
+			<property name="eclipselink.target-server" value=""/>
+		</properties>
+	</persistence-unit>
+	 -->
+</persistence>
