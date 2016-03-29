@@ -90,7 +90,14 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	private boolean generateServlet = true;
-
+	
+	/**
+	 * Options passed to the generators
+	 * 
+	 * @parameter
+	 */
+	private Map<String, String> generatorOptions = new HashMap<String, String>();
+	
 	public void execute() throws MojoExecutionException {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
 		// "src/main/java")), includes, excludes));
@@ -167,7 +174,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			for (CodeGenerator codeGenerator : codeGenerators) {
 				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
 						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
-						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans, getLog()));
+						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans,
+						getLog(), generatorOptions));
 			}
 		}
 	}
