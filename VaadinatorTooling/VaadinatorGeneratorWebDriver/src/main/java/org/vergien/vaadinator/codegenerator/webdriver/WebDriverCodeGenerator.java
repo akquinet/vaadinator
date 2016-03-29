@@ -16,6 +16,9 @@
 package org.vergien.vaadinator.codegenerator.webdriver;
 
 import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.*;
+
+import java.io.IOException;
+
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
@@ -23,6 +26,7 @@ import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig;
 
 public class WebDriverCodeGenerator implements CodeGenerator {
 	private static final String TEMPLATE_PACKAGE = "/org/vergien/vaadinator/templates/webdriver/";
+	private static final String DEFAULT_TEMPLATE_PACKAGE = "/de/akquinet/engineering/vaadinator/templates/";
 
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
@@ -32,35 +36,40 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			if (vaadinatorConfig.isHasDisplayBeans()) {
+				generateFirstPageComponents(vaadinatorConfig);
 				for (BeanDescription desc : vaadinatorConfig.getBeanDescriptions()) {
 					if (desc.isDisplayed()) {
 						for (DisplayProfileDescription p : desc.getDisplayProfiles()) {
 							String componentPckg = desc.getViewPckg(p) + ".webdriver.component";
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"EditViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "EditViewComponent.java"),
+									"EditViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "EditViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"AddViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "AddViewComponent.java"),
+									"AddViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "AddViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ChangeViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "ChangeViewComponent.java"),
+									"ChangeViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "ChangeViewComponent.java"),
 									TEMPLATE_PACKAGE);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"ListViewComponent.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											componentPckg, desc.getClassName(), "ListViewComponent.java"),
+									"ListViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE);
-							String pagePckg =  desc.getViewPckg(p) + ".webdriver.page";
+							String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
-									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-									"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-											pagePckg, desc.getClassName(), "Page.java"),
+									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "Page.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
+											desc.getClassName(), "Page.java"),
 									TEMPLATE_PACKAGE);
 						}
 					}
@@ -68,5 +77,20 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 			}
 		}
 
+	}
+
+	private void generateFirstPageComponents(VaadinatorConfig vaadinatorConfig) throws IOException {
+		if (isTemplateExisting("FirstPageViewImpl.template", DEFAULT_TEMPLATE_PACKAGE)) {
+			for (String displayProfileName : vaadinatorConfig.getDisplayProfileNames()) {
+				String viewPckg = vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view";
+				String webdriverComponentPckg = viewPckg + ".webdriver.component";
+				runVelocity(null, vaadinatorConfig.getCommonMap(), webdriverComponentPckg, null,
+						vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", viewPckg,
+						displayProfileName, "FirstPageViewComponent.template",
+						packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), webdriverComponentPckg,
+								"FirstPageViewComponent", ".java"),
+						false, TEMPLATE_PACKAGE);
+			}
+		}
 	}
 }
