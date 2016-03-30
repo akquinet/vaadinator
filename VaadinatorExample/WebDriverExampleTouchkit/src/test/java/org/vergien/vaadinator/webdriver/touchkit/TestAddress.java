@@ -15,28 +15,25 @@
  */
 package org.vergien.vaadinator.webdriver.touchkit;
 
-import static com.github.webdriverextensions.Bot.assertIsNotDisplayed;
+import static com.github.webdriverextensions.Bot.assertIsNotOpen;
 import static com.github.webdriverextensions.Bot.assertIsOpen;
-import static com.github.webdriverextensions.Bot.assertTextEquals;
 import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
-import static com.github.webdriverextensions.Bot.clearAndType;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.clickAndWait;
 import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.waitForVaadin;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
-import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressPage;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressAddPage;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressChangePage;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressListPage;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.FirstPageViewPage;
 
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
@@ -46,7 +43,9 @@ import com.github.webdriverextensions.junitrunner.annotations.Firefox;
 @Firefox
 public class TestAddress extends AbstractWebdriverTest {
 	private FirstPageViewPage firstPageViewPage;
-	private AddressPage addressPage;
+	private AddressAddPage addressAddPage;
+	private AddressListPage addressListPage;
+	private AddressChangePage addressChangePage;
 
 	@Before
 	public void openPage() {
@@ -58,16 +57,18 @@ public class TestAddress extends AbstractWebdriverTest {
 	@Test
 	public void addAddress() {
 		clickAndWait(firstPageViewPage.getFirstPageViewComponent().getNewAddressWebElement());
+		assertIsOpen(addressAddPage);
 
-		type("Daniel", addressPage.getAddressAddViewComponent().getVornameWebElement());
+		type("Daniel", addressAddPage.getAddressAddViewComponent().getVornameWebElement());
 		String nachname = UUID.randomUUID().toString();
-		type(nachname, addressPage.getAddressAddViewComponent().getNachnameWebElement());
+		type(nachname, addressAddPage.getAddressAddViewComponent().getNachnameWebElement());
 
-		addressPage.getAddressAddViewComponent().getAnredeVaadinComboBox().selectItemFromFilter(0);
-		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
+		addressAddPage.getAddressAddViewComponent().getAnredeVaadinComboBox().selectItemFromFilter(0);
+		clickAndWait(addressAddPage.getAddressAddViewComponent().getSaveWebElement());
 
 		boolean foundInTable = false;
-		for (AddressListTableRowComponent row : addressPage.getAddressListViewComponent().getAddressListTableRows()) {
+		for (AddressListTableRowComponent row : addressListPage.getAddressListViewComponent()
+				.getAddressListTableRows()) {
 			if (row.getNameCellWebElement().getText().equals("Daniel " + nachname)) {
 				foundInTable = true;
 				clickAndWait(row);
@@ -75,40 +76,18 @@ public class TestAddress extends AbstractWebdriverTest {
 		}
 		assertThat("Generated address not found in table", foundInTable, is(true));
 
-		assertValueEquals("Daniel", addressPage.getAddressChangeViewComponent().getVornameWebElement());
-		assertValueEquals(nachname, addressPage.getAddressChangeViewComponent().getNachnameWebElement());
-		assertThat(addressPage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));
+		assertValueEquals("Daniel", addressChangePage.getAddressChangeViewComponent().getVornameWebElement());
+		assertValueEquals(nachname, addressChangePage.getAddressChangeViewComponent().getNachnameWebElement());
+		assertThat(addressChangePage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));
 	}
 
 	@Test
 	public void cancelAddingPerson() {
-		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
+		clickAndWait(firstPageViewPage.getFirstPageViewComponent().getNewAddressWebElement());
+		assertIsOpen(addressAddPage);
 
-		clickAndWait(addressPage.getAddressAddViewComponent().getCancelWebElement());
+		clickAndWait(addressAddPage.getAddressAddViewComponent().getCancelWebElement());
 
-		assertIsNotDisplayed(addressPage.getAddressAddViewComponent());
-	}
-
-	@Test
-	public void searchPerson() {
-		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
-		String nachName = UUID.randomUUID().toString();
-		type("Daniel", addressPage.getAddressAddViewComponent().getVornameWebElement());
-		type(nachName, addressPage.getAddressAddViewComponent().getNachnameWebElement());
-		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
-
-		type("Hans", addressPage.getAddressListViewComponent().getSearchFieldWebElement());
-		waitForVaadin();
-
-		List<AddressListTableRowComponent> rows = addressPage.getAddressListViewComponent().getAddressListTableRows();
-		for (AddressListTableRowComponent row : rows) {
-			assertThat(row.getNameCellWebElement().getText(), is(not("Daniel " + nachName)));
-		}
-
-		clearAndType(nachName, addressPage.getAddressListViewComponent().getSearchFieldWebElement());
-		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().size(), is(1));
-
-		assertTextEquals("Daniel " + nachName,
-				(addressPage.getAddressListViewComponent().getAddressListTableRows().get(0).getNameCellWebElement()));
+		assertIsNotOpen(addressAddPage);
 	}
 }

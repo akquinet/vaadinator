@@ -66,11 +66,33 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 									TEMPLATE_PACKAGE);
 							if (isGeneratePages(vaadinatorConfig)) {
 								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
-								runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
-										desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
-										"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
-												pagePckg, desc.getClassName(), "Page.java"),
-										TEMPLATE_PACKAGE);
+								if (isTouchkit()) {
+									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+											"ListPage.template",
+											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
+													desc.getClassName(), "ListPage.java"),
+											TEMPLATE_PACKAGE);
+									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+											"AddPage.template",
+											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
+													desc.getClassName(), "AddPage.java"),
+											TEMPLATE_PACKAGE);
+									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+											"ChangePage.template",
+											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
+													desc.getClassName(), "ChangePage.java"),
+											TEMPLATE_PACKAGE);
+								} else {
+									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+											"Page.template",
+											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
+													desc.getClassName(), "Page.java"),
+											TEMPLATE_PACKAGE);
+								}
 							}
 						}
 					}
@@ -89,7 +111,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	}
 
 	private void generateFirstPageComponents(VaadinatorConfig vaadinatorConfig) throws IOException {
-		if (isTemplateExisting("FirstPageViewImpl.template", DEFAULT_TEMPLATE_PACKAGE)) {
+		if (isTouchkit()) {
 			for (String displayProfileName : vaadinatorConfig.getDisplayProfileNames()) {
 				String viewPckg = vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view";
 				String webdriverComponentPckg = viewPckg + ".webdriver.component";
@@ -111,5 +133,9 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 
 			}
 		}
+	}
+
+	private boolean isTouchkit() throws IOException {
+		return isTemplateExisting("FirstPageViewImpl.template", DEFAULT_TEMPLATE_PACKAGE);
 	}
 }
