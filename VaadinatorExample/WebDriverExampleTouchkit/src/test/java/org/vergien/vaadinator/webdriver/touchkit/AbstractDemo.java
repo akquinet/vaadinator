@@ -23,35 +23,36 @@ import org.vaadin.addonhelpers.AbstractTest;
 import org.vergien.vaadinator.webdriver.touchkit.dao.AddressDaoPlain;
 import org.vergien.vaadinator.webdriver.touchkit.service.AddressService;
 import org.vergien.vaadinator.webdriver.touchkit.service.AddressServicePlain;
-import org.vergien.vaadinator.webdriver.touchkit.ui.std.presenter.FirstPagePresenter;
+import org.vergien.vaadinator.webdriver.touchkit.ui.presenter.Presenter;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.presenter.PresenterFactory;
-import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.FirstPageView;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.VaadinViewFactory;
+import org.vergien.vaadinator.webdriver.touchkit.ui.view.View;
 
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Title;
 import com.vaadin.ui.Component;
 
-@Title("WebDriverExampleTouchkit")
+@SuppressWarnings("serial")
 @Theme("touchkitex")
-public class WebDriverExampleDemo extends AbstractTest {
+public abstract class AbstractDemo extends AbstractTest {
 
 	PresenterFactory presenterFactory = null;
 
+	abstract Presenter getPresenter();
+
 	@Override
 	public Component getTestComponent() {
-		NavigationManager m = new NavigationManager();
-		m.setMaintainBreadcrumb(true);
-		FirstPagePresenter fpres;
-		fpres = obtainPresenterFactory().createFirstPagePresenter();
-		FirstPageView fview = fpres.getView();
-		m.setCurrentComponent((Component) fview.getComponent());
-		// setContent(m);
-		// and go
-		fpres.startPresenting();
+		NavigationManager navigationManager = new NavigationManager();
+		navigationManager.setMaintainBreadcrumb(true);
+		Presenter presenter;
+		presenter = getPresenter();
+		View view = presenter.getView();
+		
+		navigationManager.setCurrentComponent((Component) view.getComponent());
+		
+		presenter.startPresenting();
 
-		return m;
+		return navigationManager;
 	}
 
 	protected PresenterFactory obtainPresenterFactory() {

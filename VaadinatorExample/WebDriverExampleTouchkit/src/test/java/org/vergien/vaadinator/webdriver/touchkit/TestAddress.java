@@ -48,7 +48,7 @@ public class TestAddress extends AbstractWebdriverTest {
 
 	@Before
 	public void openPage() {
-		open(BASEURL + "org.vergien.vaadinator.webdriver.touchkit.WebDriverExampleDemo");
+		open(BASEURL + CompleteDemo.class.getName());
 		waitForVaadin();
 		assertIsOpen(addressPage);
 	}
