@@ -27,7 +27,7 @@ public class Demo extends TServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Demo demo = new Demo("target/WebDriverExampleTouchkit-0.20-SNAPSHOT");
+		Demo demo = new Demo("target/WebDriverExampleTouchkit-0.20-SNAPSHOTstage");
 		demo.startServer();
 	}
 }
