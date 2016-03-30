@@ -177,6 +177,14 @@ the License.
 				</executions>
 			</plugin>			<plugin>				<groupId>org.apache.maven.plugins</groupId>				<artifactId>maven-eclipse-plugin</artifactId>				<version>2.9</version>				<configuration>					<wtpversion>1.5</wtpversion>				</configuration>			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+  					<artifactId>jetty-maven-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<profiles>
 		<profile>
@@ -191,6 +199,11 @@ the License.
 							<dependency>
 								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 								<artifactId>VaadinatorTemplatesDesktop</artifactId>
+								<version>0.20-SNAPSHOT</version>
+							</dependency>
+							<dependency>
+								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
+								<artifactId>VaadinatorGeneratorTesteditorDesktop</artifactId>
 								<version>0.20-SNAPSHOT</version>
 							</dependency>
 						</dependencies>
@@ -248,6 +261,11 @@ the License.
 							<dependency>
 								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 								<artifactId>AddressbookExampleTemplatesTouchkit</artifactId>
+								<version>0.20-SNAPSHOT</version>
+							</dependency>
+							<dependency>
+								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
+								<artifactId>VaadinatorGeneratorTesteditorTouchkit</artifactId>
 								<version>0.20-SNAPSHOT</version>
 							</dependency>
 						</dependencies>
@@ -493,6 +511,16 @@ the License.
 						</executions>
 					</plugin>
 				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>stageres</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>target/${project.build.finalName}stage</directory>
+					</resource>
+				</resources>
 			</build>
 		</profile>
 	</profiles>

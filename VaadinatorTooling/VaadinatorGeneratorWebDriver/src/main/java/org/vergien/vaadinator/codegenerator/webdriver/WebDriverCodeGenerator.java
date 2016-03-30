@@ -32,7 +32,10 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
 		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
-
+		boolean generatePages = true;
+		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
+			generatePages = false;
+		}
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			if (vaadinatorConfig.isHasDisplayBeans()) {
@@ -65,12 +68,14 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE);
-							String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
-							runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
-									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "Page.template",
-									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
-											desc.getClassName(), "Page.java"),
-									TEMPLATE_PACKAGE);
+							if (generatePages) {
+								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
+								runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
+										desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+										"Page.template", packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(),
+												pagePckg, desc.getClassName(), "Page.java"),
+										TEMPLATE_PACKAGE);
+							}
 						}
 					}
 				}
