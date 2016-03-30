@@ -20,7 +20,7 @@ public class AbstractWebdriverTest extends AbstractBaseWebDriverCase {
 	@BeforeClass
 	public static void startServer() {
 		try {
-			server = new Demo("target/WebDriverExampleTouchkit-0.20-SNAPSHOT").startServer(TESTPORT);
+			server = new Demo("target/WebDriverExampleTouchkit-0.20-SNAPSHOTstage").startServer(TESTPORT);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
