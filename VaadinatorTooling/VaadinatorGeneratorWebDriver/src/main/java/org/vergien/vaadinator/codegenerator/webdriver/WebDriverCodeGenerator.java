@@ -32,10 +32,6 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
 		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
-		boolean generatePages = true;
-		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
-			generatePages = false;
-		}
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			if (vaadinatorConfig.isHasDisplayBeans()) {
@@ -68,7 +64,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE);
-							if (generatePages) {
+							if (isGeneratePages(vaadinatorConfig)) {
 								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
 								runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
 										desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
@@ -84,6 +80,14 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 
 	}
 
+	private boolean isGeneratePages(VaadinatorConfig vaadinatorConfig) {
+		boolean generatePages = true;
+		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
+			generatePages = false;
+		}
+		return generatePages;
+	}
+
 	private void generateFirstPageComponents(VaadinatorConfig vaadinatorConfig) throws IOException {
 		if (isTemplateExisting("FirstPageViewImpl.template", DEFAULT_TEMPLATE_PACKAGE)) {
 			for (String displayProfileName : vaadinatorConfig.getDisplayProfileNames()) {
@@ -95,6 +99,16 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 						packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), webdriverComponentPckg,
 								"FirstPageViewComponent", ".java"),
 						false, TEMPLATE_PACKAGE);
+				if (isGeneratePages(vaadinatorConfig)) {
+					String webdriverPagePckg = viewPckg + ".webdriver.page";
+					runVelocity(null, vaadinatorConfig.getCommonMap(), webdriverPagePckg, null,
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", viewPckg,
+							displayProfileName, "FirstPageViewPage.template",
+							packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), webdriverPagePckg,
+									"FirstPageViewPage", ".java"),
+							false, TEMPLATE_PACKAGE);
+				}
+
 			}
 		}
 	}

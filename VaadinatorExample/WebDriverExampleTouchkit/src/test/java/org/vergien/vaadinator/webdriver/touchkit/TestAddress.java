@@ -37,6 +37,7 @@ import org.junit.runner.RunWith;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressPage;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.FirstPageViewPage;
 
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
 import com.github.webdriverextensions.junitrunner.annotations.Firefox;
@@ -44,18 +45,19 @@ import com.github.webdriverextensions.junitrunner.annotations.Firefox;
 @RunWith(WebDriverRunner.class)
 @Firefox
 public class TestAddress extends AbstractWebdriverTest {
+	private FirstPageViewPage firstPageViewPage;
 	private AddressPage addressPage;
 
 	@Before
 	public void openPage() {
 		open(BASEURL + CompleteDemo.class.getName());
 		waitForVaadin();
-		assertIsOpen(addressPage);
+		assertIsOpen(firstPageViewPage);
 	}
 
 	@Test
-	public void addPerson() {
-		clickAndWait(addressPage.getAddressListViewComponent().getAddAddressWebElement());
+	public void addAddress() {
+		clickAndWait(firstPageViewPage.getFirstPageViewComponent().getNewAddressWebElement());
 
 		type("Daniel", addressPage.getAddressAddViewComponent().getVornameWebElement());
 		String nachname = UUID.randomUUID().toString();
