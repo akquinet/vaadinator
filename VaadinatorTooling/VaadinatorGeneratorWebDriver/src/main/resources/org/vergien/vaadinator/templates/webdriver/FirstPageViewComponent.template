@@ -17,7 +17,9 @@ the License.
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FirstPageViewComponent {
+import com.github.webdriverextensions.WebComponent;
+
+public class FirstPageViewComponent extends WebComponent {
 #foreach($bean in $common.beans)
 #if($bean.displayed)
 #if($bean.getDisplayProfile($profileName).showOnFirstPage)
