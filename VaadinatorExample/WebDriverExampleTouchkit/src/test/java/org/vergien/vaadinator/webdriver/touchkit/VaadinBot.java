@@ -17,6 +17,7 @@ package org.vergien.vaadinator.webdriver.touchkit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.vaadin.addonhelpers.automated.VaadinConditions;
@@ -53,6 +54,20 @@ public class VaadinBot extends Bot {
 	public static void clickAndWait(WebElement webElement, long secontsToWait) {
 		Bot.click(webElement);
 		waitForVaadin(secontsToWait);
+	}
+
+	public static void doubleClick(WebElement webElement) {
+		Actions action = new Actions(driver());
+		action.doubleClick(webElement).perform();
+	}
+
+	public static void doubleClickAndWait(WebElement webElement) {
+		doubleClickAndWait(webElement, DEFUALT_WAIT_TIMEOUT);
+	}
+
+	public static void doubleClickAndWait(WebElement webElement, long secondsToWait) {
+		doubleClick(webElement);
+		waitForVaadin(secondsToWait);
 	}
 
 	public static void waitForVaadin() {
