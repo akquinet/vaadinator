@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.interactions.Actions;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressAddPage;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressChangePage;
@@ -63,7 +64,12 @@ public class TestAddress extends AbstractWebdriverTest {
 		String nachname = UUID.randomUUID().toString();
 		type(nachname, addressAddPage.getAddressAddViewComponent().getNachnameWebElement());
 
-		addressAddPage.getAddressAddViewComponent().getAnredeVaadinComboBox().selectItemFromFilter(0);
+		Actions action = new Actions(VaadinBot.driver());
+		action.doubleClick(addressAddPage.getAddressAddViewComponent().getAnredeWebElement()).perform();
+
+		// TODO VaadinComboBox not working for touchkit yet
+		// addressAddPage.getAddressAddViewComponent().getAnredeVaadinComboBox().selectItemFromFilter(0);
+
 		clickAndWait(addressAddPage.getAddressAddViewComponent().getSaveWebElement());
 
 		boolean foundInTable = false;
