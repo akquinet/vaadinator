@@ -44,7 +44,7 @@ import com.github.webdriverextensions.junitrunner.annotations.Firefox;
 
 @RunWith(WebDriverRunner.class)
 @Firefox
-public class TestAddress extends AbstractWebdriverTest {
+public class TestAddressIT extends AbstractWebdriverTest {
 	private FirstPageViewPage firstPageViewPage;
 	private AddressAddPage addressAddPage;
 	private AddressListPage addressListPage;
