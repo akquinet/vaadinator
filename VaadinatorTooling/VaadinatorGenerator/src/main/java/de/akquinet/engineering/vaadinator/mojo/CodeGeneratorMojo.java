@@ -41,8 +41,10 @@ import com.github.javaparser.ParseException;
 import de.akquinet.engineering.vaadinator.dao.SourceDao;
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
 import de.akquinet.engineering.vaadinator.generator.DefaultCodeGenerator;
+import de.akquinet.engineering.vaadinator.model.BeanArtifact;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
+import de.akquinet.engineering.vaadinator.util.GeneratorUtil;
 
 /**
  * Generate Code.
@@ -172,6 +174,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 			List<CodeGenerator> codeGenerators = initGenerators();
 			for (CodeGenerator codeGenerator : codeGenerators) {
+				getLog().info("Generating code with: " + codeGenerator.getClass().getName());
 				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
 						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
 						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans,
@@ -212,7 +215,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		return basePckg;
 	}
 
-	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
+	private void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
 			SourceDao sourceDao, List<BeanDescription> beanDescriptions) throws ParseException, IOException {
 		for (File f : sourceFolderStart.listFiles()) {
 			if (f.isDirectory()) {
@@ -230,9 +233,33 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			if (f.isFile() && f.getName().endsWith(".java")) {
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
 				desc.setPckg(pckgStart);
+				if (desc.isDisplayed()) {
+					for (DisplayProfileDescription displayProfileDescription : desc.getDisplayProfiles()) {
+						for (BeanArtifact exBeanArtifact : BeanArtifact.values()) {
+							if (exExists(exBeanArtifact, displayProfileDescription)) {
+								displayProfileDescription.addExt(exBeanArtifact);
+							}
+						}
+					}
+				}
 				beanDescriptions.add(desc);
 			}
 		}
+	}
+
+	private boolean exExists(BeanArtifact beanArtifact, DisplayProfileDescription desc) {
+		String pkg;
+		if (beanArtifact.isView()) {
+			pkg = desc.getBean().getViewPckg(desc);
+		} else {
+			pkg = desc.getBean().getPresenterPckg(desc);
+		}
+		String className = desc.getBean().getClassName();
+		File exSourceFile = GeneratorUtil.packageToFile(new File(project.getBasedir(), "src/main/java"), pkg,
+				className + beanArtifact.getFileNameSuffix() + "Ex", ".java");
+		boolean exExists = exSourceFile.exists();
+		getLog().debug("Checking if " + exSourceFile + " exists: " + exExists);
+		return exExists;
 	}
 
 	protected String toValidJavaClassName(String name) {
