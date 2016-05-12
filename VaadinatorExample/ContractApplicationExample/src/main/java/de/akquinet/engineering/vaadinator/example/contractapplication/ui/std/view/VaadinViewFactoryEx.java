@@ -18,21 +18,6 @@ package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.vi
 public class VaadinViewFactoryEx extends VaadinViewFactory {
 
 	@Override
-	public ContractApplicationAddView createContractApplicationAddView() {
-		return new ContractApplicationAddViewImplEx(exceptionMappingStrategy);
-	}
-
-	@Override
-	public ContractApplicationChangeView createContractApplicationChangeView() {
-		return new ContractApplicationChangeViewImplEx(exceptionMappingStrategy);
-	}
-
-	@Override
-	public ContractApplicationListView createContractApplicationListView() {
-		return new ContractApplicationListViewImplEx(exceptionMappingStrategy);
-	}
-
-	@Override
 	public FirstPageView createFirstPageView() {
 		return new FirstPageViewImplEx(exceptionMappingStrategy);
 	}
