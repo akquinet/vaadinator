@@ -15,8 +15,8 @@ the License.
 *#
 package ${common.basePackage}.ui.view;
 
-import com.vaadin.ui.Field;
+import com.vaadin.ui.Component;
 
 public interface FieldInitializer {
-	public void initializeField(Field<?> field);
+	public void initializeField(Component component);
 }
