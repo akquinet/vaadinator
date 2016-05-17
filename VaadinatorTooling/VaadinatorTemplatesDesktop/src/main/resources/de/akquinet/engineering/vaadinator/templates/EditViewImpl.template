@@ -107,28 +107,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		return this.observer;
 	}
 
-	@Override
-	public boolean checkAllFieldsValid() {
-		beforeValidation();
-		Map<Field<?>, InvalidValueException> errors = new HashMap<Field<?>, InvalidValueException>();
-	    boolean valid = true;
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
-#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false && $property.getDisplayPropertyProfile($profileName).fieldType.name()!="LABEL")
-        try {
-        	beforeFieldValidation(${property.propertyName});
-			${property.propertyName}.validate();
-		} catch (InvalidValueException e) {
-			onFieldValidationError(${property.propertyName}, e);
-			errors.put(${property.propertyName}, e);
-			valid = false;
-		}
-#end
-#end	
-		if(!valid) {
-			onValidationError(errors);
-		}	
-		return valid;
-	}
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
 
 	@Override
 	public void beforeValidation() {
