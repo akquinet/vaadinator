@@ -15,6 +15,15 @@ the License.
 *#
 package ${package};
 
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,13 +46,6 @@ import com.vaadin.ui.VerticalLayout;
 #if($bean.beanValidation==true)
 import com.vaadin.data.validator.BeanValidator;
 #end
-import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
-
-#foreach($import in $bean.imports)
-${import}
-#end
-import ${modelPackage}.*;
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
 		extends CustomComponent implements ${bean.className}EditView<O> {
@@ -54,14 +56,17 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	private static final long serialVersionUID = 1L;
 
 	private O observer;
-	
+
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	protected VerticalLayout mainLayout = new VerticalLayout();
 	protected HorizontalLayout buttonLayout = new HorizontalLayout();
 	protected FormLayout editLayout = new FormLayout();
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+	
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
 
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
     public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
     	super();
@@ -91,24 +96,6 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		addStyleName("styleid-${bean.className}EditViewImpl");
 	}
 
-	protected abstract void initButtons(AbstractOrderedLayout buttonLayout);
-
-	@Override
-	public Object getComponent() {
-		return this;
-	}
-	
-	@Override
-	public void setObserver(O observer) {
-		this.observer = observer;
-	}
-
-	protected O getObserver() {
-		return this.observer;
-	}
-
-#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
-
 	@Override
 	public void beforeValidation() {
 	}
@@ -124,19 +111,10 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	@Override
 	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
 	}
-	
-	@Override
-	public void showErrorMessage(String message) {
-		Notification.show(message, Type.ERROR_MESSAGE);
-	}
-	
-	@Override
-	public void showErrorMessage(Exception exception) {
-		Notification.show(exceptionMappingStrategy.getCaption(exception),
-				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 
-	}
-
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
+		
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonMethods.template")
+	
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_propertyMethods.template")
-
 }

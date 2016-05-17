@@ -20,14 +20,14 @@ ${import}
 #end
 import ${modelPackage}.*;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${viewPackage}.${bean.className}EditView.Observer;
+
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -42,6 +42,9 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+#if($bean.beanValidation==true)
+import com.vaadin.data.validator.BeanValidator;
+#end
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
     extends NavigationView implements ${bean.className}EditView<O> {
@@ -51,33 +54,30 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private O observer;
+
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	protected CssLayout layout = new CssLayout();
 
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_sectionvar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
-
-	private O observer;
-
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 
 	public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
     	super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
 	}
 
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
-
+	@Override
 	public void initializeUi() {
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_section.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 		setContent(layout);
 		initButtons(this);
 		addStyleName("styleid-${bean.className}EditViewImpl");
-	}
-	
-    protected abstract void initButtons(NavigationView navigationView);
-    
-    #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
+	}    
 
     @Override
 	public void beforeValidation() {
@@ -97,31 +97,9 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
 	}
 
-    @Override
-	public void setObserver(O observer) {
-		this.observer = observer;
-	}
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
 
-	protected O getObserver() {
-		return this.observer;
-	}
-	
-	public Object getComponent() {
-		return this;
-	}
-
-	@Override
-	public void showErrorMessage(String message) {
-		Notification.show(message, Notification.Type.ERROR_MESSAGE);
-	}
-	
-	@Override
-	public void showErrorMessage(Exception exception) {
-		Notification.show(exceptionMappingStrategy.getCaption(exception),
-				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
-
-	}
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonMethods.template")
 		
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_propertyMethods.template")
-
 }
