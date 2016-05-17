@@ -13,61 +13,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 *#
-package ${package};
 
-import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
-import ${common.basePackage}.ui.view.DefaultExceptionMappingStrategy;
-
-public class VaadinViewFactory implements ViewFactory {
-
-    protected ExceptionMappingStrategy exceptionMappingStrategy = new DefaultExceptionMappingStrategy();
-
-	public VaadinViewFactory() {
-		super();
-	}
-
-#foreach($bean in $common.beans)
-#if($bean.displayed)
-	@Override
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW") )
-public ${bean.className}AddViewEx create${bean.className}AddView() {
-	#else
-public ${bean.className}AddView create${bean.className}AddView() {
-	#end
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW_IMPL") )
-return new ${bean.className}AddViewImplEx(exceptionMappingStrategy);
-	#else
-return new ${bean.className}AddViewImpl(exceptionMappingStrategy);
-	#end
-}
-
-	@Override
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW") )
-public ${bean.className}ChangeViewEx create${bean.className}ChangeView() {
-	#else
-public ${bean.className}ChangeView create${bean.className}ChangeView() {
-	#end
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW_IMPL") )
-return new ${bean.className}ChangeViewImplEx(exceptionMappingStrategy);
-	#else
-return new ${bean.className}ChangeViewImpl(exceptionMappingStrategy);
-	#end
-}
-
-	@Override
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_VIEW") )
-public ${bean.className}ListViewEx create${bean.className}ListView() {
-	#else
-public ${bean.className}ListView create${bean.className}ListView() {
-	#end
-	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_VIEW_IMPL") )
-return new ${bean.className}ListViewImplEx(exceptionMappingStrategy);
-	#else
-return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
-	#end
-}
-#end
-#end
+#parse("/de/akquinet/engineering/vaadinator/templates/VaadinViewFactory_common.template")
 
 	@Override
 	public MainView createMainView() {

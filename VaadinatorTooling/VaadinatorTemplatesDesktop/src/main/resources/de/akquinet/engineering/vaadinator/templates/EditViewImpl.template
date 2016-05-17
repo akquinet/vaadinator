@@ -21,6 +21,8 @@ ${import}
 import ${modelPackage}.*;
 
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+import ${common.basePackage}.ui.view.VaadinView;
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
@@ -29,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -48,17 +52,14 @@ import com.vaadin.data.validator.BeanValidator;
 #end
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
-		extends CustomComponent implements ${bean.className}EditView<O> {
+		extends CustomComponent implements ${bean.className}EditView<O>, VaadinView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private O observer;
-
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
-
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonVar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	protected VerticalLayout mainLayout = new VerticalLayout();
