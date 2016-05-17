@@ -16,6 +16,8 @@ the License.
 package ${package};
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +27,7 @@ import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -106,19 +109,43 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 
 	@Override
 	public boolean checkAllFieldsValid() {
+		beforeValidation();
+		Map<Field<?>, InvalidValueException> errors = new HashMap<Field<?>, InvalidValueException>();
 	    boolean valid = true;
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
 #if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false && $property.getDisplayPropertyProfile($profileName).fieldType.name()!="LABEL")
         try {
+        	beforeFieldValidation(${property.propertyName});
 			${property.propertyName}.validate();
 		} catch (InvalidValueException e) {
+			onFieldValidationError(${property.propertyName}, e);
+			errors.put(${property.propertyName}, e);
 			valid = false;
 		}
 #end
-#end		
+#end	
+		if(!valid) {
+			onValidationError(errors);
+		}	
 		return valid;
 	}
 
+	@Override
+	public void beforeValidation() {
+	}
+
+	@Override
+	public void beforeFieldValidation(Field<?> field) {
+	}
+
+	@Override
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+	}
+
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+	}
+	
 	@Override
 	public void showErrorMessage(String message) {
 		Notification.show(message, Type.ERROR_MESSAGE);
@@ -133,9 +160,6 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInDetail)
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	#end	
 	public ${property.propertyClassName} ${property.propertyGetterName}() {
 	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 		return (${property.propertyClassName}) ${property.propertyName}.getValue();
@@ -153,7 +177,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	}
 	
 	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 		this.${property.propertyName}.setValue(${property.propertyName});
 	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
 		this.${property.propertyName}.setValue(${property.propertyName});
@@ -183,7 +207,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		}
 	}
 	#end
-	
+
 	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
 	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
 		#if($property.hasEnumClass($common.beans))

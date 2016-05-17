@@ -21,6 +21,8 @@ ${import}
 import ${modelPackage}.*;
 
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
@@ -106,28 +108,45 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		addStyleName("styleid-${bean.className}EditViewImpl");
 	}
 
+	@Override
 	public boolean checkAllFieldsValid() {
+		beforeValidation();
+		Map<Field<?>, InvalidValueException> errors = new HashMap<Field<?>, InvalidValueException>();
 	    boolean valid = true;
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
 #if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false && $property.getDisplayPropertyProfile($profileName).fieldType.name()!="LABEL")
         try {
+        	beforeFieldValidation(${property.propertyName});
 			${property.propertyName}.validate();
 		} catch (InvalidValueException e) {
+			onFieldValidationError(${property.propertyName}, e);
+			errors.put(${property.propertyName}, e);
 			valid = false;
 		}
 #end
-#end		
+#end	
+		if(!valid) {
+			onValidationError(errors);
+		}	
 		return valid;
 	}
 
-	private void validateField(Field<?> field) throws InvalidValueException {
+    @Override
+	public void beforeValidation() {
+	}
+
+	@Override
+	public void beforeFieldValidation(Field<?> field) {
 		field.removeStyleName("validation-red");
-		try {
-			field.validate();
-		} catch (InvalidValueException e) {
-			field.addStyleName("validation-red");
-			throw e;
-		}
+	}
+
+	@Override
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+		field.addStyleName("validation-red");
+	}
+
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
 	}
 
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)

@@ -100,6 +100,11 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ObservableView", ".java"),
 						TEMPLATE_PACKAGE);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+						null, null, null, "ValidatableView.template",
+						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+								vaadinatorConfig.getBasePckg() + ".ui.view", "ValidatableView", ".java"),
+						TEMPLATE_PACKAGE);
+				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "ErrorHandlerView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ErrorHandlerView", ".java"),

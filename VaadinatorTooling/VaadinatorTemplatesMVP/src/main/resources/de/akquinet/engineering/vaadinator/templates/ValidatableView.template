@@ -1,0 +1,62 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.Map;
+
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.ui.Field;
+
+/**
+ * This interface contains methods used during the validation of a form.
+ * <p>
+ * If the methods are overridden to add custom behavior remember to call the
+ * super implementation.
+ */
+public interface ValidatableView extends View {
+	/**
+	 * This method is called before the validation process starts.
+	 */
+	public void beforeValidation();
+
+	/**
+	 * This method is called before each time before a field is validated.
+	 * 
+	 * @param field
+	 *            the field which is going to be validated.
+	 */
+	public void beforeFieldValidation(Field<?> field);
+
+	/**
+	 * This method is called each time a field validation failed.
+	 * 
+	 * @param field
+	 *            the field which validation failed.
+	 * @param excpetion
+	 *            the exception thrown during the validation.
+	 */
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion);
+
+	/**
+	 * This method is called after the validation process ended and at least one
+	 * field failed.
+	 * 
+	 * @param validationErrors
+	 *            a map containing the failed fields as keys and the exceptions
+	 *            as values.
+	 */
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors);
+}
