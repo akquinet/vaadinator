@@ -77,7 +77,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	public void initializeUi() {
 
 		buttonLayout.setSpacing(true);
-		initButtons(buttonLayout);
+		initButtons();
 
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 

@@ -46,7 +46,7 @@ public class ${bean.className}ChangeViewImpl extends
 	}
 
 	@Override
-	protected void initButtons(AbstractOrderedLayout buttonLayout) {
+	protected void initButtons() {
 
 		remove.setCaption(obtainBundle().getString("delete"));
 		remove.addStyleName("styleid-${bean.className}ChangeViewImpl-remove");
