@@ -24,7 +24,7 @@ the License.
 				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 	}
 
-	protected abstract void initButtons(AbstractOrderedLayout buttonLayout);
+	protected abstract void initButtons();
 
 	@Override
 	public Object getComponent() {
