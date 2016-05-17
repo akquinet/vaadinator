@@ -33,12 +33,7 @@ the License.
 	<dependencies>
 		<dependency>
 			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
-			<artifactId>VaadinatorTemplatesMVP</artifactId>
-			<version>0.20-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
-			<artifactId>VaadinatorTemplatesCommon</artifactId>
+			<artifactId>VaadinatorTemplatesVaadin</artifactId>
 			<version>0.20-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
