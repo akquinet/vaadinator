@@ -25,6 +25,7 @@ Our intention is to get people productive with vaadin and excited about vaadin -
 <img src="img/overview.png" alt="Install Archetype, Generate Project, Customize Model Class, Package & run Webapp, Be excited!" />
 
 - have [Maven](http://maven.apache.org) and [Tomcat](http://tomcat.apache.org) in place (optionally also Eclipse)
+- (alternatively, you can run via Maven and Jetty)
  
 - download + unpack or clone project
 - open command prompt:
@@ -32,7 +33,7 @@ Our intention is to get people productive with vaadin and excited about vaadin -
 cd <checkoutDir>
 mvn install
 cd ../<yourEmptyDir>
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.20-SNAPSHOT
 ```
 - when specifying groupId, artifactId and package make sure not to use special characters - particularly not the minus sign "-" to avoid trouble
 - the sample class (and thus the generation result) is German - if you want to see an English UI instead download this <a href="misc/messages_en.properties">messages_en.properties</a> and store it to src/main/resources/<i>packageChosenBefore</i>/ui/std/view/messages_en.properties
@@ -41,7 +42,11 @@ cd <artifactId>
 mvn package eclipse:eclipse
 ```
 - eclipse:eclipse is only necessary if you want to open in Eclipse (make sure you have UTF-8 configured as workspace default charset)
-- copy WAR to Tomcat or open in Eclipse and <i>Run on Server</i>
+- copy WAR to Tomcat or open in Eclipse and <i>Run on Server</i> (OR:  run 
+```
+mvn jetty:run -Pstageres
+```
+)
 - you will get a <strong>mobile</strong> base application that runs in the browser
 - open with iPhone or Chrome or other Webkit-based browser
 
@@ -78,7 +83,7 @@ mvn install
 
 As a result of that, Vaadinator's Archetypes are available through the local Maven repository. In order to get started open a command prompt (with Maven installed) and type:
 ```
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.20-SNAPSHOT
 ```
 Maven will then prompt you for a groupId, an artifactId and a version for your new project. As soon as you have provided and confirmed these, you have a project in place (in the current working directory). 
 
@@ -466,7 +471,7 @@ Customization to the pom.xml in such a case:
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.20-SNAPSHOT</version>
 				...
 				<executions>
 					<execution>
@@ -603,13 +608,14 @@ Unsere Idee ist, Sie schnell mit vaadin produktiv werden zu lassen und Sie für 
 <img src="img/overview.png" alt="Install Archetype, Generate Project, Customize Model Class, Package & run Webapp, Be excited!" />
 
 - [Maven](http://maven.apache.org) und [Tomcat](http://tomcat.apache.org) installieren (optional auch Eclipse)
+- (alternativ kann über Maven und Jetty gestartet werden)
 - das Projekt herunterladen und auspacken oder klonen
 - Kommandozeile öffnen:
 ```
 cd <checkoutVerzeichnis>
 mvn install
 cd ../<neuesLeeresVerzeichnis>
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.20-SNAPSHOT
 ```
 - achten Sie bei der Eingabe von groupId, artifactId und package darauf, keine Sonderzeichen zu verwenden - insbesondere nicht das Minuszeichen "-"
 ```
@@ -617,7 +623,11 @@ cd <artifactId>
 mvn package eclipse:eclipse
 ```
 - eclipse:eclipse ist nur nötig, wenn Sie Eclipse verwenden möchten
-- WAR nach Tomcat kopieren oder in Eclipse mit <i>Run on Server</i> starten
+- WAR nach Tomcat kopieren oder in Eclipse mit <i>Run on Server</i> starten (ODER: ausführen von
+```
+mvn jetty:run -Pstageres
+```
+)
 - sie erhalten eine <strong>mobile</strong> Anwendung, die im Browser läuft
 - im iPhone oder Chrome oder anderem Webkit-basierten Browser öffnen
 
@@ -653,7 +663,7 @@ mvn install
 ```
 Anschließend stehen die mitgelieferten Archetypes im lokalen Maven Repository zur Verfügung. Um loszulegen: in der Kommandozeile (mit installiertem Maven) folgendes eingeben:
 ```
-mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.10-SNAPSHOT
+mvn archetype:generate -DarchetypeGroupId=de.akquinet.engineering.vaadin.vaadinator -DarchetypeArtifactId=vaadinator-touchkit-tomcat-archetype -DarchetypeVersion=0.20-SNAPSHOT
 ```
 Maven wird nach groupId, artifactId und Version für das Projekt fragen. Sobald diese eingegeben sind ist ein neues Projekt (im aktuellen Verzeichnis) angelegt.
 
@@ -1041,7 +1051,7 @@ Anpassung der pom.xml der generierten Anwendung:
 			<plugin>
 				<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 				<artifactId>VaadinatorGenerator</artifactId>
-				<version>0.10-SNAPSHOT</version>
+				<version>0.20-SNAPSHOT</version>
 				...
 				<executions>
 					<execution>

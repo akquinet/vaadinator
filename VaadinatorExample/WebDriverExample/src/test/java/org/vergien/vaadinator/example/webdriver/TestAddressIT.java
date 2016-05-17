@@ -39,7 +39,7 @@ import com.github.webdriverextensions.junitrunner.annotations.Firefox;
 
 @RunWith(WebDriverRunner.class)
 @Firefox
-public class TestAddress extends AbstractWebDriverCase {
+public class TestAddressIT extends AbstractWebDriverCase {
 	private AddressPage addressPage;
 
 	@Before
