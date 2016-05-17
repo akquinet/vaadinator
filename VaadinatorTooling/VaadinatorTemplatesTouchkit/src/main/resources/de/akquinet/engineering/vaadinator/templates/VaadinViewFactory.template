@@ -13,37 +13,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 *#
-package ${package};
-
-import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
-import ${common.basePackage}.ui.view.DefaultExceptionMappingStrategy;
-
-public class VaadinViewFactory implements ViewFactory {
-
-    protected ExceptionMappingStrategy exceptionMappingStrategy = new DefaultExceptionMappingStrategy();
-
-	public VaadinViewFactory() {
-		super();
-	}
-
-#foreach($bean in $common.beans)
-#if($bean.displayed)
-	@Override
-	public ${bean.className}AddView create${bean.className}AddView() {
-		return new ${bean.className}AddViewImpl(exceptionMappingStrategy);
-	}
-
-	@Override
-	public ${bean.className}ChangeView create${bean.className}ChangeView() {
-		return new ${bean.className}ChangeViewImpl(exceptionMappingStrategy);
-	}
-
-	@Override
-	public ${bean.className}ListView create${bean.className}ListView() {
-		return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
-	}
-#end
-#end
+#parse("/de/akquinet/engineering/vaadinator/templates/VaadinViewFactory_common.template")
 
 	@Override
 	public MainView createMainView() {

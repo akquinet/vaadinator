@@ -1,0 +1,57 @@
+#*
+Copyright 2016 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.DefaultExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+
+public class VaadinViewFactory implements ViewFactory {
+
+    protected ExceptionMappingStrategy exceptionMappingStrategy = new DefaultExceptionMappingStrategy();
+	
+	protected FieldInitializer commonFieldInitializer = null;
+	
+	public VaadinViewFactory() {
+		super();
+	}
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+	@Override
+	public ${bean.className}AddView create${bean.className}AddView() {
+		${bean.className}AddViewImpl addViewImpl = new ${bean.className}AddViewImpl(exceptionMappingStrategy);
+		if(commonFieldInitializer != null) {
+			addViewImpl.addFieldInitializer(commonFieldInitializer);
+		}
+		return addViewImpl;
+	}
+
+	@Override
+	public ${bean.className}ChangeView create${bean.className}ChangeView() {
+		${bean.className}ChangeViewImpl changeViewImpl = new ${bean.className}ChangeViewImpl(exceptionMappingStrategy);
+		if(commonFieldInitializer != null) {
+			changeViewImpl.addFieldInitializer(commonFieldInitializer);
+		}
+		return changeViewImpl;
+	}
+
+	@Override
+	public ${bean.className}ListView create${bean.className}ListView() {
+		return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
+	}
+#end
+#end
