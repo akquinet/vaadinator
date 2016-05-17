@@ -13,11 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vergien.vaadinator.example.webdriver.model;
+package org.vergien.vaadinator.webdriver.touchkit;
 
-import de.akquinet.engineering.vaadinator.annotations.DisplayEnum;
+import org.vergien.vaadinator.webdriver.touchkit.ui.presenter.Presenter;
 
-public enum Anreden {
-	HERR, FRAU, @DisplayEnum(captionText = "Fräulein")
-	FROLLEIN
+public class AddAdressDemo extends AbstractDemo {
+
+	@Override
+	Presenter getPresenter() {
+		return obtainPresenterFactory().createAddressAddPresenter(null);
+	}
+
 }

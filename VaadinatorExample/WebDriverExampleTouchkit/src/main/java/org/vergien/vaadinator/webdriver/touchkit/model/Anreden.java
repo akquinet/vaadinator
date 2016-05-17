@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vergien.vaadinator.example.webdriver.model;
+package org.vergien.vaadinator.webdriver.touchkit.model;
 
 import de.akquinet.engineering.vaadinator.annotations.DisplayEnum;
 

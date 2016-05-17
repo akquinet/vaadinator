@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vergien.vaadinator.example.webdriver;
+package org.vergien.vaadinator.webdriver.touchkit;
 
 import java.util.HashMap;
 
@@ -21,37 +21,49 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.vaadin.addonhelpers.AbstractTest;
-import org.vergien.vaadinator.example.webdriver.dao.AddressDaoPlain;
-import org.vergien.vaadinator.example.webdriver.service.AddressService;
-import org.vergien.vaadinator.example.webdriver.service.AddressServicePlain;
-import org.vergien.vaadinator.example.webdriver.ui.std.presenter.MainPresenter;
-import org.vergien.vaadinator.example.webdriver.ui.std.presenter.PresenterFactory;
-import org.vergien.vaadinator.example.webdriver.ui.std.view.MainView;
-import org.vergien.vaadinator.example.webdriver.ui.std.view.VaadinViewFactory;
+import org.vergien.vaadinator.webdriver.touchkit.dao.AddressDaoPlain;
+import org.vergien.vaadinator.webdriver.touchkit.service.AddressService;
+import org.vergien.vaadinator.webdriver.touchkit.service.AddressServicePlain;
+import org.vergien.vaadinator.webdriver.touchkit.ui.presenter.Presenter;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.presenter.PresenterFactory;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.VaadinViewFactory;
+import org.vergien.vaadinator.webdriver.touchkit.ui.view.View;
 
+import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Component;
 
-public class WebDriverExampleDemo extends AbstractTest {
+@SuppressWarnings("serial")
+@Theme("touchkitex")
+public abstract class AbstractDemo extends AbstractTest {
 
 	PresenterFactory presenterFactory = null;
 
+	abstract Presenter getPresenter();
+
 	@Override
 	public Component getTestComponent() {
-		MainPresenter mpres;
-		mpres = obtainPresenterFactory().createMainPresenter();
-		MainView mview = mpres.getView();
-		// and go
-		mpres.startPresenting();
-		return (Component) mview.getComponent();
+		NavigationManager navigationManager = new NavigationManager();
+		navigationManager.setMaintainBreadcrumb(true);
+		Presenter presenter;
+		presenter = getPresenter();
+		View view = presenter.getView();
+		
+		navigationManager.setCurrentComponent((Component) view.getComponent());
+		
+		presenter.startPresenting();
+
+		return navigationManager;
 	}
 
 	protected PresenterFactory obtainPresenterFactory() {
 		if (presenterFactory == null) {
 			AddressService addressService;
-			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WebDriverExample");
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("WebDriverExampleTouchkit");
 			AddressDaoPlain addressDaoPlain = new AddressDaoPlain(entityManagerFactory);
 			addressService = new AddressServicePlain(entityManagerFactory, addressDaoPlain);
-			
+
 			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), new VaadinViewFactory(),
 					addressService);
 		}

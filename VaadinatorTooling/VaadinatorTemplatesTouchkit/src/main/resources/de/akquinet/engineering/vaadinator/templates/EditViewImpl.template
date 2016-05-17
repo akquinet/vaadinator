@@ -29,7 +29,6 @@ import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 import ${viewPackage}.${bean.className}EditView.Observer;
 
-import com.vaadin.addon.touchkit.gwt.client.theme.StyleNames;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
@@ -44,7 +43,8 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
-public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer> extends NavigationView implements ${bean.className}EditView<O> {
+public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
+    extends NavigationView implements ${bean.className}EditView<O> {
 
 	/**
 	 * 
@@ -56,10 +56,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_sectionvar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
 
-	protected Button cancel = new Button();
-	protected Button save = new Button();
-
-	private ${bean.className}EditView.Observer observer;
+	private O observer;
 
 	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 
@@ -74,41 +71,13 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_section.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 		setContent(layout);
-		cancel.setCaption(obtainBundle().getString("cancel"));
-		cancel.addStyleName("styleid-${bean.className}EditViewImpl-cancel");
-		cancel.addClickListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				observer.onCancel();
-			}
-		});
-		setLeftComponent(cancel);
-		save.setCaption(obtainBundle().getString("save"));
-		save.setStyleName(StyleNames.BUTTON_BLUE);
-		save.addStyleName("styleid-${bean.className}EditViewImpl-save");
-		save.addClickListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				observer.onSave();
-			}
-		});
-		setRightComponent(save);
+		initButtons(this);
 		addStyleName("styleid-${bean.className}EditViewImpl");
 	}
-
-#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")	
+	
+    protected abstract void initButtons(NavigationView navigationView);
+    
+    #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
 
     @Override
 	public void beforeValidation() {
@@ -216,10 +185,14 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 #end
 
     @Override
-	public void setObserver(${bean.className}EditView.Observer observer) {
+	public void setObserver(O observer) {
 		this.observer = observer;
 	}
 
+	protected O getObserver() {
+		return this.observer;
+	}
+	
 	public Object getComponent() {
 		return this;
 	}

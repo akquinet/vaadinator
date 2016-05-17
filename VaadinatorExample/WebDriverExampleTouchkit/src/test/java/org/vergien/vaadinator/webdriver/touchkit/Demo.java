@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Daniel Norhoff-Vergien
+ * Copyright 2016 Daniel Nordhoff-Vergien
  *  
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,11 +13,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vergien.vaadinator.example.webdriver.model;
+package org.vergien.vaadinator.webdriver.touchkit;
 
-import de.akquinet.engineering.vaadinator.annotations.DisplayEnum;
+import org.vaadin.addonhelpers.TServer;
 
-public enum Anreden {
-	HERR, FRAU, @DisplayEnum(captionText = "Fräulein")
-	FROLLEIN
+import com.vaadin.annotations.Widgetset;
+
+@Widgetset("org.vergien.vaadinator.webdriver.touchkit.MobileWidgetset")
+public class Demo extends TServer {
+
+	public Demo(String string) {
+		super(string);
+	}
+
+	public static void main(String[] args) throws Exception {
+		Demo demo = new Demo("target/WebDriverExampleTouchkit-0.20-SNAPSHOTstage");
+		demo.startServer();
+	}
 }
