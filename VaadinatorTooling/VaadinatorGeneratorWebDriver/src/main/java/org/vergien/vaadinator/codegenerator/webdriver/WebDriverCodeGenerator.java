@@ -19,6 +19,8 @@ import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.*;
 
 import java.io.IOException;
 
+import org.apache.maven.plugin.logging.Log;
+
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
@@ -31,7 +33,8 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
-		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
+		Log log = vaadinatorConfig.getLog();
+		log.info("Generating WebDriver PageObjects");
 		boolean generatePages = true;
 		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
 			generatePages = false;
@@ -49,25 +52,25 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 									"EditViewComponent.template",
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "EditViewComponent.java"),
-									TEMPLATE_PACKAGE);
+									TEMPLATE_PACKAGE, log);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 									"AddViewComponent.template",
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "AddViewComponent.java"),
-									TEMPLATE_PACKAGE);
+									TEMPLATE_PACKAGE, log);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 									"ChangeViewComponent.template",
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "ChangeViewComponent.java"),
-									TEMPLATE_PACKAGE);
+									TEMPLATE_PACKAGE, log);
 							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
 									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 									"ListViewComponent.template",
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "ListViewComponent.java"),
-									TEMPLATE_PACKAGE);
+									TEMPLATE_PACKAGE, log);
 							if (isGeneratePages(vaadinatorConfig)) {
 								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
 								if (isTouchkit()) {
@@ -76,26 +79,26 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 											"ListPage.template",
 											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
 													desc.getClassName(), "ListPage.java"),
-											TEMPLATE_PACKAGE);
+											TEMPLATE_PACKAGE, log);
 									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
 											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 											"AddPage.template",
 											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
 													desc.getClassName(), "AddPage.java"),
-											TEMPLATE_PACKAGE);
+											TEMPLATE_PACKAGE, log);
 									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
 											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 											"ChangePage.template",
 											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
 													desc.getClassName(), "ChangePage.java"),
-											TEMPLATE_PACKAGE);
+											TEMPLATE_PACKAGE, log);
 								} else {
 									runVelocity(desc, vaadinatorConfig.getCommonMap(), pagePckg, desc.getPckg(),
 											desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 											"Page.template",
 											packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), pagePckg,
 													desc.getClassName(), "Page.java"),
-											TEMPLATE_PACKAGE);
+											TEMPLATE_PACKAGE, log);
 								}
 								
 							}
@@ -125,7 +128,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 						displayProfileName, "FirstPageViewComponent.template",
 						packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), webdriverComponentPckg,
 								"FirstPageViewComponent", ".java"),
-						false, TEMPLATE_PACKAGE);
+						false, TEMPLATE_PACKAGE, vaadinatorConfig.getLog());
 				if (isGeneratePages(vaadinatorConfig)) {
 					String webdriverPagePckg = viewPckg + ".webdriver.page";
 					runVelocity(null, vaadinatorConfig.getCommonMap(), webdriverPagePckg, null,
@@ -133,7 +136,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 							displayProfileName, "FirstPageViewPage.template",
 							packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), webdriverPagePckg,
 									"FirstPageViewPage", ".java"),
-							false, TEMPLATE_PACKAGE);
+							false, TEMPLATE_PACKAGE, vaadinatorConfig.getLog());
 				}
 
 			}

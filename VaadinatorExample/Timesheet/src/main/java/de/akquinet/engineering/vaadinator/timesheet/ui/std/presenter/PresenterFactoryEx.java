@@ -22,11 +22,11 @@ import de.akquinet.engineering.vaadinator.timesheet.service.TimesheetDayEntrySer
 import de.akquinet.engineering.vaadinator.timesheet.service.TimesheetDayService;
 import de.akquinet.engineering.vaadinator.timesheet.service.TimesheetService;
 import de.akquinet.engineering.vaadinator.timesheet.ui.presenter.Presenter;
-import de.akquinet.engineering.vaadinator.timesheet.ui.std.view.ViewFactoryEx;
+import de.akquinet.engineering.vaadinator.timesheet.ui.std.view.ViewFactory;
 
 public class PresenterFactoryEx extends PresenterFactory {
 
-	public PresenterFactoryEx(Map<String, Object> context,ViewFactoryEx viewFactory, ProjectService projectService, TimesheetService timesheetService,
+	public PresenterFactoryEx(Map<String, Object> context,ViewFactory viewFactory, ProjectService projectService, TimesheetService timesheetService,
 			TimesheetDayService timesheetDayService, TimesheetDayEntryService timesheetDayEntryService) {
 		super(context, viewFactory, projectService, timesheetService, timesheetDayService, timesheetDayEntryService);
 		this.context = context;
@@ -36,7 +36,7 @@ public class PresenterFactoryEx extends PresenterFactory {
 	}
 
 	private Map<String, Object> context;
-	private ViewFactoryEx viewFactory;
+	private ViewFactory viewFactory;
 	private ProjectService projectService;
 	private TimesheetService timesheetService;
 
