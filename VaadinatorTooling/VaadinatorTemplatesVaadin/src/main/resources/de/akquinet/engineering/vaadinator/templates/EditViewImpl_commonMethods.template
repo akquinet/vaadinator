@@ -44,8 +44,8 @@ the License.
 		this.fieldInitializers.add(fieldInitializer);
 	}
 	
-	private void initializeField(Field<?> field) {
+	private void initializeField(Component component) {
 		for(FieldInitializer fieldInitializer : fieldInitializers) {
-			fieldInitializer.initializeField(field);
+			fieldInitializer.initializeField(component);
 		}
 	}
