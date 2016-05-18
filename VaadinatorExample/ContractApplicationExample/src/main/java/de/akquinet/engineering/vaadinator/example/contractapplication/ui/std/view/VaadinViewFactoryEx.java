@@ -17,6 +17,10 @@ package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.vi
 
 public class VaadinViewFactoryEx extends VaadinViewFactory {
 
+	public VaadinViewFactoryEx() {
+		this.commonFieldInitializer = new DefaultFieldInitializer();
+	}
+
 	@Override
 	public FirstPageView createFirstPageView() {
 		return new FirstPageViewImplEx(exceptionMappingStrategy);

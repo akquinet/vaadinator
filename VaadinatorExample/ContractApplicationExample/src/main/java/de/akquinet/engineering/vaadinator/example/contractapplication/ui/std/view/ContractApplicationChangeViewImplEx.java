@@ -17,14 +17,16 @@ package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.vi
 
 import java.util.Map;
 
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
 
-public class ContractApplicationChangeViewImplEx extends ContractApplicationChangeViewImpl {
+public class ContractApplicationChangeViewImplEx extends ContractApplicationChangeViewImpl implements EagerValidatableView{
 
 	/**
 	 * 
@@ -69,5 +71,17 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 			sb.append(field.getCaption());		
 		}
 		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+	}
+
+	@Override
+	public void valueChange(ValueChangeEvent event) {
+		System.out.println(event);
+		
+	}
+
+	@Override
+	public void textChange(TextChangeEvent event) {
+		System.out.println(event);
+		
 	}
 }

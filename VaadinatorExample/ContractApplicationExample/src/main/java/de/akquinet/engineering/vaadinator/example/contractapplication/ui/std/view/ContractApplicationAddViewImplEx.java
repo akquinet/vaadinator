@@ -20,12 +20,13 @@ import java.util.Map;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
-public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl {
+public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl implements EagerValidatableView {
 
 	/**
 	 * 
@@ -89,16 +90,41 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		this.observer = observer;
 	}
 	
+//	@Override
+//	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+//		super.onValidationError(validationErrors);
+//		StringBuilder sb = new StringBuilder();
+//		for(Field<?> field: validationErrors.keySet()) {
+//			if(sb.length()!= 0) {
+//				sb.append(", ");
+//			}
+//			sb.append(field.getCaption());		
+//		}
+//		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+//	}
+
 	@Override
-	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
-		super.onValidationError(validationErrors);
-		StringBuilder sb = new StringBuilder();
-		for(Field<?> field: validationErrors.keySet()) {
-			if(sb.length()!= 0) {
-				sb.append(", ");
-			}
-			sb.append(field.getCaption());		
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+	
+	}
+	@Override
+	public void valueChange(ValueChangeEvent event) {
+		updateValidation();
+		
+	}
+
+	private void updateValidation() {
+		if(checkAllFieldsValid()){
+			save.setEnabled(true);
+		}else{
+			save.setEnabled(false);
 		}
-		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+		
+	}
+
+	@Override
+	public void textChange(TextChangeEvent event) {
+		updateValidation();
+		
 	}
 }
