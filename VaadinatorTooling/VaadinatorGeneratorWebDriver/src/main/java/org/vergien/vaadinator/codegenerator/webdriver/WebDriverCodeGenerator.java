@@ -32,6 +32,10 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
 
 		vaadinatorConfig.getLog().info("Generating WebDriver PageObjects");
+		boolean generatePages = true;
+		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
+			generatePages = false;
+		}
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			if (vaadinatorConfig.isHasDisplayBeans()) {
@@ -93,6 +97,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 													desc.getClassName(), "Page.java"),
 											TEMPLATE_PACKAGE);
 								}
+								
 							}
 						}
 					}
