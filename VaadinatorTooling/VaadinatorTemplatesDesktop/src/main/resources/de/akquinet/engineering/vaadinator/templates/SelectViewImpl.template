@@ -1,0 +1,238 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${presenterPackage}.${bean.className}SelectPresenter;
+
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
+public class ${bean.className}SelectViewImpl extends CustomComponent implements ${bean.className}SelectView {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
+	protected TextField searchField = new TextField();
+    protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    
+	private ${bean.className}SelectView.Observer observer;
+
+	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+	}
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
+	@Override
+	public void initializeUi() {
+		${bean.classNamePass}Table.setSizeFull();
+		${bean.classNamePass}Table.setSelectable(true);
+		${bean.classNamePass}Table.setImmediate(true);
+
+		${bean.classNamePass}Table.addValueChangeListener(new Property.ValueChangeListener() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void valueChange(ValueChangeEvent event) {
+				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
+				if (sel != null) {
+					observer.on${bean.className}Chosen();
+				}
+			}
+		});
+		setOrRefreshData(new ArrayList<${bean.className}>());
+		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
+		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String getStyle(com.vaadin.ui.Table source, Object itemId,
+					Object propertyId) {
+				return "cell-" + propertyId;
+			}
+		});
+		
+		initSearch();
+		searchField.addStyleName("styleid-${bean.className}ListViewImpl-searchField");
+		
+		addStyleName("styleid-${bean.className}ListViewImpl");
+	}
+
+	private void initSearch() {
+
+		/*
+		 * We want to show a subtle prompt in the search field. We could also
+		 * set a caption that would be shown above the field or description to
+		 * be shown in a tooltip.
+		 */
+		searchField.setInputPrompt(obtainBundle().getString("search"));
+
+		/*
+		 * Granularity for sending events over the wire can be controlled. By
+		 * default simple changes like writing a text in TextField are sent to
+		 * server with the next Ajax call. You can set your component to be
+		 * immediate to send the changes to server immediately after focus
+		 * leaves the field. Here we choose to send the text over the wire as
+		 * soon as user stops writing for a moment.
+		 */
+		searchField.setTextChangeEventMode(TextChangeEventMode.EAGER);
+
+		/*
+		 * When the event happens, we handle it in the anonymous inner class.
+		 * You may choose to use separate controllers (in MVC) or presenters (in
+		 * MVP) instead. In the end, the preferred application architecture is
+		 * up to you.
+		 */
+		searchField.addTextChangeListener(new TextChangeListener() {
+		
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void textChange(final TextChangeEvent event) {
+
+				/* Reset the filter for the container. */
+				((Filterable) ${bean.classNamePass}Table.getContainerDataSource()).removeAllContainerFilters();
+				((Filterable) ${bean.classNamePass}Table.getContainerDataSource()).addContainerFilter(new ${bean.className}Filter(event.getText()));
+			}
+		});
+	}
+
+	/*
+	 * A custom filter for searching names and companies in the container
+	 */
+	private class ${bean.className}Filter implements Filter {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private String needle;
+
+		public ${bean.className}Filter(String needle) {
+			this.needle = needle.toLowerCase();
+		}
+
+		@Override
+		public boolean passesFilter(Object itemId, Item item) {
+			String haystack = (""
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+				+ getPropertyVal(item, ${bean.className}Properties.${property.propertyName.toUpperCase()}.getPropertyName()) + "---"
+#end
+#end
+			).toLowerCase();
+			return haystack.contains(needle);
+		}
+
+		private String getPropertyVal(Item item, String name) {
+			Property<?> prop = item.getItemProperty(name);
+			if (prop == null) {
+				return null;
+			}
+			return String.valueOf(prop.getValue());
+		}
+
+		public boolean appliesToProperty(Object id) {
+			return true;
+		}
+	}
+
+	@Override
+	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
+		List<String> visibleCols = new ArrayList<String>();
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		visibleCols.add("${property.propertyName}");
+#end
+#end
+		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#end
+#end
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Property<${bean.className}> get${bean.className}Selection() {
+		return (Property) ${bean.classNamePass}Table;
+	}
+
+	@Override
+	public void setObserver(${bean.className}SelectView.Observer observer) {
+		this.observer = observer;
+	}
+
+	@Override
+	public Object getComponent() {
+		return this;
+	}
+
+	@Override
+	public void showErrorMessage(String message) {
+		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+	
+    @Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+
+	}
+}

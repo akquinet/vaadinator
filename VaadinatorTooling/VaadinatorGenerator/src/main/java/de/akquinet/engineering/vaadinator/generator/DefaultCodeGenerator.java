@@ -381,6 +381,11 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
 										desc.getClassName(), "SelectView.java"),
 								TEMPLATE_PACKAGE);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getViewPckg(p), desc.getClassName(), "SelectViewImpl.java"),
+								TEMPLATE_PACKAGE);
 					}
 				}
 				if (desc.isDisplayed() || desc.isService()) {
