@@ -72,6 +72,10 @@ public class PresenterFactory {
 	public ${bean.className}ListPresenter create${bean.className}ListPresenter(Presenter returnPresenter, SubviewCapablePresenter subviewCapablePresenter) {
 		return new ${bean.className}ListPresenterImpl(context, viewFactory.create${bean.className}ListView(), this, ${bean.classNamePass}Service, subviewCapablePresenter);
 	}
+	
+	public ${bean.className}SelectPresenter create${bean.className}SelectPresenter() {
+		return new ${bean.className}SelectPresenterImpl(context, viewFactory.create${bean.className}SelectView(), ${bean.classNamePass}Service);
+	}
 #end
 #end
 

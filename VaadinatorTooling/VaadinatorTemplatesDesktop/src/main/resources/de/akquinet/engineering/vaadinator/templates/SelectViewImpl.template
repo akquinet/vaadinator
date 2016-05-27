@@ -70,6 +70,16 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 
 	@Override
 	public void initializeUi() {
+	    setSizeFull();
+
+		/* Build the component tree */
+		VerticalLayout layout = new VerticalLayout();
+		layout.addComponent(searchField);
+		layout.addComponent(${bean.classNamePass}Table);
+		layout.setExpandRatio(${bean.classNamePass}Table, 1);
+		
+		setCompositionRoot(layout);
+		
 		${bean.classNamePass}Table.setSizeFull();
 		${bean.classNamePass}Table.setSelectable(true);
 		${bean.classNamePass}Table.setImmediate(true);

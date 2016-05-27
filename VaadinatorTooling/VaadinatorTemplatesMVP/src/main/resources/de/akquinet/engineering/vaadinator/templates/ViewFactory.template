@@ -24,6 +24,8 @@ public interface ViewFactory {
 	public ${bean.className}ChangeView create${bean.className}ChangeView();
 
 	public ${bean.className}ListView create${bean.className}ListView();
+	
+	public ${bean.className}SelectView create${bean.className}SelectView();
 #end
 #end
 

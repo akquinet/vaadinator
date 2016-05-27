@@ -53,5 +53,10 @@ public class VaadinViewFactory implements ViewFactory {
 	public ${bean.className}ListView create${bean.className}ListView() {
 		return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
 	}
+	
+	@Override
+	public ${bean.className}SelectView create${bean.className}SelectView() {
+		return new ${bean.className}SelectViewImpl(exceptionMappingStrategy);
+	}
 #end
 #end

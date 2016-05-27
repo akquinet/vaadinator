@@ -23,6 +23,8 @@ public interface ${bean.className}SelectPresenter extends Presenter {
 
 	public ${bean.className}SelectView getView();
 
+    public void setObserver(${bean.className}SelectPresenter.Observer observer);
+    
     public static interface Observer {
 		public void on${bean.className}Selected(${bean.className} ${bean.classNamePass});
 	}
