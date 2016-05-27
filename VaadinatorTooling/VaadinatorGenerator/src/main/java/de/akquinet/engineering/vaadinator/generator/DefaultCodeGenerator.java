@@ -341,6 +341,16 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								"ListPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "ListPresenterImpl.java"),
 								TEMPLATE_PACKAGE);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectPresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getPresenterPckg(p), desc.getClassName(), "SelectPresenter.java"),
+								TEMPLATE_PACKAGE);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getPresenterPckg(p), desc.getClassName(), "SelectPresenterImpl.java"),
+								TEMPLATE_PACKAGE);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "AddView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
