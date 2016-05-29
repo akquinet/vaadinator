@@ -77,7 +77,7 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 	public void on${bean.className}Chosen() {
 		if (observer!= null) {
 		   ${bean.className} newSel = view.get${bean.className}Selection().getValue();
-		   if (newSel == null) {
+		   if (newSel != null) {
 			   observer.on${bean.className}Selected(newSel);
 		   }
 		}
