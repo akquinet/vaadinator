@@ -39,12 +39,14 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 	private ${bean.className}SelectView view;
 	private ${bean.className}Service service;
 	private ${bean.className}SelectPresenter.Observer observer;
-
+	private boolean nullSelectionAllowed = true;
+	
 	public ${bean.className}SelectPresenterImpl(Map<String, Object> context, ${bean.className}SelectView view, ${bean.className}Service service) {
 		super();
 		this.context = context;
 		this.view = view;
 		this.service = service;
+		this.view.setNullSelectionAllowed(nullSelectionAllowed);
 	}
 
 	@Override
@@ -77,10 +79,19 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 	public void on${bean.className}Chosen() {
 		if (observer!= null) {
 		   ${bean.className} newSel = view.get${bean.className}Selection().getValue();
-		   if (newSel != null) {
-			   observer.on${bean.className}Selected(newSel);
-		   }
+		   observer.on${bean.className}Selected(newSel);		   
 		}
+	}
+	
+	@Override
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed) {
+	   this.nullSelectionAllowed = nullSelectionAllowed;
+	   view.setNullSelectionAllowed(nullSelectionAllowed);
+	}
+	
+	@Override
+	public boolean isNullSelectionAllowed() {
+	   return nullSelectionAllowed;
 	}
 	
 	@Override

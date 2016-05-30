@@ -23,6 +23,10 @@ public interface ${bean.className}SelectPresenter extends Presenter {
 
 	public ${bean.className}SelectView getView();
 
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed);
+	
+	public boolean isNullSelectionAllowed();
+	
     public void setObserver(${bean.className}SelectPresenter.Observer observer);
     
     public static interface Observer {

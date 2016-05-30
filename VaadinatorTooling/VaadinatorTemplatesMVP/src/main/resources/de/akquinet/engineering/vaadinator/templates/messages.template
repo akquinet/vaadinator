@@ -27,6 +27,7 @@ entity.${bean.className}.plural=${unicodeUtil.escape($bean.effectiveCaptionPlura
 entity.${bean.className}.list=${unicodeUtil.escape($bean.effectiveCaptionPlural)} anzeigen
 entity.${bean.className}.new=Neue ${unicodeUtil.escape($bean.effectiveCaption)}
 entity.${bean.className}.edit=${unicodeUtil.escape($bean.effectiveCaption)} bearbeiten
+entity.${bean.className}.noSelection=Kein ${unicodeUtil.escape($bean.effectiveCaption)} ausw\u00E4hlen
 #foreach($section in $bean.getDisplayProfile($profileName).sectionsInProfile)	
 entity.${bean.className}.section.${section.sectionVarSuffix}=${unicodeUtil.escape($section.sectionName)}
 #end

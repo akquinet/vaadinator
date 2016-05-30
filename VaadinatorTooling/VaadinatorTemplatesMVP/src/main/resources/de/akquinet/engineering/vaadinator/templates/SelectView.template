@@ -29,6 +29,8 @@ public interface ${bean.className}SelectView extends ObservableView<${bean.class
 
 	public Property<${bean.className}> get${bean.className}Selection();
 
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed);
+	
 	public static interface Observer {
 	
 		public void on${bean.className}Chosen();

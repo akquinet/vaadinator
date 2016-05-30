@@ -61,6 +61,8 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
     
 	private ${bean.className}SelectView.Observer observer;
 
+	private Button noSelectionButton = new Button();
+	
 	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
 		super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
@@ -76,6 +78,8 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		VerticalLayout layout = new VerticalLayout();
 		layout.addComponent(searchField);
 		layout.addComponent(${bean.classNamePass}Table);
+		layout.addComponent(noSelectionButton);
+		
 		layout.setExpandRatio(${bean.classNamePass}Table, 1);
 		
 		setCompositionRoot(layout);
@@ -85,12 +89,9 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		${bean.classNamePass}Table.setImmediate(true);
 
 		${bean.classNamePass}Table.addValueChangeListener(new Property.ValueChangeListener() {
-			
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
-
+			
+			@Override
 			public void valueChange(ValueChangeEvent event) {
 				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
 				if (sel != null) {
@@ -98,6 +99,17 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 				}
 			}
 		});
+		
+		noSelectionButton.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				${bean.classNamePass}Table.setValue(null);
+				observer.on${bean.className}Chosen();
+			}
+		});
+		
 		setOrRefreshData(new ArrayList<${bean.className}>());
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
@@ -118,6 +130,8 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		searchField.addStyleName("styleid-${bean.className}ListViewImpl-searchField");
 		
 		addStyleName("styleid-${bean.className}ListViewImpl");
+		
+		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
 	}
 
 	private void initSearch() {
@@ -244,5 +258,10 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		Notification.show(exceptionMappingStrategy.getCaption(exception),
 				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 
+	}
+	
+	@Override
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed) {
+	   noSelectionButton.setVisible(nullSelectionAllowed);
 	}
 }
