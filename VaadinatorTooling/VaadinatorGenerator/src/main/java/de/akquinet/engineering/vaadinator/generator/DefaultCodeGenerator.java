@@ -170,7 +170,15 @@ public class DefaultCodeGenerator implements CodeGenerator {
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"PresenterFactory", ".java"),
 							TEMPLATE_PACKAGE);
-
+					runVelocity(null, vaadinatorConfig.getCommonMap(),
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", displayProfileName,
+							"PresenterFactoryAware.template",
+							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
+									"PresenterFactoryAware", ".java"),
+							TEMPLATE_PACKAGE);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
