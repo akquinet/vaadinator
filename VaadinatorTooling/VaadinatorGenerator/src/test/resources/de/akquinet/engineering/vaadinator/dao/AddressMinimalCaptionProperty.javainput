@@ -12,16 +12,8 @@ import javax.persistence.TemporalType;
 
 import de.akquinet.engineering.vaadinator.annotations.DisplayBean;
 import de.akquinet.engineering.vaadinator.annotations.DisplayProperty;
-import de.akquinet.engineering.vaadinator.annotations.DisplayPropertySetting;
-import de.akquinet.engineering.vaadinator.annotations.FieldType;
-import de.akquinet.engineering.vaadinator.annotations.MapBean;
-import de.akquinet.engineering.vaadinator.annotations.MapBeanSetting;
-import de.akquinet.engineering.vaadinator.annotations.MapProperty;
-import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 
-@DisplayBean(captionText = "Adresse")
-@MapBean(profiles = { @MapBeanSetting(profileName = "full", target = Address.class),
-		@MapBeanSetting(profileName = "restricted", target = Address.class), @MapBeanSetting(profileName = "mini", target = Address.class) })
+@DisplayBean
 @Entity
 public class Address implements Serializable {
 
@@ -42,20 +34,18 @@ public class Address implements Serializable {
 		this.email = email;
 	}
 
-	@MapProperty
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(fieldType = FieldType.DROPDOWN) }, captionText = "Anrede")
-	@MapProperty
+	@DisplayProperty
 	private Anreden anrede;
 	@DisplayProperty
-	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "mini", include = true),
-			@MapPropertySetting(profileName = "dto", include = true) })
 	private String vorname;
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(required = true) })
-	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "dto", include = true) })
+	@DisplayProperty
 	private String nachname;
+	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = false, showInDetail = false, useAsSummary = true) })
+	private String name;
+	
 	private String email;
 	@Temporal(TemporalType.DATE)
 	private Date geburtsdatum;
@@ -72,7 +62,7 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false, useAsSummary = true) })
+	@DisplayProperty
 	public String getName() {
 		return getVorname() + " " + getNachname();
 	}
@@ -97,8 +87,11 @@ public class Address implements Serializable {
 		this.nachname = nachname;
 	}
 
-	@DisplayProperty(captionText = "E-Mail", profileSettings = { @DisplayPropertySetting(showInTable = true) })
-	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "restricted", exclude = true) })
+	public String getName() {
+	    return name;
+	}
+	
+	@DisplayProperty
 	public String getEmail() {
 		return email;
 	}
@@ -107,8 +100,7 @@ public class Address implements Serializable {
 		this.email = email;
 	}
 
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(sectionName = "Mehr Infos", fieldType = FieldType.DATEPICKER) })
-	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "restricted", exclude = true) })
+	@DisplayProperty
 	public Date getGeburtsdatum() {
 		return geburtsdatum;
 	}

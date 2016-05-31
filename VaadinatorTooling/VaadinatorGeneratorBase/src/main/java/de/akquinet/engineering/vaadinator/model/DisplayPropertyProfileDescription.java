@@ -41,6 +41,7 @@ public class DisplayPropertyProfileDescription {
 	private int order = 0;
 	private boolean showInTable = false;
 	private boolean showInDetail = true;
+	private boolean useAsSummary = false;
 	private String sectionName = "Basisdaten";
 	private float tableExpandRatio = 1.0f;
 	private boolean readOnly = false;
@@ -228,6 +229,13 @@ public class DisplayPropertyProfileDescription {
 		this.allowTextInput = allowTextInput;
 	}
 
+	public boolean isUseAsSummary() {
+		return useAsSummary;
+	}
+	
+	public void setUseAsSummary(boolean useAsCaption) {
+		this.useAsSummary = useAsCaption;
+	}
 	@Override
 	public String toString() {
 		return "DisplayPropertyProfileDescription [profileName=" + profileName + ", excluded=" + excluded + ", included=" + included + ", fieldType="
