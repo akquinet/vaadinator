@@ -47,7 +47,7 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 	}
 
     @Override
-    public void initButtons(NavigationView navigationView){
+    public void initButtons(){
     cancel.setCaption(obtainBundle().getString("cancel"));
 		cancel.addStyleName("styleid-${bean.className}AddViewImpl-cancel");
 		cancel.addClickListener(new ClickListener() {
@@ -62,7 +62,7 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 				${bean.className}AddViewImpl.this.getObserver().onCancel();
 			}
 		});
-		navigationView.setLeftComponent(cancel);
+		this.setLeftComponent(cancel);
 		save.setCaption(obtainBundle().getString("save"));
 		save.setStyleName(StyleNames.BUTTON_BLUE);
 		save.addStyleName("styleid-${bean.className}AddViewImpl-save");
@@ -78,6 +78,6 @@ public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<
 				${bean.className}AddViewImpl.this.getObserver().onSave();
 			}
 		});
-		navigationView.setRightComponent(save);
+		this.setRightComponent(save);
     }
 }

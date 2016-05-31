@@ -20,195 +20,91 @@ ${import}
 #end
 import ${modelPackage}.*;
 
-import java.util.List;
-
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+import ${common.basePackage}.ui.view.VaadinView;
+
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${viewPackage}.${bean.className}EditView.Observer;
+
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
+#if($bean.beanValidation==true)
+import com.vaadin.data.validator.BeanValidator;
+#end
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
-    extends NavigationView implements ${bean.className}EditView<O> {
+    extends NavigationView implements ${bean.className}EditView<O>, VaadinView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonVar.template")
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	protected CssLayout layout = new CssLayout();
 
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_sectionvar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
-
-	private O observer;
-
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 
 	public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
     	super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
 	}
 
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
-
+	@Override
 	public void initializeUi() {
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_section.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 		setContent(layout);
-		initButtons(this);
+		initButtons();
 		addStyleName("styleid-${bean.className}EditViewImpl");
-	}
-
-    protected abstract void initButtons(NavigationView navigationView);
-    
-	public boolean checkAllFieldsValid() {
-	    boolean valid = true;
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
-#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false && $property.getDisplayPropertyProfile($profileName).fieldType.name()!="LABEL")
-        try {
-			${property.propertyName}.validate();
-		} catch (InvalidValueException e) {
-			valid = false;
-		}
-#end
-#end		
-		return valid;
-	}
-
-	private void validateField(Field<?> field) throws InvalidValueException {
-		field.removeStyleName("validation-red");
-		try {
-			field.validate();
-		} catch (InvalidValueException e) {
-			field.addStyleName("validation-red");
-			throw e;
-		}
-	}
-
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInDetail)
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	#end	
-	public ${property.propertyClassName} ${property.propertyGetterName}() {
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-		return (${property.propertyClassName}) ${property.propertyName}.getValue();
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-		return (java.util.Set) ${property.propertyName}.getValue();
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
-		return ${property.propertyName}.getValue();
-	#elseif($property.propertyUnboxed)
-		return ${property.propertyUnboxedFromString}(${property.propertyName}.getValue());
-	#else
-		return ${property.propertyName}.getValue();
-	#end
-	}
-	
-	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#elseif($property.propertyUnboxed)
-		this.${property.propertyName}.setValue(${property.propertyUnboxedToString}(${property.propertyName}));
-	#else
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#end
-	}
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassName}> ${property.propertyChoicesForParamName}) {
-		for (${property.propertyClassName} auswahl : ${property.propertyChoicesForParamName}) {
-			${property.propertyName}.addItem(auswahl);
-			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
-		}
-	}
-	#end
-
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassTypeParameter}> ${property.propertyChoicesForParamName}) {
-		for (${property.propertyClassTypeParameter} auswahl : ${property.propertyChoicesForParamName}) {
-			${property.propertyName}.addItem(auswahl);
-			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
-		}
-	}
-	#end
-
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
-		#if($property.hasEnumClass($common.beans))
-		switch(auswahl){
-			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
-			case ${enumVal.value}:
-				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
-			#end
-			default: 
-				return null;
-		}		
-		#else
-		// (Fallback for non-enums)
-		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
-		#end
-	} 
-	#end
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassTypeParameter} auswahl) {
-		#if($property.hasEnumClass($common.beans))
-		switch(auswahl){
-			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
-			case ${enumVal.value}:
-				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
-			#end
-			default: 
-				return null;
-		}		
-		#else
-		// (Fallback for non-enums)
-		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
-		#end
-	} 
-	#end
-#end
-#end
+	}    
 
     @Override
-	public void setObserver(O observer) {
-		this.observer = observer;
-	}
-
-	protected O getObserver() {
-		return this.observer;
-	}
-	
-	public Object getComponent() {
-		return this;
+	public void beforeValidation() {
 	}
 
 	@Override
-	public void showErrorMessage(String message) {
-		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	public void beforeFieldValidation(Field<?> field) {
+		field.removeStyleName("validation-red");
 	}
-	
+
 	@Override
-	public void showErrorMessage(Exception exception) {
-		Notification.show(exceptionMappingStrategy.getCaption(exception),
-				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
-
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+		field.addStyleName("validation-red");
 	}
 
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+	}
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonMethods.template")
+		
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_propertyMethods.template")
 }

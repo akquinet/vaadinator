@@ -15,10 +15,6 @@ the License.
 *#
 package ${common.basePackage}.ui.view;
 
-import com.vaadin.ui.Notification.Type;
-
-public interface ExceptionMappingStrategy {
-	public String getCaption(Exception e);
-	public String getMessage(Exception e);
-	public Type getType(Exception exception);
+public interface VaadinView {
+	public void addFieldInitializer(FieldInitializer fieldInitializer);
 }

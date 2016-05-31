@@ -15,8 +15,13 @@
  */
 package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view;
 
+import java.util.Map;
+
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Notification;
 
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
@@ -83,5 +88,17 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		super.setObserver(observer);
 		this.observer = observer;
 	}
-
+	
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+		super.onValidationError(validationErrors);
+		StringBuilder sb = new StringBuilder();
+		for(Field<?> field: validationErrors.keySet()) {
+			if(sb.length()!= 0) {
+				sb.append(", ");
+			}
+			sb.append(field.getCaption());		
+		}
+		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+	}
 }

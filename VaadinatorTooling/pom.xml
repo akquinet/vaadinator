@@ -31,6 +31,7 @@ the License.
 		<module>VaadinatorAnnotations</module>
 		<module>VaadinatorTemplatesCommon</module>
 		<module>VaadinatorTemplatesMVP</module>
+		<module>VaadinatorTemplatesVaadin</module>
 		<module>VaadinatorTemplatesDesktop</module>
 		<module>VaadinatorTemplatesTouchkit</module>
 		<module>VaadinatorGenerator</module>
