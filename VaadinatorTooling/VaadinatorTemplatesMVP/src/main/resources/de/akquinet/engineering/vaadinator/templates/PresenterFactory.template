@@ -32,6 +32,14 @@ public class PresenterFactory {
 	protected Map<String, Object> context;
 	protected ViewFactory viewFactory;
 
+	/**
+	 * Creates an uninitialized PresenterFactory. This should be used for tests
+	 * where you only need some services and adding a new DisplayBean shall not
+	 * create compiler errors on your tests.
+	 */
+	protected PresenterFactory() {
+		super();
+	}
 	public PresenterFactory(Map<String, Object> context, ViewFactory viewFactory
 #foreach($bean in $common.beans)
 #if($bean.displayed || $bean.service)

@@ -15,7 +15,18 @@ the License.
 *#
 package ${package};
 
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +36,7 @@ import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -34,13 +46,6 @@ import com.vaadin.ui.VerticalLayout;
 #if($bean.beanValidation==true)
 import com.vaadin.data.validator.BeanValidator;
 #end
-import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
-
-#foreach($import in $bean.imports)
-${import}
-#end
-import ${modelPackage}.*;
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
 		extends CustomComponent implements ${bean.className}EditView<O> {
@@ -51,14 +56,17 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	private static final long serialVersionUID = 1L;
 
 	private O observer;
-	
+
+	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
 	protected VerticalLayout mainLayout = new VerticalLayout();
 	protected HorizontalLayout buttonLayout = new HorizontalLayout();
 	protected FormLayout editLayout = new FormLayout();
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+	
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
 
-#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
     public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
     	super();
@@ -69,7 +77,7 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 	public void initializeUi() {
 
 		buttonLayout.setSpacing(true);
-		initButtons(buttonLayout);
+		initButtons();
 
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
 
@@ -88,136 +96,25 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 		addStyleName("styleid-${bean.className}EditViewImpl");
 	}
 
-	protected abstract void initButtons(AbstractOrderedLayout buttonLayout);
-
 	@Override
-	public Object getComponent() {
-		return this;
-	}
-	
-	@Override
-	public void setObserver(O observer) {
-		this.observer = observer;
-	}
-
-	protected O getObserver() {
-		return this.observer;
+	public void beforeValidation() {
 	}
 
 	@Override
-	public boolean checkAllFieldsValid() {
-	    boolean valid = true;
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	    		
-#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false && $property.getDisplayPropertyProfile($profileName).fieldType.name()!="LABEL")
-        try {
-			${property.propertyName}.validate();
-		} catch (InvalidValueException e) {
-			valid = false;
-		}
-#end
-#end		
-		return valid;
+	public void beforeFieldValidation(Field<?> field) {
 	}
 
 	@Override
-	public void showErrorMessage(String message) {
-		Notification.show(message, Type.ERROR_MESSAGE);
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
 	}
-	
+
 	@Override
-	public void showErrorMessage(Exception exception) {
-		Notification.show(exceptionMappingStrategy.getCaption(exception),
-				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
-
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
 	}
 
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInDetail)
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	#end	
-	public ${property.propertyClassName} ${property.propertyGetterName}() {
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-		return (${property.propertyClassName}) ${property.propertyName}.getValue();
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-		return (java.util.Set) ${property.propertyName}.getValue();
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
-		return ${property.propertyName}.getValue();
-	#elseif($property.converterClassName)
-	    return (${property.propertyClassName}) ${property.propertyName}.getConvertedValue();
-	#elseif($property.propertyUnboxed)
-		return ${property.propertyUnboxedFromString}(${property.propertyName}.getValue());
-	#else
-		return ${property.propertyName}.getValue();
-	#end
-	}
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
+		
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonMethods.template")
 	
-	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#elseif($property.propertyUnboxed)
-		this.${property.propertyName}.setValue(${property.propertyUnboxedToString}(${property.propertyName}));
-	#elseif($property.converterClassName)
-	    this.${property.propertyName}.setConvertedValue(${property.propertyName});
-	#else
-		this.${property.propertyName}.setValue(${property.propertyName});
-	#end
-	}
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassName}> ${property.propertyChoicesForParamName}) {
-		for (${property.propertyClassName} auswahl : ${property.propertyChoicesForParamName}) {
-			${property.propertyName}.addItem(auswahl);
-			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
-		}
-	}
-	#end
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassTypeParameter}> ${property.propertyChoicesForParamName}) {
-		for (${property.propertyClassTypeParameter} auswahl : ${property.propertyChoicesForParamName}) {
-			${property.propertyName}.addItem(auswahl);
-			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
-		}
-	}
-	#end
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
-	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
-		#if($property.hasEnumClass($common.beans))
-		switch(auswahl){
-			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
-			case ${enumVal.value}:
-				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
-			#end
-			default: 
-				return null;
-		}		
-		#else
-		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
-		#end
-	} 
-	#end
-	
-	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
-	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassTypeParameter} auswahl) {
-		#if($property.hasEnumClass($common.beans))
-		switch(auswahl){
-			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
-			case ${enumVal.value}:
-				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
-			#end
-			default: 
-				return null;
-		}		
-		#else
-		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
-		#end
-	} 
-	#end
-#end
-#end
-
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_propertyMethods.template")
 }

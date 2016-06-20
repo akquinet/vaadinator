@@ -32,6 +32,12 @@ the License.
 			${property.propertyName}.setUseNative(false);
 		#end
 		${property.propertyName}.addStyleName("styleid-${bean.className}EditViewImpl-${property.propertyName}");
+		#if($bean.beanValidation==true)
+		${property.propertyName}.addValidator(new BeanValidator(${bean.className}.class, "${property.propertyName}"));
+		#end
+		#if($property.converterClassName)
+		${property.propertyName}.setConverter(new ${property.converterClassName}());
+		#end
 		section${property.getDisplayPropertyProfile($profileName).section.sectionVarSuffix}.addComponent(${property.propertyName});
 	#end
 	#end

@@ -17,6 +17,7 @@ package ${package};
 
 import ${common.basePackage}.ui.view.ErrorHandlerView;
 import ${common.basePackage}.ui.view.ObservableView;
+import ${common.basePackage}.ui.view.ValidatableView;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}EditPresenter;
 
-public interface ${bean.className}EditView<O extends ${bean.className}EditView.Observer> extends ObservableView<O>, ErrorHandlerView {
+public interface ${bean.className}EditView<O extends ${bean.className}EditView.Observer> extends ObservableView<O>, ValidatableView,
+	ErrorHandlerView {
 
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInDetail)

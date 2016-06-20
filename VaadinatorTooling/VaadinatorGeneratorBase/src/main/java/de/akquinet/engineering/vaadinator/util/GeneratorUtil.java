@@ -72,9 +72,7 @@ public class GeneratorUtil {
 		if (mandatory) {
 			runTemplate = true;
 		} else {
-			Enumeration<URL> templateResEnum = Velocity.class.getClassLoader()
-					.getResources(templatePackage.substring(1) + templateName);
-			runTemplate = templateResEnum.hasMoreElements();
+			runTemplate = isTemplateExisting(templateName, templatePackage);
 		}
 		if (!runTemplate) {
 			return;
@@ -94,5 +92,13 @@ public class GeneratorUtil {
 		Writer writer = new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8");
 		template.merge(context, writer);
 		writer.close();
+	}
+
+	public static boolean isTemplateExisting(String templateName, String templatePackage) throws IOException {
+		boolean runTemplate;
+		Enumeration<URL> templateResEnum = Velocity.class.getClassLoader()
+				.getResources(templatePackage.substring(1) + templateName);
+		runTemplate = templateResEnum.hasMoreElements();
+		return runTemplate;
 	}
 }

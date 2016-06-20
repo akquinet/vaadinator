@@ -31,6 +31,7 @@ public class TesteditorTouchkitGenerator implements CodeGenerator {
 
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
+
 		Log log = vaadinatorConfig.getLog();
 		log.info("Generating testeditor touchkit artifacts");
 

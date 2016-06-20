@@ -15,6 +15,12 @@ the License.
 *#
 package ${package};
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.gwt.client.theme.StyleNames;
+
 import ${presenterPackage}.${bean.className}ChangePresenter;
 import ${presenterPackage}.${bean.className}EditPresenter;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
@@ -26,6 +32,9 @@ public class ${bean.className}ChangeViewImpl extends ${bean.className}EditViewIm
 	 */
 	private static final long serialVersionUID = 1L;
 
+	protected Button cancel = new Button();
+	protected Button save = new Button();
+	
 	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
 		super(exceptionMappingStrategy);
 	}
@@ -37,9 +46,38 @@ public class ${bean.className}ChangeViewImpl extends ${bean.className}EditViewIm
 		addStyleName("styleid-${bean.className}ChangeViewImpl");
 	}
 
-	@Override
-	public void setObserver(${bean.className}ChangeView.Observer observer) {
-		super.setObserver((${bean.className}EditView.Observer) observer);
-	}
+    @Override
+    public void initButtons(){
+        cancel.setCaption(obtainBundle().getString("cancel"));
+		cancel.addStyleName("styleid-${bean.className}ChangeViewImpl-cancel");
+		cancel.addClickListener(new ClickListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				${bean.className}ChangeViewImpl.this.getObserver().onCancel();
+			}
+		});
+		this.setLeftComponent(cancel);
+		save.setCaption(obtainBundle().getString("save"));
+		save.setStyleName(StyleNames.BUTTON_BLUE);
+		save.addStyleName("styleid-${bean.className}ChangeViewImpl-save");
+		save.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				${bean.className}ChangeViewImpl.this.getObserver().onSave();
+			}
+		});
+		this.setRightComponent(save);
+    }
 }

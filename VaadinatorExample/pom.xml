@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Copyright 2014 akquinet engineering GmbH
  
@@ -12,9 +13,7 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 	<artifactId>VaadinatorExample</artifactId>
@@ -43,6 +42,7 @@ the License.
 				<module>AddressbookExampleTemplatesTouchkit</module>
 				<module>ContractApplicationExample</module>
 				<module>Timesheet</module>
+				<module>WebDriverExampleTouchkit</module>
 			</modules>
 		</profile>
 		<profile>
@@ -52,4 +52,15 @@ the License.
 			</modules>
 		</profile>
 	</profiles>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+  					<groupId>org.eclipse.jetty</groupId>
+  					<artifactId>jetty-maven-plugin</artifactId>
+  					<version>9.3.7.v20160115</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
