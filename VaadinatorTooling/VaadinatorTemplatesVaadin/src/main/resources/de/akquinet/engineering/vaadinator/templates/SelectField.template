@@ -71,7 +71,7 @@ public class ${bean.className}SelectField extends CustomField<${bean.className}>
 				${bean.className}SelectPresenter listPresenter = presenterFactory.create${bean.className}SelectPresenter();
 				listPresenter.setNullSelectionAllowed(true);
 				listPresenter.startPresenting();
-				Window popUp = new Window();
+				final Window popUp = new Window();
 				Component view = (Component) listPresenter.getView();
 				initPopUp(popUp);
 				popUp.setContent(view);
