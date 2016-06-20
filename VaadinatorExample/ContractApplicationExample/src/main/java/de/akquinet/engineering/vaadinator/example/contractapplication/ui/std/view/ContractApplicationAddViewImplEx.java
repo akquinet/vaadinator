@@ -88,17 +88,4 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		super.setObserver(observer);
 		this.observer = observer;
 	}
-	
-	@Override
-	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
-		super.onValidationError(validationErrors);
-		StringBuilder sb = new StringBuilder();
-		for(Field<?> field: validationErrors.keySet()) {
-			if(sb.length()!= 0) {
-				sb.append(", ");
-			}
-			sb.append(field.getCaption());		
-		}
-		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
-	}
 }
