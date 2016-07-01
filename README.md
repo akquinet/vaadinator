@@ -50,6 +50,17 @@ mvn jetty:run -Pstageres
 - you will get a <strong>mobile</strong> base application that runs in the browser
 - open with iPhone or Chrome or other Webkit-based browser
 
+If you are more an Eclipse-Maven-Plugin person: 
+- download + unpack or clone project
+- add as Maven project to Eclipse
+- install the full project (without further options / profiles)
+- Create a new Maven project
+- check 'Include snapshot archetypes' and click 'Add archetype', give the following details: <br /><img src="img/maven_plugin.png" alt="specify de.akquinet.engineering.vaadin.vaadinator, vaadinator-touchkit-tomcat-archetype, 0.10-SNAPSHOT" />
+- Specify the settings for your own project
+- (possibly, you have to choose 'resolve later' for Vaadinator plugins)
+- You get a new project in Eclipse - Choose Maven > 'Update project...' to have clean resources (and a correct tree view)
+- you just created your first Vaadinator-Project
+
 Result - Start:
 <img src="img/first_screen_en.png" border="0" />
 
@@ -630,6 +641,17 @@ mvn jetty:run -Pstageres
 )
 - sie erhalten eine <strong>mobile</strong> Anwendung, die im Browser läuft
 - im iPhone oder Chrome oder anderem Webkit-basierten Browser öffnen
+
+Wenn Sie eher mit dem Eclipse-Maven-Plugin arbeiten: 
+- das Projekt herunterladen und auspacken oder klonen
+- fügen Sie das Projekt in Eclipse als Maven-Projekt hinzu
+- installieren Sie das gesamte Projekt (ohne weitere Optionen / Profile)
+- erstellen Sie ein neues Maven-Projekt
+- haken Sie 'Include snapshot archetypes' an und klicken Sie auf 'Add archetype', geben Sie die folgenden Details ein: <br /><img src="img/maven_plugin.png" alt="angeben von de.akquinet.engineering.vaadin.vaadinator, vaadinator-touchkit-tomcat-archetype, 0.10-SNAPSHOT" />
+- geben Sie die Details für Ihr eigenes Projekt ein
+- (ggf. müssen Sie 'resolve later' wählen, um mit den Vaadinator-Plugins umzugehen)
+- Sie erhalten ein neues Projekt in Eclipse; wählen Sie Maven > 'Update project...' um saubere Ressourcen (und eine korrekte Baum-Ansicht) zu haben
+- Sie haben Ihr erstes Vaadinator-Projekt erstellt
 
 Ergebnis - Startseite:
 <img src="img/first_screen.png" border="0" />
