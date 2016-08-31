@@ -61,16 +61,40 @@ public class PresenterFactory {
 #if($bean.displayed)
 	protected ${bean.className}Service ${bean.classNamePass}Service;
 
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_PRES") )
+	public ${bean.className}AddPresenter create${bean.className}AddPresenterEx(Presenter returnPresenter) {
+#else
 	public ${bean.className}AddPresenter create${bean.className}AddPresenter(Presenter returnPresenter) {
+#end
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_PRES_IMPL") )
+		return new ${bean.className}AddPresenterImplEx(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
+#else
 		return new ${bean.className}AddPresenterImpl(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
+#end
 	}
 
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_PRES") )
+	public ${bean.className}ChangePresenterEx create${bean.className}ChangePresenter(Presenter returnPresenter) {
+#else
 	public ${bean.className}ChangePresenter create${bean.className}ChangePresenter(Presenter returnPresenter) {
+#end
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_PRES_IMPL") )
+		return new ${bean.className}ChangePresenterImplEx(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
+#else
 		return new ${bean.className}ChangePresenterImpl(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
+#end
 	}
 
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_PRES") )
+	public ${bean.className}ListPresenter create${bean.className}ListPresenterEx(Presenter returnPresenter, SubviewCapablePresenter subviewCapablePresenter) {
+#else
 	public ${bean.className}ListPresenter create${bean.className}ListPresenter(Presenter returnPresenter, SubviewCapablePresenter subviewCapablePresenter) {
+#end
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_PRES_IMPL") )
+		return new ${bean.className}ListPresenterImplEx(context, viewFactory.create${bean.className}ListView(), this, ${bean.classNamePass}Service, subviewCapablePresenter);
+#else
 		return new ${bean.className}ListPresenterImpl(context, viewFactory.create${bean.className}ListView(), this, ${bean.classNamePass}Service, subviewCapablePresenter);
+#end
 	}
 #end
 #end
