@@ -33,7 +33,7 @@ public enum BeanArtifact {
 	ADD_VIEW("AddView"), //
 	ADD_VIEW_IMPL("AddViewImpl"), //
 	ADD_PRES("AddPresenter"), //
-	ADD_PRES_IMPL("AddPresnterImpl"), //
+	ADD_PRES_IMPL("AddPresenterImpl"), //
 	CHANGE_VIEW("ChangeView"), //
 	CHANGE_VIEW_IMPL("ChangeViewImpl"), //
 	CHANGE_PRES("ChangePresenter"), //
