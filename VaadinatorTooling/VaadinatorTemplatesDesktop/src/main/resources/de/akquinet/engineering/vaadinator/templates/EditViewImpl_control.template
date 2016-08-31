@@ -38,5 +38,6 @@ ${property.propertyName}.addValidator(new BeanValidator(${bean.className}.class,
 #if($property.converterClassName)
 ${property.propertyName}.setConverter(new ${property.converterClassName}());
 #end
+initializeField(${property.propertyName});
 #end
 #end

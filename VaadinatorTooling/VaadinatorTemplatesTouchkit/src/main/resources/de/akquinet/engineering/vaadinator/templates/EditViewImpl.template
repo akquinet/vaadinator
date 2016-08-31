@@ -21,6 +21,9 @@ ${import}
 import ${modelPackage}.*;
 
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+import ${common.basePackage}.ui.view.VaadinView;
+
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${viewPackage}.${bean.className}EditView.Observer;
@@ -28,6 +31,8 @@ import ${viewPackage}.${bean.className}EditView.Observer;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NavigationView;
@@ -41,6 +46,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
@@ -49,17 +55,14 @@ import com.vaadin.data.validator.BeanValidator;
 #end
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
-    extends NavigationView implements ${bean.className}EditView<O> {
+    extends NavigationView implements ${bean.className}EditView<O>, VaadinView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private O observer;
-
-	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
-
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonVar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	protected CssLayout layout = new CssLayout();

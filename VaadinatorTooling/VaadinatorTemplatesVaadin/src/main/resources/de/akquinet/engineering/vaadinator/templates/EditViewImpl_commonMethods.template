@@ -39,3 +39,13 @@ the License.
 	protected O getObserver() {
 		return this.observer;
 	}
+	
+	public void addFieldInitializer(FieldInitializer fieldInitializer) {
+		this.fieldInitializers.add(fieldInitializer);
+	}
+	
+	private void initializeField(Component component) {
+		for(FieldInitializer fieldInitializer : fieldInitializers) {
+			fieldInitializer.initializeField(component);
+		}
+	}

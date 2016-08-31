@@ -39,5 +39,6 @@ the License.
 		${property.propertyName}.setConverter(new ${property.converterClassName}());
 		#end
 		section${property.getDisplayPropertyProfile($profileName).section.sectionVarSuffix}.addComponent(${property.propertyName});
+		initializeField(${property.propertyName});
 	#end
 	#end
