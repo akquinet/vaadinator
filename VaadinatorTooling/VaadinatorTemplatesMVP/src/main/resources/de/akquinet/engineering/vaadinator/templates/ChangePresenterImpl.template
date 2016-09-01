@@ -23,7 +23,12 @@ import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
 import ${viewPackage}.${bean.className}ChangeView;
 import ${common.basePackage}.service.${bean.className}Service;
 
-public class ${bean.className}ChangePresenterImpl extends ${bean.className}EditPresenterImpl
+public class ${bean.className}ChangePresenterImpl extends
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_PRES_IMPL") ) 
+	${bean.className}EditPresenterImplEx
+#else
+	${bean.className}EditPresenterImpl
+#end
 		implements ${bean.className}ChangePresenter, ${bean.className}ChangeView.Observer {
 
 	/**

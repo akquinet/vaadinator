@@ -22,8 +22,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import ${viewPackage}.${bean.className}AddView;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
-public class ${bean.className}AddViewImpl extends ${bean.className}EditViewImpl<${bean.className}AddView.Observer> implements ${bean.className}AddView {
-
+public class ${bean.className}AddViewImpl extends
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW_IMPL") )
+    ${bean.className}EditViewImplEx<${bean.className}AddView.Observer> implements ${bean.className}AddView {
+#else
+    ${bean.className}EditViewImpl<${bean.className}AddView.Observer> implements ${bean.className}AddView {
+#end
 	/**
 	 * 
 	 */

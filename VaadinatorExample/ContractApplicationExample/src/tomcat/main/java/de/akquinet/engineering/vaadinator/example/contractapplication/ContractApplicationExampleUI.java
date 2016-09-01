@@ -34,7 +34,6 @@ import de.akquinet.engineering.vaadinator.example.contractapplication.service.Co
 import de.akquinet.engineering.vaadinator.example.contractapplication.service.ContractApplicationServicePlain;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.presenter.FirstPagePresenter;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.presenter.PresenterFactory;
-import de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.presenter.PresenterFactoryEx;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view.FirstPageView;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view.VaadinViewFactoryEx;
 
@@ -72,7 +71,7 @@ public class ContractApplicationExampleUI extends UI {
 			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ContractApplicationExample");
 			ContractApplicationDao contractApplicationDao = new ContractApplicationDaoPlain(entityManagerFactory);
 			contractApplicationService = new ContractApplicationServicePlain(entityManagerFactory, contractApplicationDao);
-			presenterFactory = new PresenterFactoryEx(new HashMap<String, Object>(), new VaadinViewFactoryEx(), contractApplicationService);
+			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), new VaadinViewFactoryEx(), contractApplicationService);
 		}
 		return presenterFactory;
 	}

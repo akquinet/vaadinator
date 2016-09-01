@@ -23,8 +23,11 @@ import ${viewPackage}.${bean.className}ChangeView;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 public class ${bean.className}ChangeViewImpl extends
-		${bean.className}EditViewImpl<${bean.className}ChangeView.Observer> implements
-		${bean.className}ChangeView {
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW_IMPL") ) 
+    ${bean.className}EditViewImplEx<${bean.className}ChangeView.Observer> implements	${bean.className}ChangeView  {
+#else
+    ${bean.className}EditViewImpl<${bean.className}ChangeView.Observer> implements	${bean.className}ChangeView  {
+#end
 
 	/**
 	 * 

@@ -21,15 +21,20 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import de.akquinet.engineering.vaadinator.model.BeanArtifact;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 
 public class GeneratorUtil {
@@ -51,14 +56,14 @@ public class GeneratorUtil {
 
 	public static void runVelocity(BeanDescription desc, Map<String, Object> commonMap, String pckg, String modelPckg,
 			String presenterPckg, String viewPckg, String profileName, String templateName, File outFile,
-			String templatePackage) throws IOException {
+			String templatePackage, Log log) throws IOException {
 		runVelocity(desc, commonMap, pckg, modelPckg, presenterPckg, viewPckg, profileName, templateName, outFile, true,
-				templatePackage);
+				templatePackage, log);
 	}
 
 	public static void runVelocity(BeanDescription desc, Map<String, Object> commonMap, String pckg, String modelPckg,
 			String presenterPckg, String viewPckg, String profileName, String templateName, File outFile,
-			boolean mandatory, String templatePackage) throws IOException {
+			boolean mandatory, String templatePackage, Log log) throws IOException {
 		Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		Velocity.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		Template template;
@@ -73,6 +78,8 @@ public class GeneratorUtil {
 			return;
 		}
 		template = Velocity.getTemplate(templatePackage + templateName);
+		String className = desc != null ? desc.getClassName() : "no description found ";
+		log.debug("Create file with template: "+ template.getName() + " for bean " + className + " in profile: " + profileName);
 		VelocityContext context = new VelocityContext();
 		context.put("bean", desc);
 		context.put("common", commonMap);

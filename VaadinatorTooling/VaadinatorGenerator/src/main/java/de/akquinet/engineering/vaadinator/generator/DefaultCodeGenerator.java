@@ -22,6 +22,8 @@ import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.runVelocity;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.plugin.logging.Log;
+
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
 import de.akquinet.engineering.vaadinator.mojo.VaadinatorConfig;
@@ -33,7 +35,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws IOException {
 		File targetFolderWebStart = existingFolder(vaadinatorConfig.getTargetFolderBaseStart(), "webapp");
-
+		Log log = vaadinatorConfig.getLog();
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.RESOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			// bei Resources bisher nur common
@@ -45,20 +47,20 @@ public class DefaultCodeGenerator implements CodeGenerator {
 			if (vaadinatorConfig.isHasDisplayBeans() && vaadinatorConfig.isGenServletBase()) {
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "stylescss.template", (new File(targetFolderTouchkitex, "styles.css")), false,
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "touchkitexcss.template", (new File(targetFolderTouchkitex, "touchkitex.css")), false,
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "beansxml.template", (new File(targetFolderWebInf, "beans.xml")), false,
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
-						null, "webxml.template", (new File(targetFolderWebInf, "web.xml")), false, TEMPLATE_PACKAGE);
+						null, "webxml.template", (new File(targetFolderWebInf, "web.xml")), false, TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "widgetset.template",
 						packageToFile(vaadinatorConfig.getTargetFolderResStart(), vaadinatorConfig.getBasePckg(),
 								vaadinatorConfig.getProjectName() + "Widgetset", ".gwt.xml"),
-						false, TEMPLATE_PACKAGE);
+						false, TEMPLATE_PACKAGE, log);
 			}
 			if (vaadinatorConfig.isHasDisplayBeans()) {
 				// Internationalization
@@ -72,7 +74,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderResStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", "messages",
 									".properties"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 				}
 			}
 		}
@@ -84,65 +86,65 @@ public class DefaultCodeGenerator implements CodeGenerator {
 						null, null, null, null, "Presenter.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.presenter", "Presenter", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.presenter",
 						null, null, null, null, "SubviewCapablePresenter.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.presenter", "SubviewCapablePresenter", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "View.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "View", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "ObservableView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ObservableView", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "ValidatableView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ValidatableView", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "ErrorHandlerView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ErrorHandlerView", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "ExceptionMappingStrategy.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "ExceptionMappingStrategy", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "DefaultExceptionMappingStrategy.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "DefaultExceptionMappingStrategy",
 								".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "FieldInitializer.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "FieldInitializer",
 								".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
 						null, null, null, "VaadinView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "VaadinView",
 								".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 			}
 			// auch für Service-Layer
 			if (vaadinatorConfig.isHasDisplayBeans() || vaadinatorConfig.isHasServiceBeans()) {
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "BusinessException.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg(), "BusinessException", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null, "TechnicalException.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg(), "TechnicalException", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 			}
 			// wenn wir Basis generieren wollen auch das Folgende:
 			if (vaadinatorConfig.isHasDisplayBeans() && vaadinatorConfig.isGenServletBase()) {
@@ -150,12 +152,12 @@ public class DefaultCodeGenerator implements CodeGenerator {
 						null,
 						"Servlet.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg(), vaadinatorConfig.getProjectName() + "Servlet", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
 						null,
 						"UI.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg(), vaadinatorConfig.getProjectName() + "UI", ".java"),
-						TEMPLATE_PACKAGE);
+						TEMPLATE_PACKAGE, log);
 			}
 			// dazu gehoert auch die Startseite und die Factories
 			// EINE pro Profile
@@ -169,7 +171,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"PresenterFactory", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
@@ -179,7 +181,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"FirstPagePresenter", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -188,7 +190,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"MainPresenter", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
@@ -198,7 +200,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"FirstPagePresenterImpl", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -207,7 +209,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"MainPresenterImpl", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
@@ -217,7 +219,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view",
 									"ViewFactory", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -226,7 +228,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view",
 									"VaadinViewFactory", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -235,7 +237,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view",
 									"FirstPageView", ".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -244,7 +246,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view",
 									"FirstPageViewImpl", ".java"),
-							false, TEMPLATE_PACKAGE);
+							false, TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -253,7 +255,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", "MainView",
 									".java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -262,7 +264,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view",
 									"MainViewImpl", ".java"),
-							false, TEMPLATE_PACKAGE);
+							false, TEMPLATE_PACKAGE, log);
 				}
 			}
 			// Bean-spezifisch
@@ -271,7 +273,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPckg(), desc.getPckg(), null, null, null,
 							"Mapper.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getPckg(),
 									desc.getClassName(), "Mapper.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 				}
 				if (desc.isDisplayed()) {
 					// Presenter, Views
@@ -281,91 +283,91 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"EditPresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "EditPresenter.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"EditPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "EditPresenterImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						// Edit-View
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "EditView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
 										desc.getClassName(), "EditView.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"EditViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "EditViewImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						// Add-Presenters
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"AddPresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "AddPresenter.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"AddPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "AddPresenterImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						// Add-View
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "AddView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
 										desc.getClassName(), "AddView.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"AddViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "AddViewImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ChangePresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "ChangePresenter.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ChangePresenterImpl.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getPresenterPckg(p),
 										desc.getClassName(), "ChangePresenterImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ListPresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "ListPresenter.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ListPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "ListPresenterImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "AddView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
 										desc.getClassName(), "AddView.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ChangeView.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "ChangeView.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ChangeViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "ChangeViewImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "ListView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
 										desc.getClassName(), "ListView.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ListViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "ListViewImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 				}
 				if (desc.isDisplayed() || desc.isService()) {
@@ -374,7 +376,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 							null, null, null,
 							"Service.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									desc.getBasePckg() + ".service", desc.getClassName(), "Service.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -382,7 +384,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								desc.getPckg(), null, null, null, "ServiceImpl.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".service", desc.getClassName(), "ServiceImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -390,7 +392,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								desc.getPckg(), null, null, null, "ServiceEjb.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".service", desc.getClassName(), "ServiceEjb.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -398,13 +400,13 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								desc.getPckg(), null, null, null, "ServicePlain.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".service", desc.getClassName(), "ServicePlain.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 					// ditto Dao
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getBasePckg() + ".dao", desc.getPckg(),
 							null, null, null, "Dao.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									desc.getBasePckg() + ".dao", desc.getClassName(), "Dao.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -412,7 +414,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								null, null, null,
 								"DaoImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".dao", desc.getClassName(), "DaoImpl.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.EJB
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -420,7 +422,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								null, null, null,
 								"DaoEjb.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".dao", desc.getClassName(), "DaoEjb.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 					if (vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.PLAIN
 							|| vaadinatorConfig.getArtifactTypeEn() == VaadinatorConfig.ArtifactType.ALL) {
@@ -428,25 +430,25 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								null, null, null,
 								"DaoPlain.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getBasePckg() + ".dao", desc.getClassName(), "DaoPlain.java"),
-								TEMPLATE_PACKAGE);
+								TEMPLATE_PACKAGE, log);
 					}
 				}
 				if (desc.isWrapped()) {
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPckg(), desc.getPckg(), null, null, null,
 							"Wrapper.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									desc.getPckg(), desc.getClassName(), "Wrapper.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 				}
 				// for all having at least one
 				if (desc.isDisplayed() || desc.isMapped() || desc.isService() || desc.isWrapped()) {
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPckg(), desc.getPckg(), null, null, null,
 							"Properties.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 									desc.getPckg(), desc.getClassName(), "Properties.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 					runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPckg(), desc.getPckg(), null, null, null,
 							"Query.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getPckg(),
 									desc.getClassName(), "Query.java"),
-							TEMPLATE_PACKAGE);
+							TEMPLATE_PACKAGE, log);
 				}
 			}
 		}

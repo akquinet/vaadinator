@@ -444,6 +444,8 @@ What you have effectively done is you have taken over all infrastructure code in
 
 ### Overwriting presenters / views
 
+#### Persenters
+
 So, in order to have more logic in a presenter (for example: add of an Address): 
 - create an AddressAddPresenterImplEx extends AddressAddPresenterImpl
 - overwrite methods as you like
@@ -451,7 +453,14 @@ So, in order to have more logic in a presenter (for example: add of an Address):
 - overwrite createAddressAddPresenter to return AddressAddPresenterImplEx
 - change to PresenterFactoryEx in the UI (by overwriting obtainPresenterFactory())
 
-The same principle applies for views also.
+#### Views
+
+If you want to customize a view you only have to (for example: add of an Address):
+- create a class AddressAddViewImplEx extends AddressAddViewImpl
+- create an interface  AddressAddViewEx extends AddressAddView (only if you need more methods in the interface)
+
+If these classes are in the same package as the generated ones from Vaadinator, they are detected and used in the generated ViewFactory and VaadinViewFactory. An exception is the FirstPageView for Touchkit apps: it is
+not detected (yet) and you need to override the factories like the ones for customised presenters.
 
 There is an example shipped with Vaadinator that actually demonstrate how to do that (ContractApplicationExample - a real time finance product calculation): it overwrites both Presenter and View (and Factories + UI to wire things up). You'll notice that custom code can be applied very flexibly - and in a very focused way. This example (unlike the archetype) requires you to specify -Ptomcat or -Pjboss plus -Ptouchkit or -Pdesktop  
 
@@ -1035,6 +1044,8 @@ Diese Schritte übernehmen die Basis-Infrastruktur vom generierten Code in den s
 
 ### Überschreiben von Presentern und Views
 
+#### Presenter
+
 Um beispielsweise mehr Logik für einen Presenter haben sind folgende Schritte (am Beispiel Klasse Address) nötig:
 - erstellen eines AddressAddPresenterImplEx extends AddressAddPresenterImpl
 - überschreiben von Methoden nach Gusto
@@ -1042,7 +1053,14 @@ Um beispielsweise mehr Logik für einen Presenter haben sind folgende Schritte (
 - überschreiben der Methode createAddressAddPresenter um nunmehr AddressAddPresenterImplEx zurück zu liefern
 - ändern auf PresenterFactoryEx in der UI (durch abändern von obtainPresenterFactory())
 
-Genauso (nach dem gleichen Prinzip) kann für Views vorgegangen werden.
+#### View
+
+Um beispielsweise eine View zu ändern sind folgende Schritte (am Beispiel Klasse Address) nötig:
+- erstellen einer AddressAddViewImplEx extends AddressAddViewImpl
+- erstellen eines Interfaces AddressAddViewEx extends AddressAddView (nur wenn zusätzliche Methoden im öffentlichen Interface benötigt werden)
+
+Die Änderungen werden vom Vaadinator erkannt wenn sie im gleichen Package wie die generierten Klassen liegen und automatisch in der ViewFactory und VaadinViewFactory genutzt.
+Eine Ausnahme stellen die FirstPageView(Impl) da: sie werden (noch) nicht automatisch erkannt und die ViewFactory und VaadinViewFactory müssen wie bei den Presentern überschrieben werden.
 
 Es ist ein Beispiel im Vaadinator enthalten, das das demonstriert (das ContractApplicationExample - eine Tarifberechnung in Echtzeit): hier werden sowohl Presenters als auch Views (sowie Factories + UI zwecks zusammenbinden) überschrieben. Das Beispiel zeigt auch, dass Custom Code sehr flexibel - und sehr spezifisch nur an nötigen Stellen - eingesetzt werden kann. Dieses Beispiel verlangt (ungleich den Archetypes) die Angabe der Art der Umsetzung als -Ptomcat oder -Pjboss plus -Ptouchkit oder -Pdesktop 
 
