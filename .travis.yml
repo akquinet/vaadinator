@@ -4,5 +4,5 @@ jdk:
   - oraclejdk7
 
 script:
-  - mvn test -Pdesktop,tomcat
-  - mvn test -Ptouchkit,tomcat
+  - mvn install -Pdesktop,tomcat
+  - mvn install -Ptouchkit,tomcat
