@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.apache.maven.project.MavenProject;
 
 import com.github.javaparser.ParseException;
@@ -108,7 +109,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()),
+			processJavaFiles(src, genSrc, new SourceDao(getLog()), toValidJavaClassName(project.getArtifactId()),
 					project.getVersion(), generateServlet,
 					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
 					VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
@@ -271,7 +272,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// only for local development (in Project root of gen)
 		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
 		mojo.processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"),
-				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(),
+				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(new SystemStreamLog()),
 				"AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
 				VaadinatorConfig.GenType.ALL);
 	}

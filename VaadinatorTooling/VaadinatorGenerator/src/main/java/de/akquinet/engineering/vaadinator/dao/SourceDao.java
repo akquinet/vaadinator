@@ -38,6 +38,8 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.InputStream;
 
+import org.apache.maven.plugin.logging.Log;
+
 import de.akquinet.engineering.vaadinator.annotations.Constants;
 import de.akquinet.engineering.vaadinator.annotations.DisplayBean;
 import de.akquinet.engineering.vaadinator.annotations.DisplayEnum;
@@ -59,6 +61,12 @@ import de.akquinet.engineering.vaadinator.model.PropertyDescription;
 
 public class SourceDao {
 
+	private final Log log;
+
+	public SourceDao(Log log) {
+		this.log = log;
+	}
+
 	public BeanDescription processJavaInput(InputStream in) throws ParseException {
 		final BeanDescription descriptionToFill = new BeanDescription();
 		CompilationUnit cu = JavaParser.parse(in, "UTF-8");
@@ -67,12 +75,12 @@ public class SourceDao {
 			@Override
 			public void visit(MethodDeclaration m, Object arg) {
 				if (m.getAnnotations() != null) {
-					System.out.println(m.getName() + ":");
+					log.debug(m.getName() + ":");
 					String methodName = m.getName();
 					if (methodName != null && methodName.length() >= 4 && (methodName.startsWith("set") || methodName.startsWith("get"))) {
 						String propName = methodName.substring(3, 4).toLowerCase() + methodName.substring(4);
 						for (AnnotationExpr an : m.getAnnotations()) {
-							System.out.println("  " + an);
+							log.debug("  " + an);
 							String annoName = an.getName().toString();
 							PropertyDescription newProp = descriptionToFill.getProperty(propName);
 							if (newProp == null) {
@@ -100,11 +108,11 @@ public class SourceDao {
 			@Override
 			public void visit(FieldDeclaration f, Object arg) {
 				if (f.getVariables().size() > 0 && f.getAnnotations() != null) {
-					System.out.println(f.getVariables().get(0).toString() + ":");
+					log.debug(f.getVariables().get(0).toString() + ":");
 					String fieldName = f.getVariables().get(0).getId().toString();
 					if (fieldName != null && fieldName.length() >= 1) {
 						for (AnnotationExpr an : f.getAnnotations()) {
-							System.out.println("  " + an);
+							log.debug("  " + an);
 							String annoName = an.getName().toString();
 							if (MapProperty.class.getSimpleName().equals(annoName)) {
 								PropertyDescription newProp = descriptionToFill.getProperty(fieldName);
@@ -149,7 +157,7 @@ public class SourceDao {
 			}
 
 			private void processMapPropertyProfileAnnotation(PropertyDescription newProp, Expression arrayexp) {
-				System.out.println("    " + arrayexp);
+				log.debug("    " + arrayexp);
 				// array of annotations - each a profile
 				String profileName = null;
 				for (MemberValuePair innerpair : ((NormalAnnotationExpr) arrayexp).getPairs()) {
@@ -207,7 +215,7 @@ public class SourceDao {
 			}
 
 			private void processDisplayPropertyProfileAnnotation(PropertyDescription newProp, Expression arrayexp) {
-				System.out.println("    " + arrayexp);
+				log.debug("    " + arrayexp);
 				// array of annotations - each a profile
 				String profileName = Constants.DEFAULT_DISPLAY_PROFILE;
 				for (MemberValuePair innerpair : ((NormalAnnotationExpr) arrayexp).getPairs()) {
@@ -255,7 +263,7 @@ public class SourceDao {
 
 			@Override
 			public void visit(EnumConstantDeclaration c, Object arg) {
-				System.out.println(c.toString() + ":");
+				log.debug(c.toString() + ":");
 				String fieldName = c.getName();
 				if (fieldName != null && fieldName.length() >= 1) {
 					// add the enum value as such (always)
@@ -266,7 +274,7 @@ public class SourceDao {
 					}
 					if (c.getAnnotations() != null) {
 						for (AnnotationExpr an : c.getAnnotations()) {
-							System.out.println("  " + an);
+							log.debug("  " + an);
 							String annoName = an.getName().toString();
 							if (DisplayEnum.class.getSimpleName().equals(annoName)) {
 								processDisplayEnumAnnotation(descriptionToFill, newVal, an);
@@ -292,10 +300,10 @@ public class SourceDao {
 			public void visit(ClassOrInterfaceDeclaration cls, Object arg) {
 				if (!cls.isInterface()) {
 					if (cls.getAnnotations() != null) {
-						System.out.println("(class):");
+						log.debug("(class):");
 						descriptionToFill.setClassName(cls.getName());
 						for (AnnotationExpr an : cls.getAnnotations()) {
-							System.out.println("  " + an);
+							log.debug("  " + an);
 							String annoName = an.getName().toString();
 							if (MapBean.class.getSimpleName().equals(annoName)) {
 								processMapBeanAnnotation(descriptionToFill, an);
@@ -336,7 +344,7 @@ public class SourceDao {
 			}
 
 			private void processMapBeanProfileAnnotation(final BeanDescription descriptionToFill, Expression arrayexp) {
-				System.out.println("    " + arrayexp);
+				log.debug("    " + arrayexp);
 				// array of annotations - each a profile
 				String profileName = null;
 				for (MemberValuePair innerpair : ((NormalAnnotationExpr) arrayexp).getPairs()) {
@@ -386,7 +394,7 @@ public class SourceDao {
 			}
 
 			private void processDisplayBeanProfileAnnotation(final BeanDescription descriptionToFill, Expression arrayexp) {
-				System.out.println("    " + arrayexp);
+				log.debug("    " + arrayexp);
 				// array of annotations - each a profile
 				String profileName = null;
 				for (MemberValuePair innerpair : ((NormalAnnotationExpr) arrayexp).getPairs()) {
@@ -454,7 +462,7 @@ public class SourceDao {
 
 			@Override
 			public void visit(EnumDeclaration n, Object arg) {
-				System.out.println("(enum):");
+				log.debug("(enum):");
 				descriptionToFill.setClassName(n.getName());
 				descriptionToFill.setEnumeration(true);
 				super.visit(n, arg);
