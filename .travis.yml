@@ -1,1 +1,8 @@
 language: java
+
+jdk:
+  - oraclejdk7
+
+script:
+  - mvn test -Pdesktop,tomcat
+  - mvn test -Ptouchkit,tomcat
