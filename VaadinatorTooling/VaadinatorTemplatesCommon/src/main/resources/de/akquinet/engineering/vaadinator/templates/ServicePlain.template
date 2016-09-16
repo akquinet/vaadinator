@@ -22,6 +22,7 @@ import javax.persistence.EntityManagerFactory;
 
 import ${common.basePackage}.dao.${bean.className}Dao;
 import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
 
 import de.akquinet.engineering.vaadinator.util.AbstractPlainJpa;
 
@@ -58,6 +59,18 @@ public class ${bean.className}ServicePlain extends AbstractPlainJpa implements $
 			@Override
 			public List<${bean.className}> perform() {
 				return obtainBackend().listAll${bean.className}(context);
+			}
+		}, context);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<${bean.className}> list${bean.className}(final ${bean.className}Query query, final Map<String, Object> context) {
+		return (List<${bean.className}>) requireJpaTransaction(new Callback() {
+
+			@Override
+			public List<${bean.className}> perform() {
+				return obtainBackend().list${bean.className}(query, context);
 			}
 		}, context);
 	}

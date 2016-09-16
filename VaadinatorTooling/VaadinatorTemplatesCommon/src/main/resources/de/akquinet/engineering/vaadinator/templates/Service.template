@@ -19,11 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
 
 public interface ${bean.className}Service {
 
 	public List<${bean.className}> listAll${bean.className}(Map<String, Object> context);
-	
+
+	public List<${bean.className}> list${bean.className}(${bean.className}Query query, Map<String, Object> context);
+		
 	public ${bean.className} addNew${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
 	
 	public ${bean.className} updateExisting${bean.className}(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
