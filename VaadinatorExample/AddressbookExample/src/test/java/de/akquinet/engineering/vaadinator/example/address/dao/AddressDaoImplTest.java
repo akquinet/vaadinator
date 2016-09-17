@@ -33,6 +33,36 @@ public class AddressDaoImplTest extends AbstractDaoImplTest {
 	AddressDaoImpl dao;
 
 	@Test
+	public void testCountAll() {
+		long count = dao.count(new AddressQuery(), new HashMap<String, Object>());
+		
+		assertEquals(1, count);
+		
+		Address address = new Address(Anreden.HERR, "Gerd", "Schröder", "mrgazprom@gmail.ru");
+		dao.merge(address, new HashMap<String, Object>());
+		
+		count = dao.count(new AddressQuery(), new HashMap<String, Object>());
+		
+		assertEquals(2, count);
+	}
+
+	@Test
+	public void testCountFilterEmail() {
+		AddressQuery addressQuery = new AddressQuery();
+		addressQuery.setEmail("angie%");
+		
+		long count = dao.count(addressQuery, new HashMap<String, Object>());
+		
+		assertEquals(1, count);
+		
+		Address address = new Address(Anreden.HERR, "Gerd", "Schröder", "mrgazprom@gmail.ru");
+		dao.merge(address, new HashMap<String, Object>());
+		
+		count = dao.count(addressQuery, new HashMap<String, Object>());
+		
+		assertEquals(1, count);
+	}
+	@Test
 	public void testListAll() {
 		List<Address> res = dao.list(new AddressQuery(), new HashMap<String, Object>());
 		assertEquals(1, res.size());

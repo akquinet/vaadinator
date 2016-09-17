@@ -74,6 +74,17 @@ public class ${bean.className}ServicePlain extends AbstractPlainJpa implements $
 			}
 		}, context);
 	}
+	
+	@Override
+	public long count${bean.className}(final ${bean.className}Query query, final Map<String, Object> context) {
+		return (long) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().count${bean.className}(query, context);
+			}
+		}, context);
+	}
 
 	@Override
 	public ${bean.className} addNew${bean.className}(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {

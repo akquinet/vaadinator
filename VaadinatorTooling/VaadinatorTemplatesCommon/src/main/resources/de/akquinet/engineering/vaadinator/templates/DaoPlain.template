@@ -67,6 +67,18 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 			}
 		}, context);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public long count(final ${bean.className}Query ${bean.classNamePass}Query, final Map<String, Object> context) {
+		return (long) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().count(${bean.classNamePass}Query, context);
+			}
+		}, context);
+	}
 
 	@Override
 	public ${bean.className} merge(final ${bean.className} ${bean.classNamePass}, final Map<String, Object> context) {

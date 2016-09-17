@@ -27,6 +27,8 @@ public interface ${bean.className}Dao {
 
 	public List<${bean.className}> list(${bean.className}Query ${bean.classNamePass}Query, Map<String, Object> context);
 	
+	public long count(${bean.className}Query ${bean.classNamePass}Query, Map<String, Object> context);
+	
 	public ${bean.className} merge(${bean.className} ${bean.classNamePass}, Map<String, Object> context);
 	
 	public void remove(${bean.className} ${bean.classNamePass}, Map<String, Object> context);

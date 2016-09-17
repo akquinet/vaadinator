@@ -78,7 +78,14 @@ public class ${bean.className}ServiceImpl implements ${bean.className}Service
 	public List<${bean.className}> list${bean.className}(${bean.className}Query query, Map<String, Object> context) {
 		return ${bean.classNamePass}Dao.list(query, context);
 	}
-	
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
+	public long count${bean.className}(${bean.className}Query query, Map<String, Object> context) {
+		return ${bean.classNamePass}Dao.count(query, context);
+	}
+		
 #if($common.artifactType=="EJB" || $common.artifactType=="ALL")
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 #end
