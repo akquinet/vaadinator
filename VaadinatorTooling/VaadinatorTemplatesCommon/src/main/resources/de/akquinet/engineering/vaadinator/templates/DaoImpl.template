@@ -130,17 +130,17 @@ public class ${bean.className}DaoImpl implements ${bean.className}Dao
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
 		if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
-			queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}>=?"+(++pos));
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}>=?"+(++pos));
 		}
 		if(${bean.classNamePass}Query.${property.propertyGetterName}To() != null) {
-			queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}<=?"+(++pos));
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}<=?"+(++pos));
 		}
 #else
 		if(${bean.classNamePass}Query.${property.propertyGetterName}() != null) {
 			#if($property.propertyClassName.endsWith("String"))
-			queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName} like ?"+(++pos));
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName} like ?"+(++pos));
 			#else
-			queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}=?"+(++pos));
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}=?"+(++pos));
 			#end
 		}
 #end
