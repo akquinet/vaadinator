@@ -196,9 +196,9 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	}
 
 	/*
-	 * A custom filter for searching names and companies in the container
+	 * A custom filter for searching a String value in all visible columns of a table
 	 */
-	private class ${bean.className}Filter implements Filter {
+	public static class ${bean.className}Filter implements Filter {
 	
 		/**
 		 * 
