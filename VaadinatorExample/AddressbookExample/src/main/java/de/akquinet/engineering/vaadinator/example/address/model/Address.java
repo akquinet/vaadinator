@@ -44,7 +44,8 @@ import de.akquinet.engineering.vaadinator.annotations.MapPropertySetting;
 
 @DisplayBean(captionText = "Adresse", beanValidation = true)
 @MapBean(profiles = { @MapBeanSetting(profileName = "full", target = Address.class),
-		@MapBeanSetting(profileName = "restricted", target = Address.class), @MapBeanSetting(profileName = "mini", target = Address.class) })
+		@MapBeanSetting(profileName = "restricted", target = Address.class),
+		@MapBeanSetting(profileName = "mini", target = Address.class) })
 @Entity
 @Access(AccessType.FIELD)
 public class Address implements Serializable {
@@ -70,7 +71,8 @@ public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(fieldType = FieldType.DROPDOWN) }, captionText = "Anrede")
+	@DisplayProperty(profileSettings = {
+			@DisplayPropertySetting(fieldType = FieldType.DROPDOWN) }, captionText = "Anrede")
 	@MapProperty
 	private Anreden anrede;
 	@DisplayProperty
@@ -81,9 +83,10 @@ public class Address implements Serializable {
 	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "dto", include = true) })
 	private String nachname;
 	private String email;
+	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true) })
 	@Temporal(TemporalType.DATE)
 	private Date geburtsdatum;
-	@DisplayProperty(converterClassName = "com.vaadin.data.util.converter.StringToIntegerConverter", captionText="# Katzen")
+	@DisplayProperty(converterClassName = "com.vaadin.data.util.converter.StringToIntegerConverter", captionText = "# Katzen")
 	@Max(9)
 	@Min(0)
 	private int numberCats = 0;
@@ -138,7 +141,8 @@ public class Address implements Serializable {
 		this.email = email;
 	}
 
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(sectionName = "Mehr Infos", fieldType = FieldType.DATEPICKER) })
+	@DisplayProperty(profileSettings = {
+			@DisplayPropertySetting(sectionName = "Mehr Infos", fieldType = FieldType.DATEPICKER) })
 	@MapProperty(profileSettings = { @MapPropertySetting(profileName = "restricted", exclude = true) })
 	public Date getGeburtsdatum() {
 		return geburtsdatum;
@@ -155,15 +159,15 @@ public class Address implements Serializable {
 	public void setNumberCats(int numberCats) {
 		this.numberCats = numberCats;
 	}
-	
+
 	public Set<Filme> getMagFilme() {
 		return magFilme;
 	}
-	
+
 	public void setMagFilme(Set<Filme> magFilme) {
 		this.magFilme = magFilme;
 	}
-	
+
 	@Column(length = 1024)
 	@Access(AccessType.PROPERTY)
 	public String getMagFilmeAsString() {
@@ -246,8 +250,9 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", anrede=" + anrede + ", vorname=" + vorname + ", nachname=" + nachname + ", email=" + email
-				+ ", geburtsdatum=" + geburtsdatum + ", numberCats=" + numberCats+ ", magFilme=" + magFilme + ", getName()=" + getName() + "]";
+		return "Address [id=" + id + ", anrede=" + anrede + ", vorname=" + vorname + ", nachname=" + nachname
+				+ ", email=" + email + ", geburtsdatum=" + geburtsdatum + ", numberCats=" + numberCats + ", magFilme="
+				+ magFilme + ", getName()=" + getName() + "]";
 	}
 
 }
