@@ -1,0 +1,74 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#package ${package};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
+import org.vaadin.addons.lazyquerycontainer.Query;
+
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+
+import ${modelPackage}.*;
+import ${viewPackage}.${bean.className}ListView.Observer;
+
+@Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
+public class ${bean.ClassName}LazyQuery implements Query {
+
+	private ${bean.ClassName}Query ${bean.ClassNamePass}Query;
+	private Observer observer;
+	
+	public ${bean.ClassName}LazyQuery(Observer observer, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		this.${bean.ClassNamePass}Query = ${bean.ClassNamePass}Query;
+		this.observer = observer;
+	}
+	
+	@Override
+	public int size() {
+		return (int) observer.onCountTable(${bean.ClassNamePass}Query);
+	}
+
+	@Override
+	public List<Item> loadItems(int startIndex, int count) {
+		${bean.ClassNamePass}Query.setFirstResult(startIndex);
+		${bean.ClassNamePass}Query.setMaxResults(count);
+
+		List<${bean.ClassName}> beans = observer.onRefreshTable(${bean.ClassNamePass}Query);
+		List<Item> items = new ArrayList<Item>();
+		for (${bean.ClassName} bean : beans) {
+			items.add(new BeanItem<${bean.ClassName}>(bean));
+		}
+		return items;
+	}
+
+	@Override
+	public void saveItems(List<Item> addedItems, List<Item> modifiedItems, List<Item> removedItems) {
+		throw new UnsupportedOperationException("This container is readonly");
+
+	}
+
+	@Override
+	public boolean deleteAllItems() {
+		throw new UnsupportedOperationException("This container is readonly");
+	}
+
+	@Override
+	public Item constructItem() {
+		throw new UnsupportedOperationException("This container is readonly");
+	}
+}

@@ -1,0 +1,72 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#package ${package};
+
+import java.util.List;
+
+import javax.annotation.Generated;
+
+import org.vaadin.addons.lazyquerycontainer.Query;
+import org.vaadin.addons.lazyquerycontainer.QueryDefinition;
+import org.vaadin.addons.lazyquerycontainer.QueryFactory;
+
+import com.vaadin.data.Container.Filter;
+
+import ${modelPackage}.*;
+import ${viewPackage}.${bean.className}ListView.Observer;
+
+@Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
+public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
+
+	private final Observer observer;
+
+	public ${bean.className}LazyQueryFactory(Observer observer) {
+		super();
+		this.observer = observer;
+	}
+	
+	@Override
+	public Query constructQuery(QueryDefinition queryDefinition) {
+		return new ${bean.className}LazyQuery(observer, translate(queryDefinition));
+	}
+	
+	protected void handleFiltering(List<Filter> filters, ${bean.className}Query ${bean.classNamePass}Query) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	protected ${bean.className}Query translate(QueryDefinition queryDefinition) {
+		${bean.className}Query ${bean.classNamePass}Query = new ${bean.className}Query();
+		handleSorting(queryDefinition, ${bean.classNamePass}Query);
+		handleFiltering(queryDefinition.getFilters(), ${bean.classNamePass}Query);
+		handleFiltering(queryDefinition.getDefaultFilters(), ${bean.classNamePass}Query);
+		return ${bean.classNamePass}Query;
+	}
+	
+	/**
+	 * TODO handle more than one sort property, which is possible e.g. in grid
+	 * 
+	 * @param queryDefinition
+	 * @param ${bean.classNamePass}Query
+	 */
+	protected void handleSorting(QueryDefinition queryDefinition, ${bean.className}Query ${bean.classNamePass}Query) {
+		if (queryDefinition.getSortPropertyIds() != null && queryDefinition.getSortPropertyIds().length > 0) {
+			String sortPropery = String.valueOf(queryDefinition.getSortPropertyIds()[0]);
+			${bean.className}Properties orderBy = ${bean.className}Properties.valueOf(sortPropery.toUpperCase());
+			${bean.classNamePass}Query.setOrderBy(orderBy);
+			${bean.classNamePass}Query.setOrderDescending(!queryDefinition.getSortPropertyAscendingStates()[0]);
+		}
+	}
+}
