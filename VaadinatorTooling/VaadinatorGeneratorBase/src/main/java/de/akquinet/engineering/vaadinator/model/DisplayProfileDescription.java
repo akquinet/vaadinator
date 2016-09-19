@@ -207,7 +207,7 @@ public class DisplayProfileDescription {
 	}
 
 	/**
-	 * Gets the custom implemented artifacts for this bean.
+	 * Gets the custom implemented artifacts for this bean in this profile.
 	 * @return
 	 */
 	public EnumSet<BeanArtifact> getExs() {

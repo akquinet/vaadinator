@@ -39,7 +39,11 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 
 	protected ${bean.className}Dao obtainBackend() {
 		if (backend == null) {
+#if($bean.getExStrings().contains("DAO_IMPL") )		
+			backend = new ${bean.className}DaoImplEx(getEntityManager());
+#else
 			backend = new ${bean.className}DaoImpl(getEntityManager());
+#end
 		}
 		return backend;
 	}

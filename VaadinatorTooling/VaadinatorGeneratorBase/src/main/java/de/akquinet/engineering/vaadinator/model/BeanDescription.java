@@ -17,6 +17,7 @@ package de.akquinet.engineering.vaadinator.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,7 +63,8 @@ public class BeanDescription {
 	private List<String> getters = new ArrayList<String>();
 	private List<String> setters = new ArrayList<String>();
 	private String pckg;
-
+	private EnumSet<BeanArtifact> exs = EnumSet.noneOf(BeanArtifact.class);
+	
 	public String getClassName() {
 		return className;
 	}
@@ -416,6 +418,10 @@ public class BeanDescription {
 		return getBasePckg() + ".ui." + profileName + ".presenter";
 	}
 
+	public String getDaoPckg() {
+		return getBasePckg() + "dao";
+	}
+	
 	public boolean isBeanValidation() {
 		return beanValidation;
 	}
@@ -424,6 +430,25 @@ public class BeanDescription {
 		this.beanValidation = beanValidation;
 	}
 
+	/**
+	 * Gets the custom implemented artifacts for this bean.
+	 * @return
+	 */
+	public EnumSet<BeanArtifact> getExs() {
+		return exs;
+	}
+	
+	public Set<String> getExStrings() {
+		Set<String> exString = new HashSet<String>();
+		for (BeanArtifact ex : exs) {
+			exString.add(ex.name());
+		}
+		return exString;
+	}
+	
+	public void addExt(BeanArtifact ex) {
+		exs.add(ex);
+	}
 	@Override
 	public String toString() {
 		return "BeanDescription [className=" + className + ", superClassName=" + superClassName + ", mapped=" + mapped + ", displayed=" + displayed

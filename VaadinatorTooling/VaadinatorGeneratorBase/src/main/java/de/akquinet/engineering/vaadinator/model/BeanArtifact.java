@@ -15,6 +15,10 @@
  */
 package de.akquinet.engineering.vaadinator.model;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang.ArrayUtils;
+
 /**
  * Artifacts which are generated per bean.
  * 
@@ -37,7 +41,9 @@ public enum BeanArtifact {
 	CHANGE_VIEW("ChangeView"), //
 	CHANGE_VIEW_IMPL("ChangeViewImpl"), //
 	CHANGE_PRES("ChangePresenter"), //
-	CHANGE_PRES_IMPL("ChangePresenterImpl");
+	CHANGE_PRES_IMPL("ChangePresenterImpl"), //
+	DAO("Dao"), //
+	DAO_IMPL("DaoImpl");
 
 	private final String fileNameSuffix;
 
@@ -51,5 +57,33 @@ public enum BeanArtifact {
 
 	public boolean isView() {
 		return this.name().contains("VIEW");
+	}
+
+	public boolean isDao() {
+		return this.name().contains("DAO");
+	}
+
+	public boolean isPresenter() {
+		return this.name().contains("PRES");
+	}
+
+	public static BeanArtifact[] perProfileValues() {
+		BeanArtifact[] perProfileValues = new BeanArtifact[] {};
+		for (BeanArtifact beanArtifact : BeanArtifact.values()) {
+			if (beanArtifact.isPresenter() || beanArtifact.isView()) {
+				perProfileValues = (BeanArtifact[]) ArrayUtils.add(perProfileValues, beanArtifact);
+			}
+		}
+		return perProfileValues;
+	}
+
+	public static BeanArtifact[] perBeanValues() {
+		BeanArtifact[] perBeanValues = new BeanArtifact[] {};
+		for (BeanArtifact beanArtifact : BeanArtifact.values()) {
+			if (beanArtifact.isDao()) {
+				perBeanValues = (BeanArtifact[]) ArrayUtils.add(perBeanValues, beanArtifact);
+			}
+		}
+		return perBeanValues;
 	}
 }
