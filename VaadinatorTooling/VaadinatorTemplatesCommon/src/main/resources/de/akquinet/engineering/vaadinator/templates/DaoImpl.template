@@ -109,11 +109,11 @@ public class ${bean.className}DaoImpl implements ${bean.className}Dao
 	}
 	
 	private String createOrderBy(${bean.className}Query ${bean.classNamePass}Query){
-		return " order by " + toPropertyName(${bean.classNamePass}Query.getOrderBy()) + " " + (${bean.classNamePass}Query.isOrderDescending() ? "desc" : "asc");
+		return " order by " + toOrderBy(${bean.classNamePass}Query.getOrderBy(), ${bean.classNamePass}Query.isOrderDescending() ? "desc" : "asc");
 	}
 	
-	protected String toPropertyName(${bean.className}Properties property){
-		return "${bean.classNamePass}." + property.getPropertyName();
+	protected String toOrderBy(${bean.className}Properties property, String order){
+		return "${bean.classNamePass}." + property.getPropertyName() + " " + order;
 	}
 	
 	private void bindParameter(Query query, ${bean.className}Query ${bean.classNamePass}Query) {
