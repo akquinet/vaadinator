@@ -102,14 +102,13 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 
 		setCompositionRoot(leftLayout);
 		
-		${bean.classNamePass}Table.setContainerDataSource(initContainer());
 		List<String> visibleCols = new ArrayList<String>();
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInTable)
 		visibleCols.add("${property.propertyName}");
 #end
 #end
-		${bean.classNamePass}Table.setVisibleColumns(visibleCols);
+		${bean.classNamePass}Table.setContainerDataSource(initContainer(), visibleCols);
 		
 #foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
 #if($property.getDisplayPropertyProfile($profileName).showInTable)
@@ -171,7 +170,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	}
 
 	protected Container initContainer() {
-		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class);
+		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class, new ArrayList<${bean.className}>());
 		return container;
 	}
 	
