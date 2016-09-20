@@ -19,6 +19,12 @@ import javax.annotation.Generated;
 import org.vaadin.addons.lazyquerycontainer.LazyQueryContainer;
 import org.vaadin.addons.lazyquerycontainer.QueryDefinition;
 
+#foreach($import in $bean.imports)
+${import}
+#end
+
+import ${modelPackage}.*;
+
 @Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
 public class ${bean.ClassName}LazyQueryContainer extends LazyQueryContainer {
 
@@ -26,5 +32,9 @@ public class ${bean.ClassName}LazyQueryContainer extends LazyQueryContainer {
 
 	public ${bean.ClassName}LazyQueryContainer(QueryDefinition queryDefinition, ${bean.ClassName}LazyQueryFactory queryFactory) {
 		super(queryDefinition, queryFactory);
+		
+#foreach($property in $bean.properties)
+		addContainerProperty("${property.propertyName}", ${property.propertyClassNameBoxedWithoutTypeParameter}.class, "", true, true);
+#end
 	}
 }
