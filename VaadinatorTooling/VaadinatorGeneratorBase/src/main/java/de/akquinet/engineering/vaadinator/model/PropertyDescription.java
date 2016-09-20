@@ -112,6 +112,14 @@ public class PropertyDescription {
 		return propertyClassName.substring(propertyClassName.indexOf("<")+1, propertyClassName.length()-1);
 	}
 	
+	public String getPropertyClassWithoutTypeParameter() {
+		if(propertyClassName.contains("<")) {
+			return propertyClassName.substring(0, propertyClassName.indexOf("<"));
+		} else {
+			return propertyClassName;
+		}
+	}
+	
 	public void setPropertyClassName(String propertyClassName) {
 		this.propertyClassName = propertyClassName;
 	}
@@ -123,7 +131,11 @@ public class PropertyDescription {
 	public String getPropertyClassNameBoxed() {
 		return boxingReplacements.containsKey(getPropertyClassName()) ? boxingReplacements.get(getPropertyClassName()) : getPropertyClassName();
 	}
-
+	
+	public String getPropertyClassNameBoxedWithoutTypeParameter() {
+		return boxingReplacements.containsKey(getPropertyClassWithoutTypeParameter()) ? boxingReplacements.get(getPropertyClassWithoutTypeParameter()) : getPropertyClassWithoutTypeParameter();
+	}
+	
 	public String getPropertyUnboxedFromString() {
 		return boxingReplacements.containsKey(getPropertyClassName()) ? (boxingReplacements.get(getPropertyClassName()) + ".parse"
 				+ getPropertyClassName().substring(0, 1).toUpperCase() + getPropertyClassName().substring(1)) : "";
