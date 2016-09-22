@@ -90,7 +90,7 @@ public class Address implements Serializable {
 	@Max(9)
 	@Min(0)
 	private int numberCats = 0;
-	@DisplayProperty(profileSettings = @DisplayPropertySetting(customMultiAuswahlAusListe = true, customClassName = "com.vaadin.ui.TwinColSelect", fieldType = FieldType.CUSTOM))
+	@DisplayProperty(sortable = false, profileSettings = @DisplayPropertySetting(customMultiAuswahlAusListe = true, customClassName = "com.vaadin.ui.TwinColSelect", fieldType = FieldType.CUSTOM))
 	@Transient
 	private Set<Filme> magFilme = new HashSet<>();
 

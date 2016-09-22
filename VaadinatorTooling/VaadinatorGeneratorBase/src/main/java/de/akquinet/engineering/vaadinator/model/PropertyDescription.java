@@ -47,6 +47,7 @@ public class PropertyDescription {
 	private String captionText = null;
 	private String captionProp = null;
 	private String converterClassName = null;
+	private boolean sortable = true;
 	
 	private List<DisplayPropertyProfileDescription> displayPropertyProfiles = new ArrayList<DisplayPropertyProfileDescription>(
 			Collections.singletonList(new DisplayPropertyProfileDescription(
@@ -349,5 +350,12 @@ public class PropertyDescription {
 		rangeDataTypes.add("Date");
 		rangeDataTypes.add("java.util.Date");
 	}
-
+	
+	public boolean isSortable() {
+		return sortable;
+	}
+	
+	public void setSortable(boolean sortable) {
+		this.sortable = sortable;
+	}
 }

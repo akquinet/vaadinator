@@ -209,6 +209,8 @@ public class SourceDao {
 							}
 						} else if ("ignore".equals(pair.getName())) {
 							newProp.setDisplayed(!Boolean.valueOf(pair.getValue().toString()));
+						} else if ("sortable".equals(pair.getName())) {
+							newProp.setSortable(Boolean.valueOf(pair.getValue().toString()));
 						}
 					}
 				}

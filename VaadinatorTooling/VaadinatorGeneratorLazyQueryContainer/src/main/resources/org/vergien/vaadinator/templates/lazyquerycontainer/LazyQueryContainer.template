@@ -34,7 +34,7 @@ public class ${bean.ClassName}LazyQueryContainer extends LazyQueryContainer {
 		super(queryDefinition, queryFactory);
 		
 #foreach($property in $bean.properties)
-		addContainerProperty("${property.propertyName}", ${property.propertyClassNameBoxedWithoutTypeParameter}.class, "", true, true);
+		addContainerProperty("${property.propertyName}", ${property.propertyClassNameBoxedWithoutTypeParameter}.class, "", true, ${property.sortable});
 #end
 	}
 }
