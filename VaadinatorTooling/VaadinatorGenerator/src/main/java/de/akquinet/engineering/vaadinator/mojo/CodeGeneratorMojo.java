@@ -110,7 +110,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()),
+			processJavaFiles(src, genSrc, new SourceDao(), project.getArtifactId(),
 					project.getVersion(), generateServlet,
 					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
 					VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
