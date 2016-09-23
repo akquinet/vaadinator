@@ -23,9 +23,13 @@ import org.vaadin.addons.lazyquerycontainer.QueryDefinition;
 import org.vaadin.addons.lazyquerycontainer.QueryFactory;
 
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.Between;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Like;
 
 import ${modelPackage}.*;
 import ${viewPackage}.${bean.className}ListView.Observer;
+import ${viewPackage}.${bean.className}ListViewImpl.${bean.className}Filter;
 
 @Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
 public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
@@ -42,8 +46,52 @@ public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 		return new ${bean.className}LazyQuery(observer, translate(queryDefinition));
 	}
 	
-	protected void handleFiltering(List<Filter> filters, ${bean.className}Query ${bean.classNamePass}Query) {
-		// TODO Auto-generated method stub
+	private void verifyPropertyIsFilterable(Object propertyId) {
+		
+	}
+
+	private void handleFiltering(List<Filter> filters, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		for (Filter filter : filters) {
+			handleFilter(filter, ${bean.ClassNamePass}Query);
+		}
+
+	}
+
+	protected void handleFilter(Filter filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		if (filter instanceof ${bean.ClassName}Filter) {
+			handleFilter((${bean.ClassName}Filter) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Compare) {
+			handleFilter((Compare) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Between) {
+			handleFilter((Between) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Like) {
+			handleFilter((Like) filter, ${bean.ClassNamePass}Query);
+		}
+
+	}
+
+	private void handleFilter(Like filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		verifyPropertyIsFilterable(filter.getPropertyId());
+#foreach($property in $bean.properties)
+#if($property.propertyClassName == "String")
+		if("${property.propertyName}".equals(filter.getPropertyId())) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}(filter.getValue());
+		}
+#end
+#end
+	}
+
+	private void handleFilter(Between filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		verifyPropertyIsFilterable(filter.getPropertyId());
+		
+	}
+
+	private void handleFilter(Compare filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		verifyPropertyIsFilterable(filter.getPropertyId());
+		
+	}
+
+	private void handleFilter(${bean.ClassName}Filter ${bean.ClassNamePass}Filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
 
 	}
 	
