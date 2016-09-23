@@ -94,7 +94,7 @@ public class ${common.projectName}UI extends UI {
 				throw new RuntimeException(e);
 			}
 			#else
-			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("${common.projectName}");
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("${common.projectNamePlain}");
 		 	#foreach($bean in $common.beans)
 			#if($bean.displayed)
 			${bean.className}DaoPlain ${bean.classNamePass}DaoPlain = new ${bean.className}DaoPlain(entityManagerFactory);
