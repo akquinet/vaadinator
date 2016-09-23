@@ -76,6 +76,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 	/**
 	 * Generate which type of artifacts
+	 * 
+	 * @parameter
 	 */
 	private String genType = VaadinatorConfig.GenType.ALL.toString();
 
@@ -104,7 +106,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
 		// "src/main/java")), includes, excludes));
 		// if(true)return;
-		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType);
+		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType + " for " + genType);
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
