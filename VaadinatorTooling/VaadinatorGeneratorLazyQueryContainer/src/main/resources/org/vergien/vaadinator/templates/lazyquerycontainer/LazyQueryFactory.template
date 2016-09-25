@@ -31,6 +31,10 @@ import ${modelPackage}.*;
 import ${viewPackage}.${bean.className}ListView.Observer;
 import ${viewPackage}.${bean.className}ListViewImpl.${bean.className}Filter;
 
+#foreach($import in $bean.imports)
+${import}
+#end
+
 @Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
 public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 
@@ -83,7 +87,14 @@ public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 
 	private void handleFilter(Between filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
 		verifyPropertyIsFilterable(filter.getPropertyId());
-		
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(filter.getPropertyId())) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassName}) filter.getEndValue());
+			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassName}) filter.getStartValue());
+		}
+#end
+#end		
 	}
 
 	private void handleFilter(Compare filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
