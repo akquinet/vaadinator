@@ -58,6 +58,11 @@ public class ${bean.className}Query implements Serializable {
 
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
+	public void ${property.propertySetterName}(${property.propertyClassNameBoxed} ${property.propertyName}) {
+		this.${property.propertySetterName}From(${property.propertyName});
+		this.${property.propertySetterName}To(${property.propertyName});
+	}
+	 
 	public ${property.propertyClassNameBoxed} ${property.propertyGetterName}From() {
 		return ${property.propertyName}From;
 	}
