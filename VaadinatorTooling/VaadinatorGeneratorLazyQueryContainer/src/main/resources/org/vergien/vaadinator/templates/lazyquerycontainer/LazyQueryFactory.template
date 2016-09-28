@@ -98,12 +98,71 @@ public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 	}
 
 	private void handleFilter(Compare filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
-		verifyPropertyIsFilterable(filter.getPropertyId());
+		Object propertyId = filter.getPropertyId();
+		Object value = filter.getValue();
 		
+		verifyPropertyIsFilterable(propertyId);
+		
+		switch (filter.getOperation()) {
+		case EQUAL:
+			handleFilterCompareEqual(${bean.ClassNamePass}Query, propertyId, value);
+			break;
+		case GREATER:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		case GREATER_OR_EQUAL:
+			handleFilterCompareGreaterOrEqual(${bean.ClassNamePass}Query, propertyId, value);
+			break;
+		case LESS:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		case LESS_OR_EQUAL:
+			handleFilterCompareLessOrEqual(${bean.ClassNamePass}Query, propertyId, value);	
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		}	
 	}
 
+	private void handleFilterCompareEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}((${property.propertyClassName}) value);
+		}
+#end
+	}
+	
+	private void handleFilterCompareGreaterOrEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassName}) value);
+		}
+#end
+#end	
+	}
+	
+	private void handleFilterCompareLessOrEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassName}) value);
+		}
+#end
+#end	
+	}
+	
 	private void handleFilter(${bean.ClassName}Filter ${bean.ClassNamePass}Filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
-
+		${bean.ClassNamePass}Query.setOperator(${bean.ClassName}Query.OR);
+#foreach($property in $bean.properties)
+		try {
+			${bean.ClassNamePass}Query.${property.propertySetterName}((${property.propertyClassName})${bean.ClassNamePass}Filter.getNeedle());
+		}
+		catch(ClassCastException e) {
+			// this my happen
+		}
+#end		
 	}
 	
 	protected ${bean.className}Query translate(QueryDefinition queryDefinition) {

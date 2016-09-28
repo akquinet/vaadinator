@@ -231,6 +231,10 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 			this.needle = needle.toLowerCase();
 		}
 
+		public String getNeedle() {
+			return needle;
+		}
+		
 		@Override
 		public boolean passesFilter(Object itemId, Item item) {
 			String haystack = (""
