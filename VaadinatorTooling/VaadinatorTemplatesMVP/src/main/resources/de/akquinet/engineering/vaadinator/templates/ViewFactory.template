@@ -33,8 +33,12 @@ public interface ViewFactory {
 	public ${bean.className}ListViewEx create${bean.className}ListView();
 	#else
 	public ${bean.className}ListView create${bean.className}ListView();
-	#end	
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_VIEW") )
+	public ${bean.className}SelectViewEx create${bean.className}SelectView();
+	#else
 	public ${bean.className}SelectView create${bean.className}SelectView();
+	#end
 #end
 #end
 

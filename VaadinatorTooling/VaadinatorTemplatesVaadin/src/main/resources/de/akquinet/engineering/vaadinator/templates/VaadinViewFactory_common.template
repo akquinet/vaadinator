@@ -80,8 +80,16 @@ return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
 }
 	
 	@Override
-	public ${bean.className}SelectView create${bean.className}SelectView() {
-		return new ${bean.className}SelectViewImpl(exceptionMappingStrategy);
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_VIEW") )
+public ${bean.className}SelectViewEx create${bean.className}SelectView() {
+	#else
+public ${bean.className}SelectView create${bean.className}SelectView() {
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_VIEW_IMPL") )
+return new ${bean.className}SelectViewImplEx(exceptionMappingStrategy);
+	#else
+return new ${bean.className}SelectViewImpl(exceptionMappingStrategy);
+	#end
 	}
 #end
 #end
