@@ -16,11 +16,15 @@ public class Team {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@DisplayProperty
+	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true) })
 	private String name;
 	@DisplayProperty(profileSettings = {
 			@DisplayPropertySetting(fieldType = FieldType.CUSTOM, customClassName = "AddressSelectField") })
 	private Address leader;
+	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false) })
+	public String getLeaderName() {
+		return leader != null ? leader.getName() : "";
+	}
 
 	public String getName() {
 		return name;
