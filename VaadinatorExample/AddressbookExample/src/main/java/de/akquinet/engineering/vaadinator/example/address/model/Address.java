@@ -103,7 +103,7 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false) })
+	@DisplayProperty(profileSettings = { @DisplayPropertySetting(showInTable = true, showInDetail = false, useAsSummary = true) })
 	public String getName() {
 		return getVorname() + " " + getNachname();
 	}
