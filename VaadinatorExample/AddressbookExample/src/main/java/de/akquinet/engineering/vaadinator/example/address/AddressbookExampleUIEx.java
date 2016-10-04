@@ -45,8 +45,10 @@ public class AddressbookExampleUIEx extends AddressbookExampleUI {
 			addressService = new AddressServicePlain(entityManagerFactory, addressDaoPlain);
 			TeamDaoPlain teamDaoPlain = new TeamDaoPlain(entityManagerFactory);
 			teamService = new TeamServicePlain(entityManagerFactory, teamDaoPlain);
-			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), new VaadinViewFactoryEx(),
+			VaadinViewFactoryEx viewFactory = new VaadinViewFactoryEx();
+			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), viewFactory,
 					addressService, teamService);
+			viewFactory.setPresenterFactory(presenterFactory);
 		}
 		return presenterFactory;
 	}
