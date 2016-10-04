@@ -41,8 +41,10 @@ import com.github.javaparser.ParseException;
 import de.akquinet.engineering.vaadinator.dao.SourceDao;
 import de.akquinet.engineering.vaadinator.generator.CodeGenerator;
 import de.akquinet.engineering.vaadinator.generator.DefaultCodeGenerator;
+import de.akquinet.engineering.vaadinator.model.BeanArtifact;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.DisplayProfileDescription;
+import de.akquinet.engineering.vaadinator.util.GeneratorUtil;
 
 /**
  * Generate Code.
@@ -74,6 +76,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 	/**
 	 * Generate which type of artifacts
+	 * 
+	 * @parameter
 	 */
 	private String genType = VaadinatorConfig.GenType.ALL.toString();
 
@@ -102,13 +106,12 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
 		// "src/main/java")), includes, excludes));
 		// if(true)return;
-		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType);
+		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType + " for " + genType);
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()),
-					project.getVersion(), generateServlet,
-					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
+			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()), project.getArtifactId(),
+					project.getVersion(), generateServlet, VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
 					VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
 		} catch (Exception e) {
 			throw new MojoExecutionException("Fehler beim Generieren", e);
@@ -116,7 +119,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	}
 
 	private void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao,
-			String projectName, String version, boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn,
+			String projectName, String projectNamePlain, String version, boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn,
 			VaadinatorConfig.GenType genTypeEn) throws Exception {
 		List<BeanDescription> beanDescriptions = new ArrayList<BeanDescription>();
 
@@ -165,6 +168,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				}
 			}
 			commonMap.put("projectName", projectName);
+			commonMap.put("projectNamePlain", projectNamePlain);
 			commonMap.put("projectVersion", version);
 			commonMap.put("artifactType", artifactTypeEn.toString());
 			commonMap.put("basePackage", basePckg);
@@ -172,7 +176,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 			List<CodeGenerator> codeGenerators = initGenerators();
 			for (CodeGenerator codeGenerator : codeGenerators) {
-				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
+				getLog().info("Generating code with: " + codeGenerator.getClass().getName());
+				codeGenerator.generateCode(new VaadinatorConfig(projectName, projectNamePlain, basePckg, beanDescriptions, artifactTypeEn,
 						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
 						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans,
 						getLog(), generatorOptions));
@@ -212,7 +217,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		return basePckg;
 	}
 
-	private static void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
+	private void exploreFolders(File sourceFolderStart, File targetFolderStart, File targetFolderTestStart, String pckgStart,
 			SourceDao sourceDao, List<BeanDescription> beanDescriptions) throws ParseException, IOException {
 		for (File f : sourceFolderStart.listFiles()) {
 			if (f.isDirectory()) {
@@ -230,9 +235,33 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			if (f.isFile() && f.getName().endsWith(".java")) {
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
 				desc.setPckg(pckgStart);
+				if (desc.isDisplayed()) {
+					for (DisplayProfileDescription displayProfileDescription : desc.getDisplayProfiles()) {
+						for (BeanArtifact exBeanArtifact : BeanArtifact.values()) {
+							if (exExists(exBeanArtifact, displayProfileDescription)) {
+								displayProfileDescription.addExt(exBeanArtifact);
+							}
+						}
+					}
+				}
 				beanDescriptions.add(desc);
 			}
 		}
+	}
+
+	private boolean exExists(BeanArtifact beanArtifact, DisplayProfileDescription desc) {
+		String pkg;
+		if (beanArtifact.isView()) {
+			pkg = desc.getBean().getViewPckg(desc);
+		} else {
+			pkg = desc.getBean().getPresenterPckg(desc);
+		}
+		String className = desc.getBean().getClassName();
+		File exSourceFile = GeneratorUtil.packageToFile(new File(project.getBasedir(), "src/main/java"), pkg,
+				className + beanArtifact.getFileNameSuffix() + "Ex", ".java");
+		boolean exExists = exSourceFile.exists();
+		getLog().debug("Checking if " + exSourceFile + " exists: " + exExists);
+		return exExists;
 	}
 
 	protected String toValidJavaClassName(String name) {
@@ -245,7 +274,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
 		mojo.processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"),
 				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(),
-				"AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
+				"AddressbookExample", "AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
 				VaadinatorConfig.GenType.ALL);
 	}
 

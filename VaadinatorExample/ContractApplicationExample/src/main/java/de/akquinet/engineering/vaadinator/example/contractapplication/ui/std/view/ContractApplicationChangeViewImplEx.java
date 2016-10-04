@@ -57,17 +57,4 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 		layout.addComponent(sectionKalkulation, layout.getComponentIndex(sectionIhrVorsorgewunsch) + 1);
 		sectionBasisdaten.setVisible(false);
 	}
-	
-	@Override
-	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
-		super.onValidationError(validationErrors);
-		StringBuilder sb = new StringBuilder();
-		for(Field<?> field: validationErrors.keySet()) {
-			if(sb.length()!= 0) {
-				sb.append(", ");
-			}
-			sb.append(field.getCaption());		
-		}
-		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
-	}
 }

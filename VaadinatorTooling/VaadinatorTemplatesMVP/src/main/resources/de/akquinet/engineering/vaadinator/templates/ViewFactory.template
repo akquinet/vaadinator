@@ -19,13 +19,26 @@ public interface ViewFactory {
 
 #foreach($bean in $common.beans)
 #if($bean.displayed)
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW") )
+	public ${bean.className}AddViewEx create${bean.className}AddView();
+	#else
 	public ${bean.className}AddView create${bean.className}AddView();
-
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW") )
+	public ${bean.className}ChangeViewEx create${bean.className}ChangeView();
+	#else
 	public ${bean.className}ChangeView create${bean.className}ChangeView();
-
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_VIEW") )
+	public ${bean.className}ListViewEx create${bean.className}ListView();
+	#else
 	public ${bean.className}ListView create${bean.className}ListView();
+<<<<<<< HEAD
 	
 	public ${bean.className}SelectView create${bean.className}SelectView();
+=======
+	#end
+>>>>>>> akquinet_master
 #end
 #end
 

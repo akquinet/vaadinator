@@ -50,6 +50,17 @@ mvn jetty:run -Pstageres
 - you will get a <strong>mobile</strong> base application that runs in the browser
 - open with iPhone or Chrome or other Webkit-based browser
 
+If you are more an Eclipse-Maven-Plugin person: 
+- download + unpack or clone project
+- add as Maven project to Eclipse
+- install the full project (without further options / profiles)
+- Create a new Maven project
+- check 'Include snapshot archetypes' and click 'Add archetype', give the following details: <br /><img src="img/maven_plugin.png" alt="specify de.akquinet.engineering.vaadin.vaadinator, vaadinator-touchkit-tomcat-archetype, 0.10-SNAPSHOT" />
+- Specify the settings for your own project
+- (possibly, you have to choose 'resolve later' for Vaadinator plugins)
+- You get a new project in Eclipse - Choose Maven > 'Update project...' to have clean resources (and a correct tree view)
+- you just created your first Vaadinator-Project
+
 Result - Start:
 <img src="img/first_screen_en.png" border="0" />
 
@@ -433,6 +444,8 @@ What you have effectively done is you have taken over all infrastructure code in
 
 ### Overwriting presenters / views
 
+#### Persenters
+
 So, in order to have more logic in a presenter (for example: add of an Address): 
 - create an AddressAddPresenterImplEx extends AddressAddPresenterImpl
 - overwrite methods as you like
@@ -440,7 +453,14 @@ So, in order to have more logic in a presenter (for example: add of an Address):
 - overwrite createAddressAddPresenter to return AddressAddPresenterImplEx
 - change to PresenterFactoryEx in the UI (by overwriting obtainPresenterFactory())
 
-The same principle applies for views also.
+#### Views
+
+If you want to customize a view you only have to (for example: add of an Address):
+- create a class AddressAddViewImplEx extends AddressAddViewImpl
+- create an interface  AddressAddViewEx extends AddressAddView (only if you need more methods in the interface)
+
+If these classes are in the same package as the generated ones from Vaadinator, they are detected and used in the generated ViewFactory and VaadinViewFactory. An exception is the FirstPageView for Touchkit apps: it is
+not detected (yet) and you need to override the factories like the ones for customised presenters.
 
 There is an example shipped with Vaadinator that actually demonstrate how to do that (ContractApplicationExample - a real time finance product calculation): it overwrites both Presenter and View (and Factories + UI to wire things up). You'll notice that custom code can be applied very flexibly - and in a very focused way. This example (unlike the archetype) requires you to specify -Ptomcat or -Pjboss plus -Ptouchkit or -Pdesktop  
 
@@ -630,6 +650,17 @@ mvn jetty:run -Pstageres
 )
 - sie erhalten eine <strong>mobile</strong> Anwendung, die im Browser läuft
 - im iPhone oder Chrome oder anderem Webkit-basierten Browser öffnen
+
+Wenn Sie eher mit dem Eclipse-Maven-Plugin arbeiten: 
+- das Projekt herunterladen und auspacken oder klonen
+- fügen Sie das Projekt in Eclipse als Maven-Projekt hinzu
+- installieren Sie das gesamte Projekt (ohne weitere Optionen / Profile)
+- erstellen Sie ein neues Maven-Projekt
+- haken Sie 'Include snapshot archetypes' an und klicken Sie auf 'Add archetype', geben Sie die folgenden Details ein: <br /><img src="img/maven_plugin.png" alt="angeben von de.akquinet.engineering.vaadin.vaadinator, vaadinator-touchkit-tomcat-archetype, 0.10-SNAPSHOT" />
+- geben Sie die Details für Ihr eigenes Projekt ein
+- (ggf. müssen Sie 'resolve later' wählen, um mit den Vaadinator-Plugins umzugehen)
+- Sie erhalten ein neues Projekt in Eclipse; wählen Sie Maven > 'Update project...' um saubere Ressourcen (und eine korrekte Baum-Ansicht) zu haben
+- Sie haben Ihr erstes Vaadinator-Projekt erstellt
 
 Ergebnis - Startseite:
 <img src="img/first_screen.png" border="0" />
@@ -1013,6 +1044,8 @@ Diese Schritte übernehmen die Basis-Infrastruktur vom generierten Code in den s
 
 ### Überschreiben von Presentern und Views
 
+#### Presenter
+
 Um beispielsweise mehr Logik für einen Presenter haben sind folgende Schritte (am Beispiel Klasse Address) nötig:
 - erstellen eines AddressAddPresenterImplEx extends AddressAddPresenterImpl
 - überschreiben von Methoden nach Gusto
@@ -1020,7 +1053,14 @@ Um beispielsweise mehr Logik für einen Presenter haben sind folgende Schritte (
 - überschreiben der Methode createAddressAddPresenter um nunmehr AddressAddPresenterImplEx zurück zu liefern
 - ändern auf PresenterFactoryEx in der UI (durch abändern von obtainPresenterFactory())
 
-Genauso (nach dem gleichen Prinzip) kann für Views vorgegangen werden.
+#### View
+
+Um beispielsweise eine View zu ändern sind folgende Schritte (am Beispiel Klasse Address) nötig:
+- erstellen einer AddressAddViewImplEx extends AddressAddViewImpl
+- erstellen eines Interfaces AddressAddViewEx extends AddressAddView (nur wenn zusätzliche Methoden im öffentlichen Interface benötigt werden)
+
+Die Änderungen werden vom Vaadinator erkannt wenn sie im gleichen Package wie die generierten Klassen liegen und automatisch in der ViewFactory und VaadinViewFactory genutzt.
+Eine Ausnahme stellen die FirstPageView(Impl) da: sie werden (noch) nicht automatisch erkannt und die ViewFactory und VaadinViewFactory müssen wie bei den Presentern überschrieben werden.
 
 Es ist ein Beispiel im Vaadinator enthalten, das das demonstriert (das ContractApplicationExample - eine Tarifberechnung in Echtzeit): hier werden sowohl Presenters als auch Views (sowie Factories + UI zwecks zusammenbinden) überschrieben. Das Beispiel zeigt auch, dass Custom Code sehr flexibel - und sehr spezifisch nur an nötigen Stellen - eingesetzt werden kann. Dieses Beispiel verlangt (ungleich den Archetypes) die Angabe der Art der Umsetzung als -Ptomcat oder -Pjboss plus -Ptouchkit oder -Pdesktop 
 

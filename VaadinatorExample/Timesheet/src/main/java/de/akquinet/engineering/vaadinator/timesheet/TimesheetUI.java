@@ -34,7 +34,7 @@ import de.akquinet.engineering.vaadinator.timesheet.service.CouchDbTimesheetServ
 import de.akquinet.engineering.vaadinator.timesheet.ui.std.presenter.PresenterFactory;
 import de.akquinet.engineering.vaadinator.timesheet.ui.std.presenter.PresenterFactoryEx;
 import de.akquinet.engineering.vaadinator.timesheet.ui.std.presenter.TimesheetChangePresenter;
-import de.akquinet.engineering.vaadinator.timesheet.ui.std.view.VaadinViewFactoryEx;
+import de.akquinet.engineering.vaadinator.timesheet.ui.std.view.VaadinViewFactory;
 
 /**
  * Main UI class
@@ -80,7 +80,7 @@ public class TimesheetUI extends UI implements TimesheetContextConstants {
 		if (presenterFactory == null) {
 			// simple, overwrite method for e.g. Spring / CDI / ...
 			// Entity-Manager NUR Thread-Safe, wenn er injected wird wie hier
-			presenterFactory = new PresenterFactoryEx(context, new VaadinViewFactoryEx(), new CouchDbProjectService(), new CouchDbTimesheetService(), null,
+			presenterFactory = new PresenterFactoryEx(context, new VaadinViewFactory(), new CouchDbProjectService(), new CouchDbTimesheetService(), null,
 					null);
 		}
 		return presenterFactory;

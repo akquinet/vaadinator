@@ -18,6 +18,7 @@ package de.akquinet.engineering.vaadinator.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,8 @@ public class DisplayProfileDescription {
 	private String profileCaptionText = null;
 	private int order = 0;
 	private boolean showOnFirstPage = true;
-
+	private EnumSet<BeanArtifact> exs = EnumSet.noneOf(BeanArtifact.class);
+	
 	public BeanDescription getBean() {
 		return bean;
 	}
@@ -217,6 +219,26 @@ public class DisplayProfileDescription {
 			summaryMethod = captionPropertyDescription.getPropertyGetterName();
 		}
 		return summaryMethod;
+	}
+	
+	/**
+	 * Gets the custom implemented artifacts for this bean.
+	 * @return
+	 */
+	public EnumSet<BeanArtifact> getExs() {
+		return exs;
+	}
+	
+	public Set<String> getExStrings() {
+		Set<String> exString = new HashSet<String>();
+		for (BeanArtifact ex : exs) {
+			exString.add(ex.name());
+		}
+		return exString;
+	}
+	
+	public void addExt(BeanArtifact ex) {
+		exs.add(ex);
 	}
 	
 	@Override
