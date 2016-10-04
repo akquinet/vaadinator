@@ -33,12 +33,8 @@ public interface ViewFactory {
 	public ${bean.className}ListViewEx create${bean.className}ListView();
 	#else
 	public ${bean.className}ListView create${bean.className}ListView();
-<<<<<<< HEAD
-	
+	#end	
 	public ${bean.className}SelectView create${bean.className}SelectView();
-=======
-	#end
->>>>>>> akquinet_master
 #end
 #end
 
