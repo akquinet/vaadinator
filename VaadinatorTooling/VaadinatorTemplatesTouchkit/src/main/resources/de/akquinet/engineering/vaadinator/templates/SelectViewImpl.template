@@ -1,0 +1,181 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${presenterPackage}.${bean.className}SelectPresenter;
+
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
+public class ${bean.className}SelectViewImpl extends CustomComponent implements ${bean.className}SelectView {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
+	
+    protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    
+	private ${bean.className}SelectView.Observer observer;
+
+	private Button noSelectionButton = new Button();
+	
+	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+	}
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
+	@Override
+	public void initializeUi() {
+	    setSizeFull();
+
+		/* Build the component tree */
+		VerticalLayout layout = new VerticalLayout();
+		layout.addComponent(${bean.classNamePass}Table);
+		layout.addComponent(noSelectionButton);
+		
+		layout.setExpandRatio(${bean.classNamePass}Table, 1);
+		
+		setCompositionRoot(layout);
+		
+		${bean.classNamePass}Table.setSizeFull();
+		${bean.classNamePass}Table.setSelectable(true);
+		${bean.classNamePass}Table.setImmediate(true);
+
+		${bean.classNamePass}Table.addValueChangeListener(new Property.ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
+				if (sel != null) {
+					observer.on${bean.className}Chosen();
+				}
+			}
+		});
+		
+		noSelectionButton.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				${bean.classNamePass}Table.setValue(null);
+				observer.on${bean.className}Chosen();
+			}
+		});
+		
+		setOrRefreshData(new ArrayList<${bean.className}>());
+		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
+		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String getStyle(com.vaadin.ui.Table source, Object itemId,
+					Object propertyId) {
+				return "cell-" + propertyId;
+			}
+		});
+		
+		addStyleName("styleid-${bean.className}ListViewImpl");
+		
+		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
+	}
+
+	@Override
+	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
+		List<String> visibleCols = new ArrayList<String>();
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		visibleCols.add("${property.propertyName}");
+#end
+#end
+		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#end
+#end
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Property<${bean.className}> get${bean.className}Selection() {
+		return (Property) ${bean.classNamePass}Table;
+	}
+
+	@Override
+	public void setObserver(${bean.className}SelectView.Observer observer) {
+		this.observer = observer;
+	}
+
+	@Override
+	public Object getComponent() {
+		return this;
+	}
+
+	@Override
+	public void showErrorMessage(String message) {
+		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+	
+    @Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+
+	}
+	
+	@Override
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed) {
+	   noSelectionButton.setVisible(nullSelectionAllowed);
+	}
+}
