@@ -53,8 +53,11 @@ import com.vaadin.data.validator.BeanValidator;
 #end
 
 public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW") )
+		extends CustomComponent implements ${bean.className}EditViewEx<O>, VaadinView {
+#else
 		extends CustomComponent implements ${bean.className}EditView<O>, VaadinView {
-
+#end
 	/**
 	 * 
 	 */
