@@ -89,6 +89,7 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		super.setObserver(observer);
 		this.observer = observer;
 	}
+<<<<<<< HEAD
 	
 //	@Override
 //	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
@@ -127,4 +128,6 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		updateValidation();
 		
 	}
+=======
+>>>>>>> akquinet_master
 }

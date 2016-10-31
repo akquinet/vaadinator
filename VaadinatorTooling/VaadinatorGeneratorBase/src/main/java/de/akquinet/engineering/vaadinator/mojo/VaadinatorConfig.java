@@ -35,6 +35,7 @@ public class VaadinatorConfig {
 	}
 
 	private String projectName;
+	private String projectNamePlain;
 	private String basePckg;
 	private List<BeanDescription> beanDescriptions;
 	private ArtifactType artifactTypeEn;
@@ -51,11 +52,12 @@ public class VaadinatorConfig {
 	private boolean hasServiceBeans;
 	private Log log;
 	private Map<String, String> generatorOptions;
-	public VaadinatorConfig(String projectName, String basePckg, List<BeanDescription> beanDescriptions,
+	public VaadinatorConfig(String projectName, String projectNamePlain, String basePckg, List<BeanDescription> beanDescriptions,
 			ArtifactType artifactTypeEn, GenType genTypeEn, File targetFolderBaseStart, File targetFolderSrcStart,
 			File targetFolderResStart, File targetFolderTestSrcStart, File targetFolderTestResStart, Map<String, Object> commonMap, Set<String> displayProfileNames,
 			boolean genServletBase, boolean hasDisplayBeans, boolean hasServiceBeans, Log log, Map<String, String> generatorOptions) {
 		this.projectName = projectName;
+		this.projectNamePlain = projectNamePlain;
 		this.basePckg = basePckg;
 		this.beanDescriptions = beanDescriptions;
 		this.artifactTypeEn = artifactTypeEn;
@@ -80,6 +82,14 @@ public class VaadinatorConfig {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+	
+	public String getProjectNamePlain() {
+		return projectNamePlain;
+	}
+
+	public void setProjectNamePlain(String projectNamePlain) {
+		this.projectNamePlain = projectNamePlain;
 	}
 
 	public String getBasePckg() {

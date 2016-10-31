@@ -37,15 +37,25 @@ public ${bean.className}AddViewEx create${bean.className}AddView() {
 	#else
 public ${bean.className}AddView create${bean.className}AddView() {
 	#end
+<<<<<<< HEAD
 	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW_IMPL") )
 		${bean.className}AddViewImplEx addViewImpl = new ${bean.className}AddViewImplEx(exceptionMappingStrategy);
 	#else
 		${bean.className}AddViewImpl addViewImpl = new ${bean.className}AddViewImpl(exceptionMappingStrategy);
 	#end
 		if(commonFieldInitializer != null) {
+=======
+	
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW_IMPL") )
+${bean.className}AddViewImplEx addViewImpl =  new ${bean.className}AddViewImplEx(exceptionMappingStrategy);
+	#else
+${bean.className}AddViewImpl addViewImpl = new ${bean.className}AddViewImpl(exceptionMappingStrategy);
+	#end
+	if(commonFieldInitializer != null) {
+>>>>>>> akquinet_master
 			addViewImpl.addFieldInitializer(commonFieldInitializer);
 		}
-		return addViewImpl;
+	return addViewImpl;
 	}
 
 	@Override
@@ -55,6 +65,7 @@ public ${bean.className}ChangeViewEx create${bean.className}ChangeView() {
 public ${bean.className}ChangeView create${bean.className}ChangeView() {
 	#end
 	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW_IMPL") )
+<<<<<<< HEAD
 		${bean.className}ChangeViewImplEx changeViewImpl = new ${bean.className}ChangeViewImplEx(exceptionMappingStrategy);
 	#else
 		${bean.className}ChangeViewImpl changeViewImpl = new ${bean.className}ChangeViewImpl(exceptionMappingStrategy);
@@ -63,6 +74,16 @@ public ${bean.className}ChangeView create${bean.className}ChangeView() {
 			changeViewImpl.addFieldInitializer(commonFieldInitializer);
 		}
 		return changeViewImpl;
+=======
+    ${bean.className}ChangeViewImplEx changeViewImpl = new ${bean.className}ChangeViewImplEx(exceptionMappingStrategy);
+	#else
+    ${bean.className}ChangeViewImpl changeViewImpl = new ${bean.className}ChangeViewImpl(exceptionMappingStrategy);
+	#end	
+	if(commonFieldInitializer != null) {
+		changeViewImpl.addFieldInitializer(commonFieldInitializer);
+	}
+	return changeViewImpl;
+>>>>>>> akquinet_master
 	}
 
 	@Override
@@ -76,6 +97,10 @@ return new ${bean.className}ListViewImplEx(exceptionMappingStrategy);
 	#else
 return new ${bean.className}ListViewImpl(exceptionMappingStrategy);
 	#end
+<<<<<<< HEAD
 	}
+=======
+}
+>>>>>>> akquinet_master
 #end
 #end

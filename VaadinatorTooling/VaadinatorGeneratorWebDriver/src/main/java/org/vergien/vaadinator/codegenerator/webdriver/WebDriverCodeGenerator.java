@@ -35,6 +35,7 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 
 		Log log = vaadinatorConfig.getLog();
 		log.info("Generating WebDriver PageObjects");
+
 		boolean generatePages = true;
 		if ("false".equalsIgnoreCase(vaadinatorConfig.getGeneratorOptions().get("webDriverPages"))) {
 			generatePages = false;

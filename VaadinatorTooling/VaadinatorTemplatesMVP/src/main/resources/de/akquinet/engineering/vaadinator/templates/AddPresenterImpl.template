@@ -24,7 +24,12 @@ import ${modelPackage}.${bean.className};
 import java.util.HashMap;
 import java.util.Map;
 
-public class ${bean.className}AddPresenterImpl extends ${bean.className}EditPresenterImpl
+public class ${bean.className}AddPresenterImpl extends 
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_PRES_IMPL") ) 
+	${bean.className}EditPresenterImplEx
+#else
+	${bean.className}EditPresenterImpl
+#end
 		implements ${bean.className}AddPresenter, ${bean.className}AddView.Observer {
 
 	/**

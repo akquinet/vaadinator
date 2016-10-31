@@ -46,6 +46,13 @@ public class TimesheetDayChangePresenterImplEx extends TimesheetDayChangePresent
 		this.presenterFactory = presenterFactory;
 	}
 
+	public TimesheetDayChangePresenterImplEx(Map<String, Object> context,
+			TimesheetDayChangeViewEx view, Presenter returnPresenter,
+			TimesheetDayService service) {
+		super(context, view, returnPresenter, service);
+		throw new UnsupportedOperationException("This constructor only exists for the generated PresenterFactory");
+	}
+
 	private PresenterFactoryEx presenterFactory;
 
 	private List<Project> projectList = new ArrayList<Project>();

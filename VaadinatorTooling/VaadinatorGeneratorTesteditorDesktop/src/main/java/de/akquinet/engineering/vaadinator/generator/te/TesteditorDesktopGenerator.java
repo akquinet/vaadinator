@@ -15,7 +15,8 @@
  */
 package de.akquinet.engineering.vaadinator.generator.te;
 
-import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.*;
+import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.existingFolder;
+import static de.akquinet.engineering.vaadinator.util.GeneratorUtil.runVelocity;
 
 import java.io.File;
 
@@ -30,9 +31,9 @@ public class TesteditorDesktopGenerator implements CodeGenerator {
 
 	@Override
 	public void generateCode(VaadinatorConfig vaadinatorConfig) throws Exception {
-
+		
 		Log log = vaadinatorConfig.getLog();
-		log.info("Generating WebDriver PageObjects");
+		log.info("Generating testeditor desktop artifacts");
 
 		if (vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.SOURCES
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {

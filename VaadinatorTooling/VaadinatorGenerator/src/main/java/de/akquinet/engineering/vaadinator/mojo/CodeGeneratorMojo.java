@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.apache.maven.project.MavenProject;
 
 import com.github.javaparser.ParseException;
@@ -76,6 +77,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 
 	/**
 	 * Generate which type of artifacts
+	 * 
+	 * @parameter
 	 */
 	private String genType = VaadinatorConfig.GenType.ALL.toString();
 
@@ -104,13 +107,12 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
 		// "src/main/java")), includes, excludes));
 		// if(true)return;
-		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType);
+		getLog().info("Hello, code world. - I'm " + project.getBasedir().getAbsolutePath() + " doing " + artifactType + " for " + genType);
 		File src = (new File(project.getBasedir(), "src/main/java"));
 		File genSrc = (new File(project.getBasedir(), "target/generated-sources"));
 		try {
-			processJavaFiles(src, genSrc, new SourceDao(), toValidJavaClassName(project.getArtifactId()),
-					project.getVersion(), generateServlet,
-					VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
+			processJavaFiles(src, genSrc, new SourceDao(getLog()), toValidJavaClassName(project.getArtifactId()), project.getArtifactId(), 
+					project.getVersion(), generateServlet, VaadinatorConfig.ArtifactType.valueOf(artifactType.toUpperCase()),
 					VaadinatorConfig.GenType.valueOf(genType.toUpperCase()));
 		} catch (Exception e) {
 			throw new MojoExecutionException("Fehler beim Generieren", e);
@@ -118,7 +120,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	}
 
 	private void processJavaFiles(File sourceFolderStart, File targetFolderBaseStart, SourceDao sourceDao,
-			String projectName, String version, boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn,
+			String projectName, String projectNamePlain, String version, boolean genServletBase, VaadinatorConfig.ArtifactType artifactTypeEn,
 			VaadinatorConfig.GenType genTypeEn) throws Exception {
 		List<BeanDescription> beanDescriptions = new ArrayList<BeanDescription>();
 
@@ -167,6 +169,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				}
 			}
 			commonMap.put("projectName", projectName);
+			commonMap.put("projectNamePlain", projectNamePlain);
 			commonMap.put("projectVersion", version);
 			commonMap.put("artifactType", artifactTypeEn.toString());
 			commonMap.put("basePackage", basePckg);
@@ -175,7 +178,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 			List<CodeGenerator> codeGenerators = initGenerators();
 			for (CodeGenerator codeGenerator : codeGenerators) {
 				getLog().info("Generating code with: " + codeGenerator.getClass().getName());
-				codeGenerator.generateCode(new VaadinatorConfig(projectName, basePckg, beanDescriptions, artifactTypeEn,
+				codeGenerator.generateCode(new VaadinatorConfig(projectName, projectNamePlain, basePckg, beanDescriptions, artifactTypeEn,
 						genTypeEn, targetFolderBaseStart, targetFolderSrcStart, targetFolderResStart, targetFolderTestSrcStart, 
 						targetFolderTestResStart, commonMap, displayProfileNames, genServletBase, hasDisplayBeans, hasServiceBeans,
 						getLog(), generatorOptions));
@@ -271,8 +274,8 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		// only for local development (in Project root of gen)
 		CodeGeneratorMojo mojo = new CodeGeneratorMojo();
 		mojo.processJavaFiles(new File("../../VaadinatorExample/AddressbookExample/src/main/java"),
-				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(),
-				"AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
+				new File("../../VaadinatorExample/AddressbookExample/target/generated-sources"), new SourceDao(new SystemStreamLog()),
+				"AddressbookExample", "AddressbookExample", "0.10-SNAPSHOT", true, VaadinatorConfig.ArtifactType.ALL,
 				VaadinatorConfig.GenType.ALL);
 	}
 
