@@ -14,8 +14,11 @@ License for the specific language governing permissions and limitations under
 the License.
 *#
 package ${package};
-
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW") )
+public interface ${bean.className}ChangeView extends ${bean.className}EditViewEx<${bean.className}ChangeView.Observer> {
+#else
 public interface ${bean.className}ChangeView extends ${bean.className}EditView<${bean.className}ChangeView.Observer> {
+#end
 
 	public static interface Observer extends ${bean.className}EditView.Observer {
 		

@@ -15,7 +15,11 @@ the License.
 *#
 package ${package};
 
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW") )
+public interface ${bean.className}AddView extends ${bean.className}EditViewEx<${bean.className}AddView.Observer> {
+#else
 public interface ${bean.className}AddView extends ${bean.className}EditView<${bean.className}AddView.Observer> {
+#end
 
 	public static interface Observer extends ${bean.className}EditView.Observer {
 	}
