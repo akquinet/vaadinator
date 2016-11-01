@@ -156,12 +156,14 @@ public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 	private void handleFilter(${bean.ClassName}Filter ${bean.ClassNamePass}Filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
 		${bean.ClassNamePass}Query.setOperator(${bean.ClassName}Query.OR);
 #foreach($property in $bean.properties)
+#if($property.propertyClassName == "String")
 		try {
 			${bean.ClassNamePass}Query.${property.propertySetterName}((${property.propertyClassName})${bean.ClassNamePass}Filter.getNeedle());
 		}
 		catch(ClassCastException e) {
 			// this my happen
 		}
+#end
 #end		
 	}
 	
