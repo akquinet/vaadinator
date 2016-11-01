@@ -126,7 +126,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 			private static final long serialVersionUID = 1L;
 
 			public void valueChange(ValueChangeEvent event) {
-				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
+				Object sel = ${bean.classNamePass}Table.getValue();
 				if (sel != null) {
 					observer.on${bean.className}Chosen();
 				}
