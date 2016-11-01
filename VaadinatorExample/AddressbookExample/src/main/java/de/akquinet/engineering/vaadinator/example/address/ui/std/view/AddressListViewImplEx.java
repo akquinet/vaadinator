@@ -22,7 +22,7 @@ protected Container initContainer() {
 
 	AddressLazyQueryFactory factory = new AddressLazyQueryFactory(observer);
 	container = new AddressContainer(
-			new LazyQueryDefinition(false, 50, LazyQueryDefinition.ID_PROPERTY_ID_BEAN_SELF), factory);
+			new LazyQueryDefinition(false, 50, null), factory);
 	return container;
 }
 	// @Override
