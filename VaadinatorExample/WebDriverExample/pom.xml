@@ -141,6 +141,15 @@ the License.
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<drivers>
+						<driver>
+                			<name>phantomjs</name>
+                			<platform>linux</platform>
+                			<bit>64</bit>
+            			</driver>
+					</drivers>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
