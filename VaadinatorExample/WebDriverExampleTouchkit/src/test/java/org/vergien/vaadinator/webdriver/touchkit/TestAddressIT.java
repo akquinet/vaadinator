@@ -15,7 +15,6 @@
  */
 package org.vergien.vaadinator.webdriver.touchkit;
 
-import static com.github.webdriverextensions.Bot.assertIsNotOpen;
 import static com.github.webdriverextensions.Bot.assertIsOpen;
 import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
@@ -40,10 +39,10 @@ import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.Firs
 
 import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
-import com.github.webdriverextensions.junitrunner.annotations.Firefox;
+import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
 
 @RunWith(WebDriverRunner.class)
-@Firefox
+@PhantomJS
 public class TestAddressIT extends AbstractWebdriverTest {
 	private FirstPageViewPage firstPageViewPage;
 	private AddressAddPage addressAddPage;
@@ -84,7 +83,6 @@ public class TestAddressIT extends AbstractWebdriverTest {
 			}
 		}
 		assertThat("Generated address not found in table", foundInTable, is(true));
-
 		assertValueEquals("Daniel", addressChangePage.getAddressChangeViewComponent().getVornameWebElement());
 		assertValueEquals(nachname, addressChangePage.getAddressChangeViewComponent().getNachnameWebElement());
 	//	assertThat(addressChangePage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));

@@ -37,13 +37,19 @@ the License.
 		<dependency>
 			<groupId>org.vaadin</groupId>
 			<artifactId>addon-test-helpers</artifactId>
-			<version>1.7</version>
+			<version>1.10</version>
 			<!-- includes test server and some WebElement wrappers for vaadin components -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.github.webdriverextensions</groupId>
 			<artifactId>webdriverextensions</artifactId>
-			<version>2.6.2</version>
+			<version>3.0.1</version>
 			<!-- includes the extenstions to selenium webdriver -->
 		</dependency>
 		<dependency>
@@ -124,6 +130,18 @@ the License.
 	</repositories>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.github.webdriverextensions</groupId>
+				<artifactId>webdriverextensions-maven-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install-drivers</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>

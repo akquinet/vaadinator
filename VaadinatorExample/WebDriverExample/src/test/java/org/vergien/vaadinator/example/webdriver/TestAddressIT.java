@@ -17,12 +17,16 @@ package org.vergien.vaadinator.example.webdriver;
 
 import static com.github.webdriverextensions.Bot.assertIsNotDisplayed;
 import static com.github.webdriverextensions.Bot.assertIsOpen;
+import static com.github.webdriverextensions.Bot.assertTextEquals;
 import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
+import static com.github.webdriverextensions.Bot.clearAndType;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
-import static org.hamcrest.Matchers.*;
-import static org.vergien.vaadinator.example.webdriver.VaadinBot.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.vergien.vaadinator.example.webdriver.VaadinBot.clickAndWait;
+import static org.vergien.vaadinator.example.webdriver.VaadinBot.waitForVaadin;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,10 +39,12 @@ import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.component.
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.page.AddressPage;
 
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
-import com.github.webdriverextensions.junitrunner.annotations.Firefox;
+import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
+import com.github.webdriverextensions.junitrunner.annotations.TakeScreenshotOnFailure;
 
 @RunWith(WebDriverRunner.class)
-@Firefox
+@PhantomJS
+@TakeScreenshotOnFailure
 public class TestAddressIT extends AbstractWebDriverCase {
 	private AddressPage addressPage;
 
