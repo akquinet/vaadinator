@@ -34,10 +34,12 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.Dimension;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.page.AddressPage;
 
+import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
 import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
 import com.github.webdriverextensions.junitrunner.annotations.TakeScreenshotOnFailure;
@@ -53,6 +55,7 @@ public class TestAddressIT extends AbstractWebDriverCase {
 		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
 		waitForVaadin();
 		assertIsOpen(addressPage);
+		Bot.driver().manage().window().setSize(new Dimension(1024, 786));
 	}
 
 	@Test
