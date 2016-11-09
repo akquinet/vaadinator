@@ -89,7 +89,7 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 
 	@Override
 	public void on${bean.className}Chosen() {
-		${bean.className} newSel = view.get${bean.className}Selection().getValue();
+		${bean.className} newSel = view.get${bean.className}Selection();
 		if (newSel == null) {
 			return;
 		}

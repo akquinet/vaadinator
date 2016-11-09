@@ -29,8 +29,6 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vaadin.data.Property;
-
 import de.akquinet.engineering.vaadinator.example.address.model.Address;
 import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
 import de.akquinet.engineering.vaadinator.example.address.service.AddressService;
@@ -51,11 +49,10 @@ public class AddressListPresenterImplTest {
 	AddressAddPresenter apres;
 	AddressListPresenterImpl pres;
 
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() {
 		view = mock(AddressListView.class);
-		when(view.getAddressSelection()).thenReturn(mock(Property.class));
+		when(view.getAddressSelection()).thenReturn(mock(Address.class));
 		cview = mock(AddressChangeView.class);
 		when(cview.getAnrede()).thenReturn(Anreden.FRAU);
 		when(cview.getVorname()).thenReturn("vorname");
@@ -110,7 +107,7 @@ public class AddressListPresenterImplTest {
 
 	@Test
 	public void testOnAddressChosen() {
-		when(view.getAddressSelection().getValue()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		pres.onAddressChosen();
 		verify(presenterFactory).createAddressChangePresenter(pres);
 		verify(view).openSubView(cview);
@@ -121,7 +118,7 @@ public class AddressListPresenterImplTest {
 	public void testOnAddressChosenSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
 		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection().getValue()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		pres.onAddressChosen();
 		verify(presenterFactory).createAddressChangePresenter(pres);
 		verify(view, never()).openSubView(cview);
@@ -131,7 +128,7 @@ public class AddressListPresenterImplTest {
 
 	@Test
 	public void testOnAddressChosenNull() {
-		when(view.getAddressSelection().getValue()).thenReturn(null);
+		when(view.getAddressSelection()).thenReturn(null);
 		pres.onAddressChosen();
 		verify(presenterFactory, never()).createAddressChangePresenter((Presenter) any());
 		verify(view, never()).openSubView(cview);
@@ -142,7 +139,7 @@ public class AddressListPresenterImplTest {
 	public void testOnAddressChosenNullSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
 		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection().getValue()).thenReturn(null);
+		when(view.getAddressSelection()).thenReturn(null);
 		pres.onAddressChosen();
 		verify(presenterFactory, never()).createAddressChangePresenter((Presenter) any());
 		verify(view, never()).openSubView(cview);
@@ -152,7 +149,7 @@ public class AddressListPresenterImplTest {
 
 	@Test
 	public void testOnAddAddress() {
-		when(view.getAddressSelection().getValue()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		pres.onAddAddress();
 		verify(presenterFactory).createAddressAddPresenter(pres);
 		verify(view).openSubView(aview);
@@ -163,7 +160,7 @@ public class AddressListPresenterImplTest {
 	public void testOnAddAddressSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
 		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection().getValue()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		pres.onAddAddress();
 		verify(presenterFactory).createAddressAddPresenter(pres);
 		verify(view, never()).openSubView(aview);

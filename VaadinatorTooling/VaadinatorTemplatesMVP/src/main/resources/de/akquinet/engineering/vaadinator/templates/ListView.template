@@ -16,7 +16,6 @@ the License.
 package ${package};
 
 import java.util.List;
-import com.vaadin.data.Property;
 
 import ${common.basePackage}.ui.view.ErrorHandlerView;
 import ${common.basePackage}.ui.view.ObservableView;
@@ -32,7 +31,7 @@ public interface ${bean.className}ListView extends ObservableView<${bean.classNa
 
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List);
 
-	public Property<${bean.className}> get${bean.className}Selection();
+	public ${bean.className} get${bean.className}Selection();
 
 	public static interface Observer {
 	

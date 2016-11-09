@@ -24,6 +24,7 @@ import com.github.javaparser.ParseException;
 
 import java.util.Collections;
 
+import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class SourceDaoTest {
 
 	@Before
 	public void setUp() {
-		daoUnderTest = new SourceDao();
+		daoUnderTest = new SourceDao(new SystemStreamLog());
 	}
 
 	@Test
