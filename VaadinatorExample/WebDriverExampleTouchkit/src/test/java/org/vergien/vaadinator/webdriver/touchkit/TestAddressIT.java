@@ -20,10 +20,10 @@ import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
+import static com.github.webdriverextensions.vaadin.VaadinBot.clickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.doubleClickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.waitForVaadin;
 import static org.hamcrest.Matchers.is;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.clickAndWait;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.doubleClickAndWait;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.waitForVaadin;
 
 import java.util.UUID;
 
@@ -40,6 +40,7 @@ import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.Firs
 import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
 import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
+import com.github.webdriverextensions.vaadin.VaadinBot;
 
 @RunWith(WebDriverRunner.class)
 @PhantomJS

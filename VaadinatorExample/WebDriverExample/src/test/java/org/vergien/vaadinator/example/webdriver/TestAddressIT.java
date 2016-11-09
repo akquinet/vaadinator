@@ -23,10 +23,10 @@ import static com.github.webdriverextensions.Bot.assertValueEquals;
 import static com.github.webdriverextensions.Bot.clearAndType;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
+import static com.github.webdriverextensions.vaadin.VaadinBot.clickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.waitForVaadin;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.vergien.vaadinator.example.webdriver.VaadinBot.clickAndWait;
-import static org.vergien.vaadinator.example.webdriver.VaadinBot.waitForVaadin;
 
 import java.util.List;
 import java.util.UUID;
