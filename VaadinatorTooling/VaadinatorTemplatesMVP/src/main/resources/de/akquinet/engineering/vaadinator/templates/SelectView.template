@@ -27,7 +27,7 @@ import ${modelPackage}.${bean.className};
 public interface ${bean.className}SelectView extends ObservableView<${bean.className}SelectView.Observer>, ErrorHandlerView {
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List);
 
-	public Property<${bean.className}> get${bean.className}Selection();
+	public ${bean.className} get${bean.className}Selection();
 
 	public void setNullSelectionAllowed(boolean nullSelectionAllowed);
 	
