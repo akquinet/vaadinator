@@ -63,7 +63,7 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 
 	@Override
 	public void returnToThisPresener(Presenter fromPresenter) {
-		// NOOP
+		loadFromModel();
 	}
 
 	protected void loadFromModel() {

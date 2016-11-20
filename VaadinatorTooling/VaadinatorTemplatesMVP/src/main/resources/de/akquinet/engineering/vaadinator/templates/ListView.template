@@ -29,13 +29,9 @@ public interface ${bean.className}ListView extends ObservableView<${bean.classNa
 	
 	public void closeSubView();
 
-	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List);
+	public void set${bean.className}SelectView(${bean.className}SelectView ${bean.classNamePass}SelectView);
 
-	public ${bean.className} get${bean.className}Selection();
-
-	public static interface Observer {
-	
-		public void on${bean.className}Chosen();
+	public static interface Observer{
 		
 		public void onAdd${bean.className}();
 	

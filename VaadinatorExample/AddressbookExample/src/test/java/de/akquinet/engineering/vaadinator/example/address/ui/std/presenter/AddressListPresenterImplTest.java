@@ -16,8 +16,6 @@
 package de.akquinet.engineering.vaadinator.example.address.ui.std.presenter;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -48,11 +46,12 @@ public class AddressListPresenterImplTest {
 	AddressChangePresenter cpres;
 	AddressAddPresenter apres;
 	AddressListPresenterImpl pres;
+	private AddressSelectPresenter spres;
 
 	@Before
 	public void setUp() {
 		view = mock(AddressListView.class);
-		when(view.getAddressSelection()).thenReturn(mock(Address.class));
+		// when(view.getAddressSelection()).thenReturn(mock(Address.class));
 		cview = mock(AddressChangeView.class);
 		when(cview.getAnrede()).thenReturn(Anreden.FRAU);
 		when(cview.getVorname()).thenReturn("vorname");
@@ -70,56 +69,54 @@ public class AddressListPresenterImplTest {
 		cpres = mock(AddressChangePresenter.class);
 		when(cpres.getView()).thenReturn(cview);
 		apres = mock(AddressAddPresenter.class);
+		spres = mock(AddressSelectPresenter.class);
 		when(apres.getView()).thenReturn(aview);
 		when(presenterFactory.createAddressAddPresenter((Presenter) any())).thenReturn(apres);
 		when(presenterFactory.createAddressChangePresenter((Presenter) any())).thenReturn(cpres);
+		when(presenterFactory.createAddressSelectPresenter()).thenReturn(spres);
 		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, null);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testStartPresenting() {
 		pres.startPresenting();
 		verify(view).setObserver(pres);
-		verify(service).listAllAddress(anyMap());
 		verify(view).initializeUi();
-		verify(view).setOrRefreshData(anyList());
+		verify(spres).startPresenting();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testReturnToThisPresener() {
 		pres.returnToThisPresener(mock(Presenter.class));
 		verify(view).closeSubView();
-		verify(view).setOrRefreshData(anyList());
+		verify(spres).returnToThisPresener(any(Presenter.class));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testReturnToThisPresenerSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
-		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
+		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service,
+				subviewCapablePresenter);
 		pres.returnToThisPresener(mock(Presenter.class));
 		verify(view, never()).closeSubView();
 		verify(subviewCapablePresenter).setDetailView(null);
-		verify(view).setOrRefreshData(anyList());
+		verify(spres).returnToThisPresener(any(Presenter.class));
 	}
 
 	@Test
-	public void testOnAddressChosen() {
-		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
-		pres.onAddressChosen();
+	public void testOnAddressSelected() {
+		pres.onAddressSelected(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		verify(presenterFactory).createAddressChangePresenter(pres);
 		verify(view).openSubView(cview);
 		verify(cpres).startPresenting();
 	}
 
 	@Test
-	public void testOnAddressChosenSubview() {
+	public void testOnAddressSelectedSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
-		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
-		pres.onAddressChosen();
+		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service,
+				subviewCapablePresenter);
+		pres.onAddressSelected(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		verify(presenterFactory).createAddressChangePresenter(pres);
 		verify(view, never()).openSubView(cview);
 		verify(subviewCapablePresenter).setDetailView(cview);
@@ -127,20 +124,19 @@ public class AddressListPresenterImplTest {
 	}
 
 	@Test
-	public void testOnAddressChosenNull() {
-		when(view.getAddressSelection()).thenReturn(null);
-		pres.onAddressChosen();
+	public void testOnAddressSelectedNull() {
+		pres.onAddressSelected(null);
 		verify(presenterFactory, never()).createAddressChangePresenter((Presenter) any());
 		verify(view, never()).openSubView(cview);
 		verify(cpres, never()).startPresenting();
 	}
 
 	@Test
-	public void testOnAddressChosenNullSubview() {
+	public void testOnAddressSelectedNullSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
-		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection()).thenReturn(null);
-		pres.onAddressChosen();
+		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service,
+				subviewCapablePresenter);
+		pres.onAddressSelected(null);
 		verify(presenterFactory, never()).createAddressChangePresenter((Presenter) any());
 		verify(view, never()).openSubView(cview);
 		verify(subviewCapablePresenter, never()).setDetailView(cview);
@@ -149,7 +145,6 @@ public class AddressListPresenterImplTest {
 
 	@Test
 	public void testOnAddAddress() {
-		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
 		pres.onAddAddress();
 		verify(presenterFactory).createAddressAddPresenter(pres);
 		verify(view).openSubView(aview);
@@ -159,8 +154,8 @@ public class AddressListPresenterImplTest {
 	@Test
 	public void testOnAddAddressSubview() {
 		SubviewCapablePresenter subviewCapablePresenter = mock(SubviewCapablePresenter.class);
-		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service, subviewCapablePresenter);
-		when(view.getAddressSelection()).thenReturn(new Address(Anreden.FROLLEIN, "Sabine", "Test", "st@test.com"));
+		pres = new AddressListPresenterImpl(new HashMap<String, Object>(), view, presenterFactory, service,
+				subviewCapablePresenter);
 		pres.onAddAddress();
 		verify(presenterFactory).createAddressAddPresenter(pres);
 		verify(view, never()).openSubView(aview);
