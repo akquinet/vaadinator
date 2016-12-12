@@ -72,6 +72,12 @@ public class WebDriverCodeGenerator implements CodeGenerator {
 									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
 											desc.getClassName(), "ListViewComponent.java"),
 									TEMPLATE_PACKAGE, log);
+							runVelocity(desc, vaadinatorConfig.getCommonMap(), componentPckg, desc.getPckg(),
+									desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+									"SelectViewComponent.template",
+									packageToFile(vaadinatorConfig.getTargetFolderTestSrcStart(), componentPckg,
+											desc.getClassName(), "SelectViewComponent.java"),
+									TEMPLATE_PACKAGE, log);
 							if (isGeneratePages(vaadinatorConfig)) {
 								String pagePckg = desc.getViewPckg(p) + ".webdriver.page";
 								if (isTouchkit()) {

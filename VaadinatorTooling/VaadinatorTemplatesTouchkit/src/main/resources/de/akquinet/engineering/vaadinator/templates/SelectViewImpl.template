@@ -110,7 +110,7 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		});
 		
 		setOrRefreshData(new ArrayList<${bean.className}>());
-		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
+		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
 
 			/**
@@ -125,9 +125,10 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 			}
 		});
 		
-		addStyleName("styleid-${bean.className}ListViewImpl");
+		addStyleName("styleid-${bean.className}SelectViewImpl");
 		
 		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
+		noSelectionButton.addStyleName("styleid-${bean.className}SelectViewImpl-no${bean.className}");
 	}
 
 	@Override

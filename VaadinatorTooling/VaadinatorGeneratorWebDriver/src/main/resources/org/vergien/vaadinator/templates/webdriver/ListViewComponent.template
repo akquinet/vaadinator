@@ -14,54 +14,22 @@ License for the specific language governing permissions and limitations under
 the License.
 *#package ${package};
 
-import java.util.List;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.webdriverextensions.WebComponent;
 
 public class ${bean.className}ListViewComponent extends WebComponent {
-	public static class ${bean.className}ListTableRowComponent extends WebComponent {
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		@FindBy(className = "v-table-cell-content-cell-${property.propertyName}")
-		private WebElement ${property.propertyName}Cell;
-#end
-#end
-
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		public WebElement ${property.propertyGetterName}CellWebElement() {
-			return ${property.propertyName}Cell;
-		}
-		
-#end
-#end		
-	}
-	
-	@FindBy(className = "styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table")
-	protected WebElement ${bean.classNamePass}Table;
-	@FindBy(className ="styleid-${bean.className}ListViewImpl-searchField")
-	protected WebElement searchField;
 	@FindBy(className = "styleid-${bean.className}ListViewImpl-add${bean.className}")
 	protected WebElement add${bean.className};
-	@FindBy(css =".styleid-${bean.className}ListViewImpl-addressTable .v-table-body .v-table-table tr")
-	private List<${bean.className}ListTableRowComponent> ${bean.classNamePass}ListTableRows;
-	
-	public WebElement get${bean.className}TableWebElement() {
-		return ${bean.classNamePass}Table;
-	}
-	
-	public WebElement getSearchFieldWebElement() {
-		return searchField;
-	}
-	
+	@FindBy(className = "styleid-${bean.className}SelectViewImpl")
+	protected ${bean.className}SelectViewComponent ${bean.classNamePass}SelectViewComponent;
+		
 	public WebElement getAdd${bean.className}WebElement() {
 		return add${bean.className};
 	}
-	
-	public List<${bean.className}ListTableRowComponent> get${bean.className}ListTableRows() {
-		return ${bean.classNamePass}ListTableRows;
+
+	public ${bean.className}SelectViewComponent get${bean.className}SelectViewComponent() {
+		return ${bean.classNamePass}SelectViewComponent;
 	}
 }
