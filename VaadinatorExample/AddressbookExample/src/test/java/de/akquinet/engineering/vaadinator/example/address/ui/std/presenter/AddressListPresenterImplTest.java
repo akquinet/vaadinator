@@ -38,14 +38,14 @@ import de.akquinet.engineering.vaadinator.example.address.ui.std.view.AddressLis
 
 public class AddressListPresenterImplTest {
 
-	AddressListView view;
-	AddressChangeView cview;
-	AddressAddView aview;
-	AddressService service;
-	PresenterFactory presenterFactory;
-	AddressChangePresenter cpres;
-	AddressAddPresenter apres;
-	AddressListPresenterImpl pres;
+	private AddressListView view;
+	private AddressChangeView cview;
+	private AddressAddView aview;
+	private AddressService service;
+	private PresenterFactory presenterFactory;
+	private AddressChangePresenter cpres;
+	private AddressAddPresenter apres;
+	private AddressListPresenterImpl pres;
 	private AddressSelectPresenter spres;
 
 	@Before

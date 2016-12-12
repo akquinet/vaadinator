@@ -35,15 +35,15 @@ import de.akquinet.engineering.vaadinator.example.address.ui.std.view.TeamListVi
 
 public class MainPresenterImplTest {
 
-	MainView view;
-	AddressListView lview;
-	PresenterFactory presenterFactory;
-	AddressListPresenter lpres;
+	private MainView view;
+	private AddressListView lview;
+	private PresenterFactory presenterFactory;
+	private AddressListPresenter lpres;
 	
-	TeamListView tview;
-	TeamListPresenter tpres;
+	private TeamListView tview;
+	private TeamListPresenter tpres;
 	
-	MainPresenterImpl pres;
+	private MainPresenterImpl pres;
 
 	@Before
 	public void setUp() {

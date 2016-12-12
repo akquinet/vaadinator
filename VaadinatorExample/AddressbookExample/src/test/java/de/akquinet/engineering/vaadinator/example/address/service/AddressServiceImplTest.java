@@ -37,8 +37,8 @@ import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
 
 public class AddressServiceImplTest {
 
-	AddressDao dao;
-	AddressServiceImpl service;
+	private AddressDao dao;
+	private AddressServiceImpl service;
 
 	@Test
 	public void testListAll() {

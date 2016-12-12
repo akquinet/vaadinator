@@ -25,9 +25,9 @@ import org.junit.Before;
 
 public abstract class AbstractDaoImplTest {
 
-	EntityManagerFactory emf;
-	EntityManager em;
-	EntityTransaction trans;
+	protected EntityManagerFactory emf;
+	protected EntityManager em;
+	protected EntityTransaction trans;
 
 	@Before
 	public void setUp() {
