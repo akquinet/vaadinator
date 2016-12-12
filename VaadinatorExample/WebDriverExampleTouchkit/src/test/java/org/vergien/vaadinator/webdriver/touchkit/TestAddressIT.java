@@ -15,16 +15,15 @@
  */
 package org.vergien.vaadinator.webdriver.touchkit;
 
-import static com.github.webdriverextensions.Bot.assertIsNotOpen;
 import static com.github.webdriverextensions.Bot.assertIsOpen;
 import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
+import static com.github.webdriverextensions.vaadin.VaadinBot.clickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.doubleClickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.waitForVaadin;
 import static org.hamcrest.Matchers.is;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.clickAndWait;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.doubleClickAndWait;
-import static org.vergien.vaadinator.webdriver.touchkit.VaadinBot.waitForVaadin;
 
 import java.util.UUID;
 
@@ -40,10 +39,11 @@ import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.Firs
 
 import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
-import com.github.webdriverextensions.junitrunner.annotations.Firefox;
+import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
+import com.github.webdriverextensions.vaadin.VaadinBot;
 
 @RunWith(WebDriverRunner.class)
-@Firefox
+@PhantomJS
 public class TestAddressIT extends AbstractWebdriverTest {
 	private FirstPageViewPage firstPageViewPage;
 	private AddressAddPage addressAddPage;
@@ -84,7 +84,6 @@ public class TestAddressIT extends AbstractWebdriverTest {
 			}
 		}
 		assertThat("Generated address not found in table", foundInTable, is(true));
-
 		assertValueEquals("Daniel", addressChangePage.getAddressChangeViewComponent().getVornameWebElement());
 		assertValueEquals(nachname, addressChangePage.getAddressChangeViewComponent().getNachnameWebElement());
 	//	assertThat(addressChangePage.getAddressChangeViewComponent().getAnredeVaadinComboBox().getValue(), is("Herr"));
