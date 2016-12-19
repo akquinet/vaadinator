@@ -419,7 +419,7 @@ public class BeanDescription {
 	}
 
 	public String getDaoPckg() {
-		return getBasePckg() + "dao";
+		return getBasePckg() + ".dao";
 	}
 	
 	public boolean isBeanValidation() {
