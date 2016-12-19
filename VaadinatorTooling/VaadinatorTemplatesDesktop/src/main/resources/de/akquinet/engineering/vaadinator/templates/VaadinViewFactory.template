@@ -14,10 +14,6 @@ License for the specific language governing permissions and limitations under
 the License.
 *#
 
-<<<<<<< HEAD
-=======
-
->>>>>>> akquinet_master
 #parse("/de/akquinet/engineering/vaadinator/templates/VaadinViewFactory_common.template")
 
 	@Override
