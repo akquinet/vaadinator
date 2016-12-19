@@ -90,8 +90,8 @@ public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
 		if("${property.propertyName}".equals(filter.getPropertyId())) {
-			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassName}) filter.getEndValue());
-			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassName}) filter.getStartValue());
+			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassNameBoxed}) filter.getEndValue());
+			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassNameBoxed}) filter.getStartValue());
 		}
 #end
 #end		
