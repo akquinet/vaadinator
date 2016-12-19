@@ -17,12 +17,16 @@ package org.vergien.vaadinator.example.webdriver;
 
 import static com.github.webdriverextensions.Bot.assertIsNotDisplayed;
 import static com.github.webdriverextensions.Bot.assertIsOpen;
+import static com.github.webdriverextensions.Bot.assertTextEquals;
 import static com.github.webdriverextensions.Bot.assertThat;
 import static com.github.webdriverextensions.Bot.assertValueEquals;
+import static com.github.webdriverextensions.Bot.clearAndType;
 import static com.github.webdriverextensions.Bot.open;
 import static com.github.webdriverextensions.Bot.type;
-import static org.hamcrest.Matchers.*;
-import static org.vergien.vaadinator.example.webdriver.VaadinBot.*;
+import static com.github.webdriverextensions.vaadin.VaadinBot.clickAndWait;
+import static com.github.webdriverextensions.vaadin.VaadinBot.waitForVaadin;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,15 +34,19 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.Dimension;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.page.AddressPage;
 
+import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.junitrunner.WebDriverRunner;
-import com.github.webdriverextensions.junitrunner.annotations.Firefox;
+import com.github.webdriverextensions.junitrunner.annotations.PhantomJS;
+import com.github.webdriverextensions.junitrunner.annotations.TakeScreenshotOnFailure;
 
 @RunWith(WebDriverRunner.class)
-@Firefox
+@PhantomJS
+@TakeScreenshotOnFailure
 public class TestAddressIT extends AbstractWebDriverCase {
 	private AddressPage addressPage;
 
@@ -47,6 +55,7 @@ public class TestAddressIT extends AbstractWebDriverCase {
 		open(BASEURL + "org.vergien.vaadinator.example.webdriver.WebDriverExampleDemo");
 		waitForVaadin();
 		assertIsOpen(addressPage);
+		Bot.driver().manage().window().setSize(new Dimension(1024, 786));
 	}
 
 	@Test
