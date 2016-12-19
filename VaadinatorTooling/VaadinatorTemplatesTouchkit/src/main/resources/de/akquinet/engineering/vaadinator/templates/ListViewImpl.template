@@ -156,8 +156,8 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Property<${bean.className}> get${bean.className}Selection() {
-		return (Property) ${bean.classNamePass}Table;
+	public ${bean.className} get${bean.className}Selection() {
+		return (${bean.className}) ((Property) ${bean.classNamePass}Table).getValue();
 	}
 
 	@Override
