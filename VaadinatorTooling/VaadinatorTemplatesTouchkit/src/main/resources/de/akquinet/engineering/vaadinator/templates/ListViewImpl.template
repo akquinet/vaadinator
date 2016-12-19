@@ -30,6 +30,9 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}ListPresenter;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Container;
+import com.vaadin.data.Container.Filter;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.data.Property;
@@ -54,6 +57,8 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
 	protected Button add${bean.className} = new Button();
 
+    private BeanItemContainer<${bean.className}> container;    
+
 	private ${bean.className}ListView.Observer observer;
 
 	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
@@ -68,6 +73,20 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	@Override
 	public void initializeUi() {
 		setCaption(obtainBundle().getString("entity.${bean.className}.plural"));
+		
+		List<String> visibleCols = new ArrayList<String>();
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		visibleCols.add("${property.propertyName}");
+#end
+#end
+		${bean.classNamePass}Table.setContainerDataSource(initContainer(), visibleCols);
+		
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#end
+#end
 		${bean.classNamePass}Table.setSelectable(true);
 		${bean.classNamePass}Table.addItemClickListener(new ItemClickListener() {
 
@@ -78,13 +97,12 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 
 			@Override
 			public void itemClick(ItemClickEvent event) {
-				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
+				Object sel = ${bean.classNamePass}Table.getValue();
 				if (sel != null) {
 					observer.on${bean.className}Chosen();
 				}
 			}
 		});
-		setOrRefreshData(new ArrayList<${bean.className}>());
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
 
@@ -119,6 +137,50 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		addStyleName("styleid-${bean.className}ListViewImpl");
 	}
 
+    /*
+	 * A custom filter for searching a String value in all visible columns of a table
+	 */
+	public static class ${bean.className}Filter implements Filter {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private String needle;
+
+		public ${bean.className}Filter(String needle) {
+			this.needle = needle.toLowerCase();
+		}
+
+		public String getNeedle() {
+			return needle;
+		}
+		
+		@Override
+		public boolean passesFilter(Object itemId, Item item) {
+			String haystack = (""
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+				+ getPropertyVal(item, ${bean.className}Properties.${property.propertyName.toUpperCase()}.getPropertyName()) + "---"
+#end
+#end
+			).toLowerCase();
+			return haystack.contains(needle);
+		}
+
+		private String getPropertyVal(Item item, String name) {
+			Property<?> prop = item.getItemProperty(name);
+			if (prop == null) {
+				return null;
+			}
+			return String.valueOf(prop.getValue());
+		}
+
+		public boolean appliesToProperty(Object id) {
+			return true;
+		}
+	}
 	private Popover popover = null;
 
 	@Override
@@ -138,6 +200,11 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		}
 	}
 
+	protected Container initContainer() {
+		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class, new ArrayList<${bean.className}>());
+		return container;
+	}
+	
 	@Override
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
 		List<String> visibleCols = new ArrayList<String>();
