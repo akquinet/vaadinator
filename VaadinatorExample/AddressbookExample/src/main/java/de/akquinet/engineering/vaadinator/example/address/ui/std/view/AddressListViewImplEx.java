@@ -5,43 +5,38 @@ import java.util.List;
 import org.vaadin.addons.lazyquerycontainer.LazyQueryDefinition;
 
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
 
 import de.akquinet.engineering.vaadinator.example.address.model.Address;
+import de.akquinet.engineering.vaadinator.example.address.ui.std.view.container.AddressLazyQueryContainer;
+import de.akquinet.engineering.vaadinator.example.address.ui.std.view.container.AddressLazyQueryFactory;
 import de.akquinet.engineering.vaadinator.example.address.ui.view.ExceptionMappingStrategy;
 
 public class AddressListViewImplEx extends AddressListViewImpl {
 
 	private AddressListView.Observer observer;
-	private AddressContainer container;
+	private AddressLazyQueryContainer container;
 
 	public AddressListViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
 		super(exceptionMappingStrategy);
 	}
-@Override
-protected Container initContainer() {
 
-	AddressLazyQueryFactory factory = new AddressLazyQueryFactory(observer);
-	container = new AddressContainer(
-			new LazyQueryDefinition(false, 50, null), factory);
-	return container;
-}
-	// @Override
-	// public void initializeUi() {
-	// super.initializeUi();
-	//
-	// addressTable.setContainerDataSource(container);
-	//
-	// List<String> visibleCols = new ArrayList<String>();
-	// visibleCols.add("geburtsdatum");
-	// visibleCols.add("name");
-	// visibleCols.add("email");
-	// addressTable.setColumnHeader("geburtsdatum",
-	// obtainBundle().getString("entity.Address.property.geburtsdatum"));
-	// addressTable.setColumnHeader("name",
-	// obtainBundle().getString("entity.Address.property.name"));
-	// addressTable.setColumnHeader("email",
-	// obtainBundle().getString("entity.Address.property.email"));
-	// }
+	@Override
+	protected Container initContainer() {
+		AddressLazyQueryFactory factory = new AddressLazyQueryFactory(observer);
+		// quite small batch size, for debugging. Don't use that in production.
+		container = new AddressLazyQueryContainer(new LazyQueryDefinition(false, 2, null), factory);
+		return container;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Address getAddressSelection() {
+		Item item = container.getItem(((Property) addressTable).getValue());
+		return ((BeanItem<Address>)item).getBean();
+	}
 
 	@Override
 	public void setOrRefreshData(List<Address> addressList) {
