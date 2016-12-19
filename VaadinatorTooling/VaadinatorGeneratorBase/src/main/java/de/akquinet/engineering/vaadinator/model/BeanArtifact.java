@@ -29,7 +29,7 @@ public enum BeanArtifact {
 	LIST_VIEW_IMPL("ListViewImpl"), //
 	LIST_VIEW("ListView"), //
 	LIST_PRES("ListPresenter"), //
-	LIST_PRES_IMPL("ListPresenterImp"), //
+	LIST_PRES_IMPL("ListPresenterImpl"), //
 	EDIT_VIEW_IMPL("EditViewImpl"), //
 	EDIT_VIEW("EditView"), //
 	EDIT_PRES("EditPresenter"), //
