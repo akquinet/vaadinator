@@ -239,7 +239,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				if (desc.isDisplayed()) {
 					for (BeanArtifact exBeanArtifact : BeanArtifact.perBeanValues()) {
 						if(exExists(exBeanArtifact, desc, null)){
-						desc.addExt(exBeanArtifact);
+						   desc.addExt(exBeanArtifact);
 						}
 					}
 					for (DisplayProfileDescription displayProfileDescription : desc.getDisplayProfiles()) {
