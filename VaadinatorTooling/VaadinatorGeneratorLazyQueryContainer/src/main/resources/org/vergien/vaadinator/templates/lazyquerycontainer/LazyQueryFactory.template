@@ -1,0 +1,192 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#package ${package};
+
+import java.util.List;
+
+import javax.annotation.Generated;
+
+import org.vaadin.addons.lazyquerycontainer.Query;
+import org.vaadin.addons.lazyquerycontainer.QueryDefinition;
+import org.vaadin.addons.lazyquerycontainer.QueryFactory;
+
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.Between;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Like;
+
+import ${modelPackage}.*;
+import ${viewPackage}.${bean.className}SelectView.Observer;
+import ${viewPackage}.${bean.className}SelectViewImpl.${bean.className}Filter;
+
+#foreach($import in $bean.imports)
+${import}
+#end
+
+@Generated(value="org.vergien.vaadinator.codegenerator.lazyquerycontainer.LayzQueryCodeGenerator")
+public class ${bean.ClassName}LazyQueryFactory implements QueryFactory {
+
+	private final Observer observer;
+
+	public ${bean.className}LazyQueryFactory(Observer observer) {
+		super();
+		this.observer = observer;
+	}
+	
+	@Override
+	public Query constructQuery(QueryDefinition queryDefinition) {
+		return new ${bean.className}LazyQuery(observer, translate(queryDefinition));
+	}
+	
+	private void verifyPropertyIsFilterable(Object propertyId) {
+		
+	}
+
+	private void handleFiltering(List<Filter> filters, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		for (Filter filter : filters) {
+			handleFilter(filter, ${bean.ClassNamePass}Query);
+		}
+
+	}
+
+	protected void handleFilter(Filter filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		if (filter instanceof ${bean.ClassName}Filter) {
+			handleFilter((${bean.ClassName}Filter) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Compare) {
+			handleFilter((Compare) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Between) {
+			handleFilter((Between) filter, ${bean.ClassNamePass}Query);
+		} else if (filter instanceof Like) {
+			handleFilter((Like) filter, ${bean.ClassNamePass}Query);
+		}
+
+	}
+
+	private void handleFilter(Like filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		verifyPropertyIsFilterable(filter.getPropertyId());
+#foreach($property in $bean.properties)
+#if($property.propertyClassName == "String")
+		if("${property.propertyName}".equals(filter.getPropertyId())) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}(filter.getValue());
+		}
+#end
+#end
+	}
+
+	private void handleFilter(Between filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		verifyPropertyIsFilterable(filter.getPropertyId());
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(filter.getPropertyId())) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassNameBoxed}) filter.getEndValue());
+			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassNameBoxed}) filter.getStartValue());
+		}
+#end
+#end		
+	}
+
+	private void handleFilter(Compare filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		Object propertyId = filter.getPropertyId();
+		Object value = filter.getValue();
+		
+		verifyPropertyIsFilterable(propertyId);
+		
+		switch (filter.getOperation()) {
+		case EQUAL:
+			handleFilterCompareEqual(${bean.ClassNamePass}Query, propertyId, value);
+			break;
+		case GREATER:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		case GREATER_OR_EQUAL:
+			handleFilterCompareGreaterOrEqual(${bean.ClassNamePass}Query, propertyId, value);
+			break;
+		case LESS:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		case LESS_OR_EQUAL:
+			handleFilterCompareLessOrEqual(${bean.ClassNamePass}Query, propertyId, value);	
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"The operation " + filter.getOperation() + " is not supported for Compare filter");
+		}	
+	}
+
+	private void handleFilterCompareEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}((${property.propertyClassName}) value);
+		}
+#end
+	}
+	
+	private void handleFilterCompareGreaterOrEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}From((${property.propertyClassName}) value);
+		}
+#end
+#end	
+	}
+	
+	private void handleFilterCompareLessOrEqual(${bean.ClassName}Query ${bean.ClassNamePass}Query, Object propertyId, Object value) {
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if("${property.propertyName}".equals(propertyId)) {
+			${bean.ClassNamePass}Query.${property.propertySetterName}To((${property.propertyClassName}) value);
+		}
+#end
+#end	
+	}
+	
+	private void handleFilter(${bean.ClassName}Filter ${bean.ClassNamePass}Filter, ${bean.ClassName}Query ${bean.ClassNamePass}Query) {
+		${bean.ClassNamePass}Query.setOperator(${bean.ClassName}Query.OR);
+#foreach($property in $bean.properties)
+#if($property.propertyClassName == "String")
+		try {
+			${bean.ClassNamePass}Query.${property.propertySetterName}((${property.propertyClassName})${bean.ClassNamePass}Filter.getNeedle());
+		}
+		catch(ClassCastException e) {
+			// this my happen
+		}
+#end
+#end		
+	}
+	
+	protected ${bean.className}Query translate(QueryDefinition queryDefinition) {
+		${bean.className}Query ${bean.classNamePass}Query = new ${bean.className}Query();
+		handleSorting(queryDefinition, ${bean.classNamePass}Query);
+		handleFiltering(queryDefinition.getFilters(), ${bean.classNamePass}Query);
+		handleFiltering(queryDefinition.getDefaultFilters(), ${bean.classNamePass}Query);
+		return ${bean.classNamePass}Query;
+	}
+	
+	/**
+	 * TODO handle more than one sort property, which is possible e.g. in grid
+	 * 
+	 * @param queryDefinition
+	 * @param ${bean.classNamePass}Query
+	 */
+	protected void handleSorting(QueryDefinition queryDefinition, ${bean.className}Query ${bean.classNamePass}Query) {
+		if (queryDefinition.getSortPropertyIds() != null && queryDefinition.getSortPropertyIds().length > 0) {
+			String sortPropery = String.valueOf(queryDefinition.getSortPropertyIds()[0]);
+			${bean.className}Properties orderBy = ${bean.className}Properties.valueOf(sortPropery.toUpperCase());
+			${bean.classNamePass}Query.setOrderBy(orderBy);
+			${bean.classNamePass}Query.setOrderDescending(!queryDefinition.getSortPropertyAscendingStates()[0]);
+		}
+	}
+}

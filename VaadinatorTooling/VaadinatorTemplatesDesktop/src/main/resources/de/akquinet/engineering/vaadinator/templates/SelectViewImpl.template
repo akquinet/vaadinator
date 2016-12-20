@@ -28,6 +28,7 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}SelectPresenter;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.Item;
@@ -59,6 +60,7 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 	protected TextField searchField = new TextField();
     protected ExceptionMappingStrategy exceptionMappingStrategy = null;
     
+    private BeanItemContainer<${bean.className}> container;
 	private ${bean.className}SelectView.Observer observer;
 
 	private Button noSelectionButton = new Button();
@@ -84,6 +86,19 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		
 		setCompositionRoot(layout);
 		
+		List<String> visibleCols = new ArrayList<String>();
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		visibleCols.add("${property.propertyName}");
+#end
+#end
+		${bean.classNamePass}Table.setContainerDataSource(initContainer(), visibleCols);
+		
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#end
+#end
 		${bean.classNamePass}Table.setSizeFull();
 		${bean.classNamePass}Table.setSelectable(true);
 		${bean.classNamePass}Table.setImmediate(true);
@@ -93,7 +108,7 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
+				Object sel = ${bean.classNamePass}Table.getValue();
 				if (sel != null) {
 					observer.on${bean.className}Chosen();
 				}
@@ -110,7 +125,6 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 			}
 		});
 		
-		setOrRefreshData(new ArrayList<${bean.className}>());
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
 
@@ -134,7 +148,12 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
 		noSelectionButton.addStyleName("styleid-${bean.className}SelectViewImpl-no${bean.className}");
 	}
-
+	
+	protected Container initContainer() {
+		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class, new ArrayList<${bean.className}>());
+		return container;
+	}
+	
 	private void initSearch() {
 
 		/*
@@ -177,9 +196,9 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 	}
 
 	/*
-	 * A custom filter for searching names and companies in the container
+	 * A custom filter for searching a String value in all visible columns of a table
 	 */
-	private class ${bean.className}Filter implements Filter {
+	public static class ${bean.className}Filter implements Filter {
 	
 		/**
 		 * 
@@ -190,6 +209,10 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 
 		public ${bean.className}Filter(String needle) {
 			this.needle = needle.toLowerCase();
+		}
+		
+		public String getNeedle() {
+			return needle;
 		}
 
 		@Override
@@ -219,18 +242,8 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 
 	@Override
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
-		List<String> visibleCols = new ArrayList<String>();
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		visibleCols.add("${property.propertyName}");
-#end
-#end
-		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
-#end
-#end
+		container.removeAllItems();
+		container.addAll(${bean.classNamePass}List);
 	}
 
 	@SuppressWarnings({ "rawtypes" })

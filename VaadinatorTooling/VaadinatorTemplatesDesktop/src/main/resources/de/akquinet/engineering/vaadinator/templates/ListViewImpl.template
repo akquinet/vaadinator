@@ -28,6 +28,7 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}ListPresenter;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.Item;
@@ -59,7 +60,8 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	protected Component ${bean.classNamePass}SelectViewComponent;
 	protected Button add${bean.className} = new Button();
     protected ExceptionMappingStrategy exceptionMappingStrategy = null;
-    
+
+	private BeanItemContainer<${bean.className}> container;    
 	private ${bean.className}ListView.Observer observer;
 
 	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
@@ -86,6 +88,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 		${bean.classNamePass}SelectViewComponent.setSizeFull();
 
 		setCompositionRoot(layout);
+
 		
 		add${bean.className}.setCaption(obtainBundle().getString("entity.${bean.className}.new"));
 		add${bean.className}.addClickListener(new ClickListener() {
@@ -113,8 +116,8 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	@Override
 	public void closeSubView() {
 		// not on desktop
-	}
-
+    }
+    
 	@Override
 	public void setObserver(${bean.className}ListView.Observer observer) {
 		this.observer = observer;

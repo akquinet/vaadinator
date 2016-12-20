@@ -107,6 +107,11 @@ the License.
 			<version>5.1.3.Final</version>
 		</dependency>
 		<dependency>
+   			<groupId>org.vaadin.addons.lazyquerycontainer</groupId>
+   			<artifactId>vaadin-lazyquerycontainer</artifactId>
+   			<version>7.6.1.3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>6.0-4</version>
@@ -206,6 +211,11 @@ the License.
 								<artifactId>VaadinatorGeneratorTesteditorDesktop</artifactId>
 								<version>0.20-SNAPSHOT</version>
 							</dependency>
+							<dependency>
+								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
+								<artifactId>VaadinatorGeneratorLazyQueryContainer</artifactId>
+								<version>0.20-SNAPSHOT</version>
+							</dependency>
 						</dependencies>
 						<executions>
 							<execution>
@@ -266,6 +276,11 @@ the License.
 							<dependency>
 								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
 								<artifactId>VaadinatorGeneratorTesteditorTouchkit</artifactId>
+								<version>0.20-SNAPSHOT</version>
+							</dependency>
+							<dependency>
+								<groupId>de.akquinet.engineering.vaadin.vaadinator</groupId>
+								<artifactId>VaadinatorGeneratorLazyQueryContainer</artifactId>
 								<version>0.20-SNAPSHOT</version>
 							</dependency>
 						</dependencies>

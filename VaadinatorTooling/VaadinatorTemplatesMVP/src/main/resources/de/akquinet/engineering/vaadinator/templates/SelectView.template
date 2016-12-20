@@ -23,6 +23,7 @@ import ${common.basePackage}.ui.view.ObservableView;
 import ${common.basePackage}.ui.view.View;
 
 import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Query;
 
 public interface ${bean.className}SelectView extends ObservableView<${bean.className}SelectView.Observer>, ErrorHandlerView {
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List);
@@ -34,6 +35,10 @@ public interface ${bean.className}SelectView extends ObservableView<${bean.class
 	public static interface Observer {
 	
 		public void on${bean.className}Chosen();
+				
+		public List<${bean.className}> onRefreshTable(${bean.className}Query query);
+		
+		public long onCountTable(${bean.className}Query query);
 		
 	}
 }

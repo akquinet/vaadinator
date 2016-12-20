@@ -30,6 +30,9 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}ListPresenter;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Container;
+import com.vaadin.data.Container.Filter;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.data.Property;
@@ -54,6 +57,8 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
     protected Component ${bean.classNamePass}SelectViewComponent;
 	protected Button add${bean.className} = new Button();
 
+    private BeanItemContainer<${bean.className}> container;    
+
 	private ${bean.className}ListView.Observer observer;
 
 	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
@@ -73,9 +78,10 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	@Override
 	public void initializeUi() {
 		setCaption(obtainBundle().getString("entity.${bean.className}.plural"));
-	
+
 		setContent(${bean.classNamePass}SelectViewComponent);
 		${bean.classNamePass}SelectViewComponent.setSizeFull();
+
 		add${bean.className}.addClickListener(new ClickListener() {
 
 			/**
@@ -94,6 +100,50 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		addStyleName("styleid-${bean.className}ListViewImpl");
 	}
 
+    /*
+	 * A custom filter for searching a String value in all visible columns of a table
+	 */
+	public static class ${bean.className}Filter implements Filter {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private String needle;
+
+		public ${bean.className}Filter(String needle) {
+			this.needle = needle.toLowerCase();
+		}
+
+		public String getNeedle() {
+			return needle;
+		}
+		
+		@Override
+		public boolean passesFilter(Object itemId, Item item) {
+			String haystack = (""
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+				+ getPropertyVal(item, ${bean.className}Properties.${property.propertyName.toUpperCase()}.getPropertyName()) + "---"
+#end
+#end
+			).toLowerCase();
+			return haystack.contains(needle);
+		}
+
+		private String getPropertyVal(Item item, String name) {
+			Property<?> prop = item.getItemProperty(name);
+			if (prop == null) {
+				return null;
+			}
+			return String.valueOf(prop.getValue());
+		}
+
+		public boolean appliesToProperty(Object id) {
+			return true;
+		}
+	}
 	private Popover popover = null;
 
 	@Override

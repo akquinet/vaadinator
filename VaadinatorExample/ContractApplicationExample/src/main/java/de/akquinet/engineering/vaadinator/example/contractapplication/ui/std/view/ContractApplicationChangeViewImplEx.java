@@ -59,7 +59,6 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 		layout.addComponent(sectionKalkulation, layout.getComponentIndex(sectionIhrVorsorgewunsch) + 1);
 		sectionBasisdaten.setVisible(false);
 	}
-<<<<<<< HEAD
 	
 	@Override
 	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
@@ -85,6 +84,4 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 		System.out.println(event);
 		
 	}
-=======
->>>>>>> akquinet_master
 }

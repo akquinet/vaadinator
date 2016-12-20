@@ -15,6 +15,10 @@
  */
 package de.akquinet.engineering.vaadinator.model;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang.ArrayUtils;
+
 /**
  * Artifacts which are generated per bean.
  * 
@@ -25,7 +29,7 @@ public enum BeanArtifact {
 	LIST_VIEW_IMPL("ListViewImpl"), //
 	LIST_VIEW("ListView"), //
 	LIST_PRES("ListPresenter"), //
-	LIST_PRES_IMPL("ListPresenterImp"), //
+	LIST_PRES_IMPL("ListPresenterImpl"), //
 	EDIT_VIEW_IMPL("EditViewImpl"), //
 	EDIT_VIEW("EditView"), //
 	EDIT_PRES("EditPresenter"), //
@@ -41,7 +45,9 @@ public enum BeanArtifact {
 	SELECT_VIEW("SelectView"), //
 	SELECT_VIEW_IMPL("SelectViewImpl"), //
 	SELECT_PRES("SelectPresenter"), //
-	SELECT_PRES_IMPL("SelectPresenterImpl");
+	SELECT_PRES_IMPL("SelectPresenterImpl"), //
+	DAO("Dao"), //
+	DAO_IMPL("DaoImpl");
 
 	private final String fileNameSuffix;
 
@@ -55,5 +61,33 @@ public enum BeanArtifact {
 
 	public boolean isView() {
 		return this.name().contains("VIEW");
+	}
+
+	public boolean isDao() {
+		return this.name().contains("DAO");
+	}
+
+	public boolean isPresenter() {
+		return this.name().contains("PRES");
+	}
+
+	public static BeanArtifact[] perProfileValues() {
+		BeanArtifact[] perProfileValues = new BeanArtifact[] {};
+		for (BeanArtifact beanArtifact : BeanArtifact.values()) {
+			if (beanArtifact.isPresenter() || beanArtifact.isView()) {
+				perProfileValues = (BeanArtifact[]) ArrayUtils.add(perProfileValues, beanArtifact);
+			}
+		}
+		return perProfileValues;
+	}
+
+	public static BeanArtifact[] perBeanValues() {
+		BeanArtifact[] perBeanValues = new BeanArtifact[] {};
+		for (BeanArtifact beanArtifact : BeanArtifact.values()) {
+			if (beanArtifact.isDao()) {
+				perBeanValues = (BeanArtifact[]) ArrayUtils.add(perBeanValues, beanArtifact);
+			}
+		}
+		return perBeanValues;
 	}
 }

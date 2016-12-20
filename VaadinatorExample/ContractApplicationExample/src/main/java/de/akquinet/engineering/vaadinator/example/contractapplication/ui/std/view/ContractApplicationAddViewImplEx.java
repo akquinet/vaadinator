@@ -15,14 +15,11 @@
  */
 package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view;
 
-import java.util.Map;
-
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Notification;
 
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
@@ -89,7 +86,7 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		super.setObserver(observer);
 		this.observer = observer;
 	}
-<<<<<<< HEAD
+
 	
 //	@Override
 //	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
@@ -128,6 +125,4 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 		updateValidation();
 		
 	}
-=======
->>>>>>> akquinet_master
 }

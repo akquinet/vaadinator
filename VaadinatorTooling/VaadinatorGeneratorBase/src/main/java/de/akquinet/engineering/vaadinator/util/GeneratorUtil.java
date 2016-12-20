@@ -92,6 +92,7 @@ public class GeneratorUtil {
 		Writer writer = new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8");
 		template.merge(context, writer);
 		writer.close();
+		log.info("Written file: " + outFile);
 	}
 
 	public static boolean isTemplateExisting(String templateName, String templatePackage) throws IOException {

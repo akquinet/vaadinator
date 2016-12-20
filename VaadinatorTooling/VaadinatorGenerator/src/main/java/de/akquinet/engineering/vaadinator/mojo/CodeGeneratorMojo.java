@@ -237,9 +237,14 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
 				desc.setPckg(pckgStart);
 				if (desc.isDisplayed()) {
+					for (BeanArtifact exBeanArtifact : BeanArtifact.perBeanValues()) {
+						if(exExists(exBeanArtifact, desc, null)){
+						   desc.addExt(exBeanArtifact);
+						}
+					}
 					for (DisplayProfileDescription displayProfileDescription : desc.getDisplayProfiles()) {
-						for (BeanArtifact exBeanArtifact : BeanArtifact.values()) {
-							if (exExists(exBeanArtifact, displayProfileDescription)) {
+						for (BeanArtifact exBeanArtifact : BeanArtifact.perProfileValues()) {
+							if (exExists(exBeanArtifact, desc, displayProfileDescription)) {
 								displayProfileDescription.addExt(exBeanArtifact);
 							}
 						}
@@ -250,14 +255,16 @@ public class CodeGeneratorMojo extends AbstractMojo {
 		}
 	}
 
-	private boolean exExists(BeanArtifact beanArtifact, DisplayProfileDescription desc) {
-		String pkg;
+	private boolean exExists(BeanArtifact beanArtifact, BeanDescription bean, DisplayProfileDescription profileDesc) {
+		String pkg = null;
 		if (beanArtifact.isView()) {
-			pkg = desc.getBean().getViewPckg(desc);
-		} else {
-			pkg = desc.getBean().getPresenterPckg(desc);
+			pkg = bean.getViewPckg(profileDesc);
+		} else if(beanArtifact.isPresenter()) {
+			pkg = bean.getPresenterPckg(profileDesc);
+		} else if(beanArtifact.isDao()) {
+			pkg = bean.getDaoPckg();
 		}
-		String className = desc.getBean().getClassName();
+		String className = bean.getClassName();
 		File exSourceFile = GeneratorUtil.packageToFile(new File(project.getBasedir(), "src/main/java"), pkg,
 				className + beanArtifact.getFileNameSuffix() + "Ex", ".java");
 		boolean exExists = exSourceFile.exists();

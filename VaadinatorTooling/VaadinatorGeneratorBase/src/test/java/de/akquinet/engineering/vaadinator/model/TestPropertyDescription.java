@@ -35,4 +35,20 @@ public class TestPropertyDescription {
 		assertThat(propertyDescriptionUnderTest.getPropertyClassTypeParameter(), is("String"));
 	}
 
+	@Test
+	public void testGetPropertyClassWithoutTypeParameter() {
+		propertyDescriptionUnderTest.setPropertyClassName("List<String>");
+		assertThat(propertyDescriptionUnderTest.getPropertyClassWithoutTypeParameter(), is("List"));
+	}
+	
+	@Test
+	public void testGetPropertyClassNameBoxedWithoutTypeParameter() {
+		propertyDescriptionUnderTest.setPropertyClassName("List<Integer>");
+		assertThat(propertyDescriptionUnderTest.getPropertyClassNameBoxedWithoutTypeParameter(), is("List"));
+		
+		propertyDescriptionUnderTest.setPropertyClassName("int");
+		assertThat(propertyDescriptionUnderTest.getPropertyClassNameBoxedWithoutTypeParameter(), is("Integer"));
+	}
+	
+	
 }
