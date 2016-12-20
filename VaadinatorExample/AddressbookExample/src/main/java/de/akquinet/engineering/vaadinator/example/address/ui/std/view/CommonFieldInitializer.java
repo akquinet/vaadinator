@@ -14,9 +14,10 @@ public class CommonFieldInitializer implements FieldInitializer {
 	}
 
 	@Override
-	public void initializeField(Component field) {
+	public void initializeField(Component field, Component view) {
 		if (field instanceof PresenterFactoryAware) {
 			((PresenterFactoryAware) field).setPresenterFactory(presenterFactory);
 		}
+
 	}
 }
