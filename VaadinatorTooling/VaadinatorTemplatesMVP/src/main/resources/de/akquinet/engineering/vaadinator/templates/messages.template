@@ -18,6 +18,7 @@ save=Speichern
 delete=L\u00F6schen
 cancel=Abbrechen
 search=Suchen...
+select=Ausw\u00E4hlen
 entry=Einstieg
 entry.welcome=Willkommen - was wollen Sie tun?
 #foreach($bean in $common.beans)
@@ -27,6 +28,7 @@ entity.${bean.className}.plural=${unicodeUtil.escape($bean.effectiveCaptionPlura
 entity.${bean.className}.list=${unicodeUtil.escape($bean.effectiveCaptionPlural)} anzeigen
 entity.${bean.className}.new=Neue ${unicodeUtil.escape($bean.effectiveCaption)}
 entity.${bean.className}.edit=${unicodeUtil.escape($bean.effectiveCaption)} bearbeiten
+entity.${bean.className}.noSelection=Kein ${unicodeUtil.escape($bean.effectiveCaption)} ausgew\u00E4hlt
 #foreach($section in $bean.getDisplayProfile($profileName).sectionsInProfile)	
 entity.${bean.className}.section.${section.sectionVarSuffix}=${unicodeUtil.escape($section.sectionName)}
 #end

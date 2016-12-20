@@ -37,7 +37,11 @@ public enum BeanArtifact {
 	CHANGE_VIEW("ChangeView"), //
 	CHANGE_VIEW_IMPL("ChangeViewImpl"), //
 	CHANGE_PRES("ChangePresenter"), //
-	CHANGE_PRES_IMPL("ChangePresenterImpl");
+	CHANGE_PRES_IMPL("ChangePresenterImpl"),
+	SELECT_VIEW("SelectView"), //
+	SELECT_VIEW_IMPL("SelectViewImpl"), //
+	SELECT_PRES("SelectPresenter"), //
+	SELECT_PRES_IMPL("SelectPresenterImpl");
 
 	private final String fileNameSuffix;
 

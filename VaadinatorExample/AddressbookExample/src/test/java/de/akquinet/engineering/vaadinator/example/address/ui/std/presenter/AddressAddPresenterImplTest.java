@@ -44,10 +44,10 @@ import de.akquinet.engineering.vaadinator.example.address.ui.std.view.AddressAdd
 
 public class AddressAddPresenterImplTest {
 
-	AddressAddView view;
-	Presenter returnPres;
-	AddressService service;
-	AddressAddPresenterImpl pres;
+	private AddressAddView view;
+	private Presenter returnPres;
+	private AddressService service;
+	private AddressAddPresenterImpl pres;
 
 	@Before
 	public void setUp() {

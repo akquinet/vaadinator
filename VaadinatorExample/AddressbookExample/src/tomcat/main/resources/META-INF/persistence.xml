@@ -20,6 +20,7 @@ the License.
 	<persistence-unit name="AddressbookExample" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>de.akquinet.engineering.vaadinator.example.address.model.Address</class>
+		<class>de.akquinet.engineering.vaadinator.example.address.model.Team</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<!-- simple file-based database -->

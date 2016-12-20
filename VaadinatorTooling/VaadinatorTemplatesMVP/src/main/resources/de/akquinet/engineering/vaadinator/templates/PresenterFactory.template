@@ -96,6 +96,18 @@ public class PresenterFactory {
 		return new ${bean.className}ListPresenterImpl(context, viewFactory.create${bean.className}ListView(), this, ${bean.classNamePass}Service, subviewCapablePresenter);
 #end
 	}
+	
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_PRES") )
+	public ${bean.className}SelectPresenter create${bean.className}SelectPresenterEx() {
+#else	
+	public ${bean.className}SelectPresenter create${bean.className}SelectPresenter() {
+#end
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_PRES_IMPL") )
+		return new ${bean.className}SelectPresenterImplEx(context, viewFactory.create${bean.className}SelectView(), ${bean.classNamePass}Service);
+#else
+		return new ${bean.className}SelectPresenterImpl(context, viewFactory.create${bean.className}SelectView(), ${bean.classNamePass}Service);
+#end		
+	}
 #end
 #end
 

@@ -1,0 +1,126 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#package ${package};
+
+import java.util.ResourceBundle;
+
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomField;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+
+import ${modelPackage}.${bean.className};
+import ${presenterPackage}.PresenterFactory;
+import ${presenterPackage}.PresenterFactoryAware;
+import ${presenterPackage}.${bean.className}SelectPresenter;
+
+@SuppressWarnings("serial")
+public class ${bean.className}SelectField extends CustomField<${bean.className}> implements PresenterFactoryAware {
+	private PresenterFactory presenterFactory;
+	protected Button changeButton = new Button();
+	protected Label summaryLabel = new Label();
+	protected Layout layout;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
+	/**
+	 * Creates the layout for this field
+	 * 
+	 * @return the layout
+	 */
+
+	protected Layout createLayout() {
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		layout.setSpacing(true);
+		layout.addComponent(summaryLabel);
+		layout.addComponent(changeButton);
+		return layout;
+	}
+
+	@Override
+	public Class<? extends ${bean.className}> getType() {
+		return ${bean.className}.class;
+	}
+
+	@Override
+	protected Component initContent() {
+		updateSummaryLabel();
+		changeButton.setCaption(obtainBundle().getString("select"));
+		changeButton.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				${bean.className}SelectPresenter listPresenter = presenterFactory.create${bean.className}SelectPresenter();
+				listPresenter.setNullSelectionAllowed(true);
+				listPresenter.startPresenting();
+				final Window popUp = new Window();
+				Component view = (Component) listPresenter.getView();
+				initPopUp(popUp);
+				popUp.setContent(view);
+				listPresenter.setObserver(new ${bean.className}SelectPresenter.Observer() {
+					@Override
+					public void on${bean.className}Selected(${bean.className} team) {
+						setInternalValue(team);
+						UI.getCurrent().removeWindow(popUp);
+					}
+				});
+				UI.getCurrent().addWindow(popUp);
+			}
+		});
+
+		layout = createLayout();
+		return layout;
+	}
+
+	/**
+	 * Initializes the {@link Window} which is used to show the selection.
+	 * 
+	 * @param popUp
+	 *            the windows to show the selection
+	 */
+	protected void initPopUp(Window popUp) {
+		popUp.setCaption(obtainBundle().getString("entity.${bean.className}"));
+		popUp.center();
+		popUp.setWidth("50%");
+		popUp.setHeight("80%");
+	}
+
+	@Override
+	protected void setInternalValue(${bean.className} newValue) {
+		super.setInternalValue(newValue);
+		updateSummaryLabel();
+	}
+
+	@Override
+	public void setPresenterFactory(PresenterFactory presenterFactory) {
+		this.presenterFactory = presenterFactory;
+	}
+
+	private void updateSummaryLabel() {
+		${bean.className} value = getInternalValue();
+		if (value == null) {
+			summaryLabel.setValue(obtainBundle().getString("entity.${bean.className}.noSelection"));
+		} else {
+			summaryLabel.setValue(value.${bean.getDisplayProfile($profileName).summaryMethod}().toString());
+		}
+	}
+
+}

@@ -1,5 +1,5 @@
 #*
-Copyright 2014 akquinet engineering GmbH
+Copyright 2016 Daniel Nordhoff-Vergien
  
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
@@ -16,6 +16,7 @@ the License.
 package ${package};
 
 import java.util.List;
+import com.vaadin.data.Property;
 
 import ${common.basePackage}.ui.view.ErrorHandlerView;
 import ${common.basePackage}.ui.view.ObservableView;
@@ -23,18 +24,16 @@ import ${common.basePackage}.ui.view.View;
 
 import ${modelPackage}.${bean.className};
 
-public interface ${bean.className}ListView extends ObservableView<${bean.className}ListView.Observer>, ErrorHandlerView {
+public interface ${bean.className}SelectView extends ObservableView<${bean.className}SelectView.Observer>, ErrorHandlerView {
+	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List);
 
-	public void openSubView(View view);
+	public ${bean.className} get${bean.className}Selection();
+
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed);
 	
-	public void closeSubView();
-
-	public void set${bean.className}SelectView(${bean.className}SelectView ${bean.classNamePass}SelectView);
-
-	public static interface Observer{
+	public static interface Observer {
+	
+		public void on${bean.className}Chosen();
 		
-		public void onAdd${bean.className}();
-	
 	}
-
 }

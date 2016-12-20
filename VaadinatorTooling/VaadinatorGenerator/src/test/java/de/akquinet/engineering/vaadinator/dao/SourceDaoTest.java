@@ -28,6 +28,7 @@ import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.akquinet.engineering.vaadinator.annotations.Constants;
 import de.akquinet.engineering.vaadinator.annotations.FieldType;
 import de.akquinet.engineering.vaadinator.model.BeanDescription;
 import de.akquinet.engineering.vaadinator.model.ConstructorDescription;
@@ -345,6 +346,23 @@ public class SourceDaoTest {
 		assertTrue(desc.isBeanValidation());
 	}
 	
+	@Test
+	public void testNoSummaryMethod () throws ParseException {
+		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("AddressMinimal.javainput"));
+		assertEquals("toString", desc.getDisplayProfile(Constants.DEFAULT_DISPLAY_PROFILE).getSummaryMethod());
+	}
+	
+	@Test
+	public void testSummaryMethod () throws ParseException {
+		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("Address.javainput"));
+		assertEquals("getName", desc.getDisplayProfile(Constants.DEFAULT_DISPLAY_PROFILE).getSummaryMethod());
+	}
+	
+	@Test
+	public void testSummaryProperty () throws ParseException {
+		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("AddressMinimalCaptionProperty.javainput"));
+		assertEquals("getName", desc.getDisplayProfile(Constants.DEFAULT_DISPLAY_PROFILE).getSummaryMethod());
+	}
 	@Test
 	public void testMinimal() throws ParseException {
 		BeanDescription desc = daoUnderTest.processJavaInput(getClass().getResourceAsStream("AddressMinimal.javainput"));

@@ -28,7 +28,7 @@ import ${common.basePackage}.service.${bean.className}Service;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ${bean.className}ListPresenterImpl implements ${bean.className}ListPresenter, ${bean.className}ListView.Observer {
+public class ${bean.className}ListPresenterImpl implements ${bean.className}SelectPresenter.Observer, ${bean.className}ListPresenter, ${bean.className}ListView.Observer {
 
 	/**
 	 * 
@@ -40,7 +40,8 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 	private PresenterFactory presenterFactory;
 	private ${bean.className}Service service;
 	private SubviewCapablePresenter subviewCapablePresenter;
-
+	private ${bean.className}SelectPresenter ${bean.classNamePass}SelectPresenter;
+	
 	public ${bean.className}ListPresenterImpl(Map<String, Object> context, ${bean.className}ListView view, PresenterFactory presenterFactory, ${bean.className}Service service, SubviewCapablePresenter subviewCapablePresenter) {
 		super();
 		this.context = context;
@@ -48,6 +49,8 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 		this.presenterFactory = presenterFactory;
 		this.service = service;
 		this.subviewCapablePresenter = subviewCapablePresenter;
+		this.${bean.classNamePass}SelectPresenter = presenterFactory.create${bean.className}SelectPresenter();
+		this.${bean.classNamePass}SelectPresenter.setObserver(this);
 	}
 
 	@Override
@@ -57,9 +60,11 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 
 	@Override
 	public void startPresenting() {
+	    ${bean.classNamePass}SelectPresenter.setNullSelectionAllowed(false);
+		${bean.classNamePass}SelectPresenter.startPresenting();
+		view.set${bean.className}SelectView(${bean.classNamePass}SelectPresenter.getView());
 		view.setObserver(this);
 		view.initializeUi();
-		loadFromModel();
 	}
 
 	@Override
@@ -70,32 +75,18 @@ public class ${bean.className}ListPresenterImpl implements ${bean.className}List
 		} else {
 			view.closeSubView();
 		}
-		// from editing (there could be a change)
-		loadFromModel();
-	}
-
-	protected void loadFromModel() {
-		try {
-			view.setOrRefreshData(service.listAll${bean.className}(new HashMap<String, Object>(context)));
-		} catch (RuntimeException exc) {
-			view.showErrorMessage(exc);
-			throw exc;
-		}
-	}
-
-	protected void saveToModel() {
-		// nada
+		${bean.classNamePass}SelectPresenter.returnToThisPresener(fromPresenter);
 	}
 
 	@Override
-	public void on${bean.className}Chosen() {
-		${bean.className} newSel = view.get${bean.className}Selection();
-		if (newSel == null) {
+	public void on${bean.className}Selected(${bean.className} ${bean.classNamePass}) {
+		if (${bean.classNamePass} == null) {
 			return;
 		}
 		${bean.className}ChangePresenter cpres = presenterFactory.create${bean.className}ChangePresenter(this);
-		cpres.set${bean.className}(newSel);
-		// if we have a subview capable presenter: take this one - otherwise try open a sub view (will accomodate both Desktop and TouchKit)
+		cpres.set${bean.className}(${bean.classNamePass});
+		// if we have a subview capable presenter: take this one - otherwise try
+		// open a sub view (will accomodate both Desktop and TouchKit)
 		if (subviewCapablePresenter != null) {
 			subviewCapablePresenter.setDetailView(cpres.getView());
 		} else {

@@ -45,10 +45,10 @@ import de.akquinet.engineering.vaadinator.example.address.ui.std.view.AddressCha
 
 public class AddressChangePresenterImplTest {
 
-	AddressChangeView view;
-	Presenter returnPres;
-	AddressService service;
-	AddressChangePresenterImpl pres;
+	private AddressChangeView view;
+	private Presenter returnPres;
+	private AddressService service;
+	private AddressChangePresenterImpl pres;
 
 	@Before
 	public void setUp() {

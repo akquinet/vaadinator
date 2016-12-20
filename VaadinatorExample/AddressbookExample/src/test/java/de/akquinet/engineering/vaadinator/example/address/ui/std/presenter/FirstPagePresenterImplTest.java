@@ -37,13 +37,13 @@ import de.akquinet.engineering.vaadinator.example.address.ui.std.view.FirstPageV
 
 public class FirstPagePresenterImplTest {
 
-	FirstPageView view;
-	AddressListView lview;
-	AddressAddView aview;
-	PresenterFactory presenterFactory;
-	AddressListPresenter lpres;
-	AddressAddPresenter apres;
-	FirstPagePresenterImpl pres;
+	private FirstPageView view;
+	private AddressListView lview;
+	private AddressAddView aview;
+	private PresenterFactory presenterFactory;
+	private AddressListPresenter lpres;
+	private AddressAddPresenter apres;
+	private FirstPagePresenterImpl pres;
 
 	@Before
 	public void setUp() {
