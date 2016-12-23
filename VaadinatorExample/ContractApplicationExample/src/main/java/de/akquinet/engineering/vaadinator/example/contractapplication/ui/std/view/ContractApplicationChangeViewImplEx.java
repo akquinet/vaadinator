@@ -23,6 +23,7 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
 
@@ -33,8 +34,9 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ContractApplicationChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override

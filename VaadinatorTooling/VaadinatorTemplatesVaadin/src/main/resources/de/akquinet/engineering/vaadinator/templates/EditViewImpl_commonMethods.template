@@ -23,9 +23,7 @@ the License.
 		Notification.show(exceptionMappingStrategy.getCaption(exception),
 				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 	}
-
-	protected abstract void initButtons();
-
+	
 	@Override
 	public Object getComponent() {
 		return this;

@@ -12,6 +12,7 @@ import com.vaadin.data.util.BeanItem;
 import de.akquinet.engineering.vaadinator.example.address.model.Address;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.container.AddressLazyQueryContainer;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.container.AddressLazyQueryFactory;
+import de.akquinet.engineering.vaadinator.example.address.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.address.ui.view.ExceptionMappingStrategy;
 
 public class AddressSelectViewImplEx extends AddressSelectViewImpl {
@@ -19,8 +20,8 @@ public class AddressSelectViewImplEx extends AddressSelectViewImpl {
 	private AddressSelectView.Observer observer;
 	private AddressLazyQueryContainer container;
 
-	public AddressSelectViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public AddressSelectViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class AddressSelectViewImplEx extends AddressSelectViewImpl {
 	@Override
 	public Address getAddressSelection() {
 		Item item = container.getItem(((Property) addressTable).getValue());
-		return ((BeanItem<Address>)item).getBean();
+		return ((BeanItem<Address>) item).getBean();
 	}
 
 	@Override

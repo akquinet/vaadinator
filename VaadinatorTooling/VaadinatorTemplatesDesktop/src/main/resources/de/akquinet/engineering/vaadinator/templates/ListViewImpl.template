@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
@@ -58,15 +59,18 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 	private static final long serialVersionUID = 1L;
 
 	protected Component ${bean.classNamePass}SelectViewComponent;
-	protected Button add${bean.className} = new Button();
+	protected Button add${bean.className} = null;
     protected ExceptionMappingStrategy exceptionMappingStrategy = null;
-
+    protected ButtonFactory buttonFactory = null;
+    
 	private BeanItemContainer<${bean.className}> container;    
 	private ${bean.className}ListView.Observer observer;
 
-	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
 		super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		createButtons();
 	}
 
     @Override
@@ -77,6 +81,7 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 
 	@Override
 	public void initializeUi() {
+		initButtons();
 		setSizeFull();
 
 		VerticalLayout layout = new VerticalLayout();
@@ -89,25 +94,27 @@ public class ${bean.className}ListViewImpl extends CustomComponent implements ${
 
 		setCompositionRoot(layout);
 
-		
-		add${bean.className}.setCaption(obtainBundle().getString("entity.${bean.className}.new"));
-		add${bean.className}.addClickListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				observer.onAdd${bean.className}();
-			}
-		});
-		add${bean.className}.addStyleName("styleid-${bean.className}ListViewImpl-add${bean.className}");
-
 		addStyleName("styleid-${bean.className}ListViewImpl");
 	}
+	
+    @Override
+	public void createButtons() {
+		add${bean.className} = buttonFactory.createNewButton();
+	}
+	
+	@Override
+	public void initButtons() {
+		buttonFactory.initNewButton(add${bean.className}, obtainBundle().getString("entity.${bean.className}.new"),
+				"styleid-${bean.className}ListViewImpl-add${bean.className}", new ClickListener() {
+					private static final long serialVersionUID = 1L;
 
+					@Override
+					public void buttonClick(ClickEvent event) {
+						observer.onAdd${bean.className}();
+					}
+				});
+	}
+	
 	@Override
 	public void openSubView(View view) {
 		// not on desktop

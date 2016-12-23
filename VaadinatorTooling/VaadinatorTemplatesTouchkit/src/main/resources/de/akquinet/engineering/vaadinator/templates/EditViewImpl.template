@@ -20,6 +20,7 @@ ${import}
 #end
 import ${modelPackage}.*;
 
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 import ${common.basePackage}.ui.view.FieldInitializer;
 import ${common.basePackage}.ui.view.VaadinView;
@@ -74,9 +75,11 @@ public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}E
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_sectionvar.template")
 #parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
 
-	public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+	public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
     	super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		createButtons();
 	}
 
 	@Override

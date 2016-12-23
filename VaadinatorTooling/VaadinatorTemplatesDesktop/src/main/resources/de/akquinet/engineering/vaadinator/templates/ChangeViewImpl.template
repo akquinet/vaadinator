@@ -20,6 +20,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
 import ${viewPackage}.${bean.className}ChangeView;
+
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 public class ${bean.className}ChangeViewImpl extends
@@ -34,12 +36,12 @@ public class ${bean.className}ChangeViewImpl extends
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	protected Button remove = new Button();
-	protected Button cancel = new Button();
-	protected Button save = new Button();
+	protected Button remove;
+	protected Button cancel;
+	protected Button save;
 	
-	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 	
 	@Override
@@ -49,59 +51,46 @@ public class ${bean.className}ChangeViewImpl extends
 	}
 
 	@Override
-	protected void initButtons() {
+	public void createButtons() {
+		remove = buttonFactory.createRemoveButton();
+		cancel = buttonFactory.createCancelButton();
+		save = buttonFactory.createSaveButton();
+	}
+	
+	@Override
+	public void initButtons() {
+		buttonFactory.initRemoveButton(remove, obtainBundle().getString("delete"),
+				"styleid-${bean.className}AddViewImpl-remove", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-		remove.setCaption(obtainBundle().getString("delete"));
-		remove.addStyleName("styleid-${bean.className}ChangeViewImpl-remove");
-		remove.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.className}ChangeViewImpl.this.getObserver().onRemove();
-			}
-			
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.className}ChangeViewImpl.this.getObserver().onRemove();
+					}
+				});
 		buttonLayout.addComponent(remove);
 
-		cancel.setCaption(obtainBundle().getString("back"));
-		cancel.addStyleName("styleid-${bean.className}ChangeViewImpl-cancel");
-		cancel.addClickListener(new Button.ClickListener() {
+		buttonFactory.initCancelButton(cancel, obtainBundle().getString("back"),
+				"styleid-${bean.className}AddViewImpl-cancel", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.className}ChangeViewImpl.this.getObserver().onCancel();
-			}
-			
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.className}ChangeViewImpl.this.getObserver().onCancel();
+					}
+				});
 		buttonLayout.addComponent(cancel);
 		
-		save.setCaption(obtainBundle().getString("save"));
-		save.addStyleName("styleid-${bean.className}ChangeViewImpl-save");
-		save.addClickListener(new Button.ClickListener() {
+		buttonFactory.initSaveButton(save, obtainBundle().getString("save"),
+				"styleid-${bean.className}AddViewImpl-save", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.className}ChangeViewImpl.this.getObserver().onSave();
-			}
-			
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.className}ChangeViewImpl.this.getObserver().onSave();
+					}
+				});
 		buttonLayout.addComponent(save);
-
 	}
 
 }

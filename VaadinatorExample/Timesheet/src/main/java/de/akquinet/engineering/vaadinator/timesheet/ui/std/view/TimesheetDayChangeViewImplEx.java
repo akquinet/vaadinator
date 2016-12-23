@@ -21,6 +21,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 
+import de.akquinet.engineering.vaadinator.timesheet.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.timesheet.ui.view.ExceptionMappingStrategy;
 
 public class TimesheetDayChangeViewImplEx extends TimesheetDayChangeViewImpl implements TimesheetDayChangeViewEx {
@@ -30,8 +31,9 @@ public class TimesheetDayChangeViewImplEx extends TimesheetDayChangeViewImpl imp
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TimesheetDayChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public TimesheetDayChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	private int day = 0;

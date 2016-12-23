@@ -17,4 +17,6 @@ the License.
 
 	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
 	
+	protected ButtonFactory buttonFactory = null;
+	
 	private Set<FieldInitializer> fieldInitializers = new HashSet<FieldInitializer>();

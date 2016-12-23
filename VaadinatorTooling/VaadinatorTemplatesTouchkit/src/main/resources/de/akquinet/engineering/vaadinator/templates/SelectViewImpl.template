@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
@@ -59,21 +60,25 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
 	
     protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    protected ButtonFactory buttonFactory = null;
     
-      private BeanItemContainer<${bean.className}> container;
+    private BeanItemContainer<${bean.className}> container;
 	private ${bean.className}SelectView.Observer observer;
 
 	private Button noSelectionButton = new Button();
 	
-	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
 		super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		createButtons();
 	}
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
 	public void initializeUi() {
+		initButtons();
 	    setSizeFull();
 
 		/* Build the component tree */
@@ -115,16 +120,6 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 			}
 		});
 		
-		noSelectionButton.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.classNamePass}Table.setValue(null);
-				observer.on${bean.className}Chosen();
-			}
-		});
-		
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
 
@@ -141,14 +136,32 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		});
 		
 		addStyleName("styleid-${bean.className}SelectViewImpl");
-		
-		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
-		noSelectionButton.addStyleName("styleid-${bean.className}SelectViewImpl-no${bean.className}");
 	}
 
 	protected Container initContainer() {
 		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class, new ArrayList<${bean.className}>());
 		return container;
+	}
+	
+	@Override
+	public void createButtons() {
+		noSelectionButton = buttonFactory.createNoSelectionButton();
+
+	}
+
+	@Override
+	public void initButtons() {
+		buttonFactory.initNoSelectionButton(noSelectionButton,
+				obtainBundle().getString("entity.${bean.className}.noSelection"),
+				"styleid-${bean.className}SelectViewImpl-noSelection", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.classNamePass}Table.setValue(null);
+						observer.on${bean.className}Chosen();
+					}
+				});
 	}
 	
 	@Override

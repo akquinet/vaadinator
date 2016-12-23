@@ -21,6 +21,7 @@ import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
 public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl implements EagerValidatableView {
@@ -30,8 +31,9 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationAddViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ContractApplicationAddViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override

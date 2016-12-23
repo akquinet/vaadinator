@@ -19,6 +19,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 
 import de.akquinet.engineering.vaadinator.timesheet.model.Project;
+import de.akquinet.engineering.vaadinator.timesheet.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.timesheet.ui.view.ExceptionMappingStrategy;
 
 public class TimesheetDayEntryChangeViewImplEx extends TimesheetDayEntryChangeViewImpl implements TimesheetDayEntryChangeViewEx {
@@ -28,8 +29,9 @@ public class TimesheetDayEntryChangeViewImplEx extends TimesheetDayEntryChangeVi
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TimesheetDayEntryChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public TimesheetDayEntryChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	private TimesheetDayEntryChangeViewEx.Observer observer = null;
