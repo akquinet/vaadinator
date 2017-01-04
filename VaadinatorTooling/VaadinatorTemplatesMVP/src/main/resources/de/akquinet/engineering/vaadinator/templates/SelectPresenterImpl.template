@@ -21,7 +21,13 @@ ${import}
 import ${modelPackage}.*;
 
 import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.PresenterImpl;
 import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+
+import ${common.basePackage}.ui.presenter.listener.ActionListener;
+import ${common.basePackage}.ui.presenter.listener.AfterSelectListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSelectListener;
+
 import ${viewPackage}.${bean.className}SelectView;
 import ${common.basePackage}.service.${bean.className}Service;
 
@@ -29,7 +35,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ${bean.className}SelectPresenterImpl implements ${bean.className}SelectPresenter, ${bean.className}SelectView.Observer {
+public class ${bean.className}SelectPresenterImpl extends PresenterImpl implements ${bean.className}SelectPresenter, ${bean.className}SelectView.Observer {
 
 	/**
 	 * 
@@ -78,10 +84,12 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 
 	@Override
 	public void on${bean.className}Chosen() {
-		if (observer!= null) {
+		fireBeforeSelect();
+		if (observer!= null) {		
 		   ${bean.className} newSel = view.get${bean.className}Selection();
 		   observer.on${bean.className}Selected(newSel);		   
 		}
+		fireAfterSelect();
 	}
 	
 	@Override
@@ -118,5 +126,43 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 	@Override
 	public void setObserver(${bean.className}SelectPresenter.Observer observer) {
 	   this.observer = observer;
+	}
+	
+	@Override
+	public void addBeforeSelectListener(BeforeSelectListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+
+	@Override
+	public void addAfterSelectListener(AfterSelectListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+	
+	@Override
+	public void addBeforeSelectListener(${bean.className}SelectPresenter.Before${bean.className}SelectListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addAfterSelectListener(${bean.className}SelectPresenter.After${bean.className}SelectListener listener) {
+		listeners.add(listener);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void fireBeforeSelect() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof BeforeSelectListener<?>) {
+				((BeforeSelectListener<Object>) listener).beforeSelect(view.get${bean.className}Selection());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void fireAfterSelect() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof AfterSelectListener<?>) {
+				((AfterSelectListener<Object>) listener).afterSelect(view.get${bean.className}Selection());
+			}
+		}
 	}
 }

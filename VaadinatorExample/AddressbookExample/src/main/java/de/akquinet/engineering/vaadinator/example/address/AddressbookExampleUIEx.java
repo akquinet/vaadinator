@@ -16,6 +16,7 @@ import de.akquinet.engineering.vaadinator.example.address.service.AddressService
 import de.akquinet.engineering.vaadinator.example.address.service.TeamService;
 import de.akquinet.engineering.vaadinator.example.address.service.TeamServicePlain;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.presenter.PresenterFactory;
+import de.akquinet.engineering.vaadinator.example.address.ui.std.presenter.PresenterFactoryEx;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.VaadinViewFactoryEx;
 
 public class AddressbookExampleUIEx extends AddressbookExampleUI {
@@ -34,6 +35,7 @@ public class AddressbookExampleUIEx extends AddressbookExampleUI {
 		super.init(request);
 	}
 
+	@Override
 	protected PresenterFactory obtainPresenterFactory(String contextPath) {
 		if (presenterFactory == null) {
 			// simple, overwrite method for e.g. Spring / CDI / ...
@@ -46,7 +48,7 @@ public class AddressbookExampleUIEx extends AddressbookExampleUI {
 			TeamDaoPlain teamDaoPlain = new TeamDaoPlain(entityManagerFactory);
 			teamService = new TeamServicePlain(entityManagerFactory, teamDaoPlain);
 			VaadinViewFactoryEx viewFactory = new VaadinViewFactoryEx();
-			presenterFactory = new PresenterFactory(new HashMap<String, Object>(), viewFactory,
+			presenterFactory = new PresenterFactoryEx(new HashMap<String, Object>(), viewFactory,
 					addressService, teamService);
 			viewFactory.setPresenterFactory(presenterFactory);
 		}

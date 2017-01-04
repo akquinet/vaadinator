@@ -21,13 +21,22 @@ ${import}
 import ${modelPackage}.*;
 
 import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.PresenterImpl;
+import ${common.basePackage}.ui.presenter.listener.ActionListener;
+import ${common.basePackage}.ui.presenter.listener.AfterCancelListener;
+import ${common.basePackage}.ui.presenter.listener.AfterDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.AfterSaveListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeCancelListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSaveListener;
+
 import ${viewPackage}.${bean.className}EditView;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ${bean.className}EditPresenterImpl implements ${bean.className}EditPresenter, ${bean.className}EditView.Observer {
+public abstract class ${bean.className}EditPresenterImpl extends PresenterImpl implements ${bean.className}EditPresenter, ${bean.className}EditView.Observer {
 
 	/**
 	 * 
@@ -121,8 +130,103 @@ public abstract class ${bean.className}EditPresenterImpl implements ${bean.class
 	@Override
 	public void onCancel() {
 		if (returnPresenter != null) {
+		    fireBeforeCancel();
 			returnPresenter.returnToThisPresener(this);
+			fireAfterCancel();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void fireBeforeSave() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof BeforeSaveListener<?>) {
+				((BeforeSaveListener<Object>) listener).beforeSave(get${bean.className}());
+			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public void fireAfterSave() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof AfterSaveListener<?>) {
+				((AfterSaveListener<Object>) listener).afterSave(get${bean.className}());
+			}
+		}
+	}
+
+    @SuppressWarnings("unchecked")
+	public void fireBeforeDelete() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof BeforeDeleteListener<?>) {
+				((BeforeDeleteListener<Object>) listener).beforeDelete(get${bean.className}());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void fireAfterDelete() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof AfterDeleteListener<?>) {
+				((AfterDeleteListener<Object>) listener).afterDelete(get${bean.className}());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void fireBeforeCancel() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof BeforeCancelListener<?>) {
+				((BeforeCancelListener<Object>) listener).beforeCancel(get${bean.className}());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void fireAfterCancel() {
+		for (ActionListener listener : listeners) {
+			if (listener instanceof AfterCancelListener<?>) {
+				((AfterCancelListener<Object>) listener).afterCancel(get${bean.className}());
+			}
+		}
+	}
+	
+	@Override
+	public void addBeforeSaveListener(BeforeSaveListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+
+	@Override
+	public void addAfterSaveListener(AfterSaveListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+	
+	@Override
+	public void addBeforeCancelListener(BeforeCancelListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+
+	@Override
+	public void addAfterCancelListener(AfterCancelListener<Object> listener) {
+		listeners.add((ActionListener) listener);
+	}
+	
+	@Override
+	public void addBeforeSaveListener(${bean.className}EditPresenter.Before${bean.className}SaveListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addAfterSaveListener(${bean.className}EditPresenter.After${bean.className}SaveListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addBeforeCancelListener(${bean.className}EditPresenter.Before${bean.className}CancelListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addAfterCancelListener(${bean.className}EditPresenter.After${bean.className}CancelListener listener) {
+		listeners.add(listener);
+	}
 }

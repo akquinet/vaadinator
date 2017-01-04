@@ -79,7 +79,9 @@ public class ${bean.className}AddPresenterImpl extends
 		}
 		saveToModel();
 		try {
+			fireBeforeSave();
 			this.service.addNew${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
+			fireAfterSave();
 		} catch (RuntimeException exc) {
 			view.showErrorMessage(exc);
 			throw exc;
@@ -94,12 +96,15 @@ public class ${bean.className}AddPresenterImpl extends
 
 	@Override
 	public void onCancel() {
+		fireBeforeCancel();
 		// schliesse Fenster und gehe zurueck zur Liste
 		if (capablePresenter != null) {
 			capablePresenter.setDetailView(null);
+			fireAfterCancel();
 		}
 		if (returnPresenter != null) {
 			returnPresenter.returnToThisPresener(this);
+			fireAfterCancel();
 		}
 	}
 

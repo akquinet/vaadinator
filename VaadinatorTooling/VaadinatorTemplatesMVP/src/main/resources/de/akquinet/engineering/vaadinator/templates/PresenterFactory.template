@@ -17,6 +17,15 @@ package ${package};
 
 import ${common.basePackage}.ui.presenter.Presenter;
 import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+import ${common.basePackage}.ui.presenter.listener.AfterCancelListener;
+import ${common.basePackage}.ui.presenter.listener.AfterDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.AfterSaveListener;
+import ${common.basePackage}.ui.presenter.listener.AfterSelectListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeCancelListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSaveListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSelectListener;
+
 import ${viewPackage}.ViewFactory;
 
 #foreach($bean in $common.beans)
@@ -25,6 +34,8 @@ import ${bean.basePckg}.service.${bean.className}Service;
 #end
 #end	
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PresenterFactory {
@@ -32,6 +43,15 @@ public class PresenterFactory {
 	protected Map<String, Object> context;
 	protected ViewFactory viewFactory;
 
+	protected AfterCancelListener<Object> commonAfterCancelListener = null;
+	protected BeforeCancelListener<Object> commonBeforeCancelListener = null;
+	protected AfterDeleteListener<Object> commonAfterDeleteListener = null;
+	protected BeforeDeleteListener<Object> commonBeforeDeleteListener = null;
+	protected AfterSaveListener<Object> commonAfterSaveListener = null;
+	protected BeforeSaveListener<Object> commonBeforeSaveListener = null;
+	protected AfterSelectListener<Object> commonAfterSelectListener = null;
+	protected BeforeSelectListener<Object> commonBeforeSelectListener = null;
+	
 	/**
 	 * Creates an uninitialized PresenterFactory. This should be used for tests
 	 * where you only need some services and adding a new DisplayBean shall not
@@ -62,27 +82,63 @@ public class PresenterFactory {
 	protected ${bean.className}Service ${bean.classNamePass}Service;
 
 #if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_PRES") )
-	public ${bean.className}AddPresenter create${bean.className}AddPresenterEx(Presenter returnPresenter) {
+	public ${bean.className}AddPresenterEx create${bean.className}AddPresenter(Presenter returnPresenter) {
+		${bean.className}AddPresenterEx ${bean.classNamePass}AddPresenter = null;
 #else
 	public ${bean.className}AddPresenter create${bean.className}AddPresenter(Presenter returnPresenter) {
+		${bean.className}AddPresenter ${bean.classNamePass}AddPresenter = null;
 #end
 #if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_PRES_IMPL") )
-		return new ${bean.className}AddPresenterImplEx(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
+		${bean.classNamePass}AddPresenter = new ${bean.className}AddPresenterImplEx(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
 #else
-		return new ${bean.className}AddPresenterImpl(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
+		${bean.classNamePass}AddPresenter = new ${bean.className}AddPresenterImpl(context, viewFactory.create${bean.className}AddView(), returnPresenter, ${bean.classNamePass}Service);
 #end
+		if(commonAfterCancelListener != null) {
+		    ${bean.classNamePass}AddPresenter.addAfterCancelListener(commonAfterCancelListener);
+		}
+		if(commonBeforeCancelListener != null) {
+		    ${bean.classNamePass}AddPresenter.addBeforeCancelListener(commonBeforeCancelListener);
+		}
+		if(commonAfterSaveListener != null) {
+		    ${bean.classNamePass}AddPresenter.addAfterSaveListener(commonAfterSaveListener);
+		}
+		if(commonBeforeSaveListener != null) {
+		    ${bean.classNamePass}AddPresenter.addBeforeSaveListener(commonBeforeSaveListener);
+		}
+        return ${bean.classNamePass}AddPresenter;
 	}
 
 #if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_PRES") )
 	public ${bean.className}ChangePresenterEx create${bean.className}ChangePresenter(Presenter returnPresenter) {
+	    ${bean.className}ChangePresenterEx ${bean.classNamePass}ChangePresenter = null;
 #else
 	public ${bean.className}ChangePresenter create${bean.className}ChangePresenter(Presenter returnPresenter) {
+	    ${bean.className}ChangePresenter ${bean.classNamePass}ChangePresenter = null;
 #end
 #if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_PRES_IMPL") )
-		return new ${bean.className}ChangePresenterImplEx(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
+		${bean.classNamePass}ChangePresenter = new ${bean.className}ChangePresenterImplEx(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
 #else
-		return new ${bean.className}ChangePresenterImpl(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
+		${bean.classNamePass}ChangePresenter = new ${bean.className}ChangePresenterImpl(context, viewFactory.create${bean.className}ChangeView(), returnPresenter, ${bean.classNamePass}Service);
 #end
+		if(commonAfterCancelListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addAfterCancelListener(commonAfterCancelListener);
+		}
+		if(commonBeforeCancelListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addBeforeCancelListener(commonBeforeCancelListener);
+		}
+		if(commonAfterDeleteListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addAfterDeleteListener(commonAfterDeleteListener);
+		}
+		if(commonBeforeDeleteListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addBeforeDeleteListener(commonBeforeDeleteListener);
+		}
+		if(commonAfterSaveListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addAfterSaveListener(commonAfterSaveListener);
+		}
+		if(commonBeforeSaveListener != null) {
+		    ${bean.classNamePass}ChangePresenter.addBeforeSaveListener(commonBeforeSaveListener);
+		}
+        return ${bean.classNamePass}ChangePresenter;
 	}
 
 #if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_PRES") )
