@@ -21,6 +21,7 @@ import java.util.List;
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
@@ -30,6 +31,9 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}ListPresenter;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Container;
+import com.vaadin.data.Container.Filter;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.data.Property;
@@ -52,16 +56,22 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	private static final long serialVersionUID = 1L;
 
     protected Component ${bean.classNamePass}SelectViewComponent;
-	protected Button add${bean.className} = new Button();
+	protected Button add${bean.className} = null;
+
+    private BeanItemContainer<${bean.className}> container;    
 
 	private ${bean.className}ListView.Observer observer;
 
 	protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    protected ButtonFactory buttonFactory = null;
 
-	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
- 		super();
+	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
- 	}
+		this.buttonFactory = buttonFactory;
+		createButtons();
+	}
+
  	
  	@Override
     public void set${bean.className}SelectView(${bean.className}SelectView ${bean.classNamePass}SelectView) {
@@ -72,28 +82,78 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 
 	@Override
 	public void initializeUi() {
+		initButtons();
 		setCaption(obtainBundle().getString("entity.${bean.className}.plural"));
-	
+
 		setContent(${bean.classNamePass}SelectViewComponent);
 		${bean.classNamePass}SelectViewComponent.setSizeFull();
-		add${bean.className}.addClickListener(new ClickListener() {
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				observer.onAdd${bean.className}();
-			}
-		});
-		add${bean.className}.setIcon(FontAwesome.PLUS);
-		add${bean.className}.addStyleName("styleid-${bean.className}ListViewImpl-add${bean.className}");
 		setRightComponent(add${bean.className});
 		addStyleName("styleid-${bean.className}ListViewImpl");
 	}
 
+	@Override
+	public void createButtons() {
+		add${bean.className} = buttonFactory.createNewButton();
+	}
+	
+	@Override
+	public void initButtons() {
+		buttonFactory.initNewButton(add${bean.className}, obtainBundle().getString("entity.${bean.className}.new"),
+				"styleid-${bean.className}ListViewImpl-add${bean.className}", new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						observer.onAdd${bean.className}();
+					}
+				});
+	}
+	
+    /*
+	 * A custom filter for searching a String value in all visible columns of a table
+	 */
+	public static class ${bean.className}Filter implements Filter {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private String needle;
+
+		public ${bean.className}Filter(String needle) {
+			this.needle = needle.toLowerCase();
+		}
+
+		public String getNeedle() {
+			return needle;
+		}
+		
+		@Override
+		public boolean passesFilter(Object itemId, Item item) {
+			String haystack = (""
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+				+ getPropertyVal(item, ${bean.className}Properties.${property.propertyName.toUpperCase()}.getPropertyName()) + "---"
+#end
+#end
+			).toLowerCase();
+			return haystack.contains(needle);
+		}
+
+		private String getPropertyVal(Item item, String name) {
+			Property<?> prop = item.getItemProperty(name);
+			if (prop == null) {
+				return null;
+			}
+			return String.valueOf(prop.getValue());
+		}
+
+		public boolean appliesToProperty(Object id) {
+			return true;
+		}
+	}
 	private Popover popover = null;
 
 	@Override

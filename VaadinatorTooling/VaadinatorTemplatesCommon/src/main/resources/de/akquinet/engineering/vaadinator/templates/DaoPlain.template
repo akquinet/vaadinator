@@ -39,7 +39,11 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 
 	protected ${bean.className}Dao obtainBackend() {
 		if (backend == null) {
+#if($bean.getExStrings().contains("DAO_IMPL") )		
+			backend = new ${bean.className}DaoImplEx(getEntityManager());
+#else
 			backend = new ${bean.className}DaoImpl(getEntityManager());
+#end
 		}
 		return backend;
 	}
@@ -64,6 +68,18 @@ public class ${bean.className}DaoPlain extends AbstractPlainJpa implements ${bea
 			@Override
 			public List<${bean.className}> perform() {
 				return obtainBackend().list(${bean.classNamePass}Query, context);
+			}
+		}, context);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public long count(final ${bean.className}Query ${bean.classNamePass}Query, final Map<String, Object> context) {
+		return (long) requireJpaTransaction(new Callback() {
+
+			@Override
+			public Object perform() {
+				return obtainBackend().count(${bean.classNamePass}Query, context);
 			}
 		}, context);
 	}

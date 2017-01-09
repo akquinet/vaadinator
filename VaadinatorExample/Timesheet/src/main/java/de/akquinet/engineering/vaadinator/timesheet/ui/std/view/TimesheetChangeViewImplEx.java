@@ -23,6 +23,7 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 
+import de.akquinet.engineering.vaadinator.timesheet.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.timesheet.ui.view.ExceptionMappingStrategy;
 
 public class TimesheetChangeViewImplEx extends TimesheetChangeViewImpl implements TimesheetChangeViewEx {
@@ -32,8 +33,8 @@ public class TimesheetChangeViewImplEx extends TimesheetChangeViewImpl implement
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TimesheetChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public TimesheetChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	private Map<String, Label> projectSumLabels = new HashMap<String, Label>();

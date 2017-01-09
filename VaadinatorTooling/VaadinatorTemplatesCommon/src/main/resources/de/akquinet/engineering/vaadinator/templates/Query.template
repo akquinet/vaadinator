@@ -28,10 +28,16 @@ public class ${bean.className}Query implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static final String AND = "and";
+	public static final String OR = "or";
+	
 	public ${bean.className}Query() {
 		super();
 	}
 
+	// operator default AND
+	private String operator = AND;
+	
 	// filtering without default
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
@@ -52,6 +58,11 @@ public class ${bean.className}Query implements Serializable {
 
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
+	public void ${property.propertySetterName}(${property.propertyClassNameBoxed} ${property.propertyName}) {
+		this.${property.propertySetterName}From(${property.propertyName});
+		this.${property.propertySetterName}To(${property.propertyName});
+	}
+	 
 	public ${property.propertyClassNameBoxed} ${property.propertyGetterName}From() {
 		return ${property.propertyName}From;
 	}
@@ -109,6 +120,14 @@ public class ${bean.className}Query implements Serializable {
 		this.orderDescending = orderDescending;
 	}
 
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	
 	@Override
 	public String toString() {
 		return "${bean.className}Query ["
@@ -124,6 +143,7 @@ public class ${bean.className}Query implements Serializable {
 #end
 #set($first=false)
 #end 
+		+ "operator=" + operator
 		+ "firstResult=" + firstResult + ", maxResults=" + maxResults + ", orderBy=" + orderBy + ", orderDescending=" + orderDescending + "]";
 	}
 

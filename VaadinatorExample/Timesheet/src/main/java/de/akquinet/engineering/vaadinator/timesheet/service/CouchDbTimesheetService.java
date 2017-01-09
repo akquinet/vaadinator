@@ -35,6 +35,7 @@ import de.akquinet.engineering.vaadinator.timesheet.model.Project;
 import de.akquinet.engineering.vaadinator.timesheet.model.Timesheet;
 import de.akquinet.engineering.vaadinator.timesheet.model.TimesheetDay;
 import de.akquinet.engineering.vaadinator.timesheet.model.TimesheetDayEntry;
+import de.akquinet.engineering.vaadinator.timesheet.model.TimesheetQuery;
 
 public class CouchDbTimesheetService extends AbstractCouchDbService implements TimesheetService, TimesheetContextConstants {
 
@@ -151,6 +152,16 @@ public class CouchDbTimesheetService extends AbstractCouchDbService implements T
 			Map<String, Object> context) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public long countTimesheet(TimesheetQuery query, Map<String, Object> context) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<Timesheet> listTimesheet(TimesheetQuery query, Map<String, Object> context) {
+		throw new UnsupportedOperationException();
 	}
 
 	public static class TimesheetCouch extends Timesheet {

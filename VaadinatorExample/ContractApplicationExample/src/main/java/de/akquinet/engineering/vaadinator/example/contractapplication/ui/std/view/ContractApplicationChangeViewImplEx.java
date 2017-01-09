@@ -17,22 +17,26 @@ package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.vi
 
 import java.util.Map;
 
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
 
-public class ContractApplicationChangeViewImplEx extends ContractApplicationChangeViewImpl {
+public class ContractApplicationChangeViewImplEx extends ContractApplicationChangeViewImpl implements EagerValidatableView{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ContractApplicationChangeViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override
@@ -56,5 +60,30 @@ public class ContractApplicationChangeViewImplEx extends ContractApplicationChan
 		layout.removeComponent(sectionKalkulation);
 		layout.addComponent(sectionKalkulation, layout.getComponentIndex(sectionIhrVorsorgewunsch) + 1);
 		sectionBasisdaten.setVisible(false);
+	}
+	
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+		super.onValidationError(validationErrors);
+		StringBuilder sb = new StringBuilder();
+		for(Field<?> field: validationErrors.keySet()) {
+			if(sb.length()!= 0) {
+				sb.append(", ");
+			}
+			sb.append(field.getCaption());		
+		}
+		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+	}
+
+	@Override
+	public void valueChange(ValueChangeEvent event) {
+		System.out.println(event);
+		
+	}
+
+	@Override
+	public void textChange(TextChangeEvent event) {
+		System.out.println(event);
+		
 	}
 }

@@ -27,9 +27,11 @@ import javax.persistence.EntityManager;
 #if($common.artifactType=="EJB" || $common.artifactType=="ALL")
 import javax.persistence.PersistenceContext;
 #end
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ${modelPackage}.${bean.className};
+import ${modelPackage}.${bean.className}Properties;
 import ${modelPackage}.${bean.className}Query;
 
 #if($common.artifactType=="EJB" || $common.artifactType=="ALL")
@@ -73,35 +75,49 @@ public class ${bean.className}DaoImpl implements ${bean.className}Dao
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 #end
 	@Override
+	public long count(${bean.className}Query ${bean.classNamePass}Query, Map<String, Object> context) {
+		String queryString = "select count (${bean.classNamePass}) from ${bean.className} ${bean.classNamePass}";
+		queryString += createWhereClause(${bean.classNamePass}Query);
+		Query query = entityManager.createQuery(queryString);
+		bindParameter(query, ${bean.classNamePass}Query);
+		return (long) query.getSingleResult();
+	}
+
+#if($common.artifactType=="EJB" || $common.artifactType=="ALL")
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+#end
+	@Override
 	public List<${bean.className}> list(${bean.className}Query ${bean.classNamePass}Query, Map<String, Object> context) {
 		String queryString = "select ${bean.classNamePass} from ${bean.className} ${bean.classNamePass}";
-		{
-			int pos = 0;
-#foreach($property in $bean.properties)
-#if($property.propertyClassRange)
-			if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
-				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}>=?"+(++pos));
-			}
-			if(${bean.classNamePass}Query.${property.propertyGetterName}To() != null) {
-				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}<=?"+(++pos));
-			}
-#else
-			if(${bean.classNamePass}Query.${property.propertyGetterName}() != null) {
-			#if($property.propertyClassName.endsWith("String"))
-				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName} like ?"+(++pos));
-			#else
-				queryString+=((pos>0?" and ":" where ")+"${bean.classNamePass}.${property.propertyName}=?"+(++pos));
-			#end
-			}
-#end
-#end		
-		}
+		queryString += createWhereClause(${bean.classNamePass}Query);
+		
 		if (${bean.classNamePass}Query.getOrderBy() != null) {
-			queryString += " order by ${bean.classNamePass}." + ${bean.classNamePass}Query.getOrderBy().getPropertyName() + " " + (${bean.classNamePass}Query.isOrderDescending() ? "desc" : "asc");
+			queryString += createOrderBy(${bean.classNamePass}Query);
 		}
 		TypedQuery<${bean.className}> query = entityManager.createQuery(queryString, ${bean.className}.class);
-		{
-			int pos = 0;
+		bindParameter(query, ${bean.classNamePass}Query);
+		
+		if (${bean.classNamePass}Query.getFirstResult() != 0) {
+			query.setFirstResult(${bean.classNamePass}Query.getFirstResult());
+		}
+		if (${bean.classNamePass}Query.getMaxResults() != 0) {
+			query.setMaxResults(${bean.classNamePass}Query.getMaxResults());
+		} else {
+			query.setMaxResults(DEFAULT_MAX_RESULTS);
+		}
+		return query.getResultList();
+	}
+	
+	private String createOrderBy(${bean.className}Query ${bean.classNamePass}Query){
+		return " order by " + toOrderBy(${bean.classNamePass}Query.getOrderBy(), ${bean.classNamePass}Query.isOrderDescending() ? "desc" : "asc");
+	}
+	
+	protected String toOrderBy(${bean.className}Properties property, String order){
+		return "${bean.classNamePass}." + property.getPropertyName() + " " + order;
+	}
+	
+	private void bindParameter(Query query, ${bean.className}Query ${bean.classNamePass}Query) {
+				int pos = 0;
 #foreach($property in $bean.properties)
 #if($property.propertyClassRange)
 			if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
@@ -115,19 +131,33 @@ public class ${bean.className}DaoImpl implements ${bean.className}Dao
 				query.setParameter(++pos, ${bean.classNamePass}Query.${property.propertyGetterName}());
 			}
 #end
-#end		
-		}
-		if (${bean.classNamePass}Query.getFirstResult() != 0) {
-			query.setFirstResult(${bean.classNamePass}Query.getFirstResult());
-		}
-		if (${bean.classNamePass}Query.getMaxResults() != 0) {
-			query.setMaxResults(${bean.classNamePass}Query.getMaxResults());
-		} else {
-			query.setMaxResults(DEFAULT_MAX_RESULTS);
-		}
-		return query.getResultList();
+#end
 	}
-
+	
+	private String createWhereClause(${bean.className}Query ${bean.classNamePass}Query) {
+		int pos = 0;
+		String queryString = "";
+#foreach($property in $bean.properties)
+#if($property.propertyClassRange)
+		if(${bean.classNamePass}Query.${property.propertyGetterName}From() != null) {
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}>=?"+(++pos));
+		}
+		if(${bean.classNamePass}Query.${property.propertyGetterName}To() != null) {
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}<=?"+(++pos));
+		}
+#else
+		if(${bean.classNamePass}Query.${property.propertyGetterName}() != null) {
+			#if($property.propertyClassName.endsWith("String"))
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName} like ?"+(++pos));
+			#else
+			queryString+=((pos>0?" " + ${bean.classNamePass}Query.getOperator()+ " ":" where ")+"${bean.classNamePass}.${property.propertyName}=?"+(++pos));
+			#end
+		}
+#end
+#end	
+		return queryString;	
+	}
+	
 #if($common.artifactType=="EJB" || $common.artifactType=="ALL")
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 #end

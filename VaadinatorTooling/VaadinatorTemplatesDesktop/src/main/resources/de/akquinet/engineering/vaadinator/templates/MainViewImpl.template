@@ -128,4 +128,13 @@ public class MainViewImpl extends CustomComponent implements MainView {
 
 	}
 	
+	@Override
+	public void createButtons() {
+		// NOOP
+	}
+
+	@Override
+	public void initButtons() {
+		// NOOP
+	}	
 }

@@ -134,6 +134,16 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								vaadinatorConfig.getBasePckg() + ".ui.view", "VaadinView",
 								".java"),
 						TEMPLATE_PACKAGE, log);
+				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+						null, null, null, "ButtonFactory.template",
+						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+								vaadinatorConfig.getBasePckg() + ".ui.view", "ButtonFactory", ".java"),
+						TEMPLATE_PACKAGE, log);
+				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+						null, null, null, "DefaultButtonFactory.template",
+						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+								vaadinatorConfig.getBasePckg() + ".ui.view", "DefaultButtonFactory", ".java"),
+						TEMPLATE_PACKAGE, log);
 			}
 			// auch für Service-Layer
 			if (vaadinatorConfig.isHasDisplayBeans() || vaadinatorConfig.isHasServiceBeans()) {

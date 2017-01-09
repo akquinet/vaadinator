@@ -37,4 +37,10 @@ public @interface DisplayProperty {
 	 * If the name is not a full qualified class name the package com.vaadin.data.util.converter will be used
 	 */
 	String converterClassName() default "";
+		
+	/**
+	 * Indicates weather a property is sortable
+	 */
+	boolean sortable() default true;
+
 }

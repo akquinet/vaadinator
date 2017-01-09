@@ -23,13 +23,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 import de.akquinet.engineering.vaadinator.annotations.DisplayBean;
 import de.akquinet.engineering.vaadinator.annotations.DisplayProperty;
 import de.akquinet.engineering.vaadinator.annotations.DisplayPropertySetting;
 import de.akquinet.engineering.vaadinator.annotations.FieldType;
 
-@DisplayBean(captionText = "Antrag")
+@DisplayBean(captionText = "Antrag", beanValidation = true)
 @Entity
 @Access(AccessType.FIELD)
 public class ContractApplication implements Serializable {
@@ -46,7 +47,8 @@ public class ContractApplication implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@DisplayProperty(captionText = "Vorname", profileSettings = { @DisplayPropertySetting(sectionName = "Ihre Person", required = true) })
+	@Size(min=5)
+	@DisplayProperty(captionText = "Vorname", profileSettings = { @DisplayPropertySetting(sectionName = "Ihre Person", required = true, fieldType=FieldType.CUSTOM, customClassName="org.vaadin.viritin.fields.MTextField") })
 	private String customerFirstName;
 	@DisplayProperty(captionText = "Nachname", profileSettings = { @DisplayPropertySetting(sectionName = "Ihre Person", required = true) })
 	private String customerLastName;

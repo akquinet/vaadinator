@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.akquinet.engineering.vaadinator.timesheet.model.Project;
+import de.akquinet.engineering.vaadinator.timesheet.model.ProjectQuery;
 
 public class CouchDbProjectService extends AbstractCouchDbService implements ProjectService {
 
@@ -68,7 +69,17 @@ public class CouchDbProjectService extends AbstractCouchDbService implements Pro
 	public void removeExistingProject(Project project,
 			Map<String, Object> context) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public long countProject(ProjectQuery query, Map<String, Object> context) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public List<Project> listProject(ProjectQuery query, Map<String, Object> context) {
+		throw new UnsupportedOperationException();
 	}
 
 	public static class ProjectCouch extends Project {

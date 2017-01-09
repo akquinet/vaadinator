@@ -15,25 +15,25 @@
  */
 package de.akquinet.engineering.vaadinator.example.contractapplication.ui.std.view;
 
-import java.util.Map;
-
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Notification;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
-public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl {
+public class ContractApplicationAddViewImplEx extends ContractApplicationAddViewImpl implements EagerValidatableView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationAddViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ContractApplicationAddViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override
@@ -87,5 +87,44 @@ public class ContractApplicationAddViewImplEx extends ContractApplicationAddView
 	public void setObserver(ContractApplicationAddView.Observer observer) {
 		super.setObserver(observer);
 		this.observer = observer;
+	}
+
+	
+//	@Override
+//	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+//		super.onValidationError(validationErrors);
+//		StringBuilder sb = new StringBuilder();
+//		for(Field<?> field: validationErrors.keySet()) {
+//			if(sb.length()!= 0) {
+//				sb.append(", ");
+//			}
+//			sb.append(field.getCaption());		
+//		}
+//		Notification.show("Fehler in folgenden Feldern:", sb.toString(), Notification.Type.ERROR_MESSAGE);
+//	}
+
+	@Override
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+	
+	}
+	@Override
+	public void valueChange(ValueChangeEvent event) {
+		updateValidation();
+		
+	}
+
+	private void updateValidation() {
+		if(checkAllFieldsValid()){
+			save.setEnabled(true);
+		}else{
+			save.setEnabled(false);
+		}
+		
+	}
+
+	@Override
+	public void textChange(TextChangeEvent event) {
+		updateValidation();
+		
 	}
 }

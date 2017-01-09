@@ -137,5 +137,15 @@ public class FirstPageViewImpl extends NavigationView implements FirstPageView {
 				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 
 	}
+	
+	@Override
+	public void createButtons() {
+		// NOOP
+	}
+
+	@Override
+	public void initButtons() {
+		// NOOP
+	}
 
 }

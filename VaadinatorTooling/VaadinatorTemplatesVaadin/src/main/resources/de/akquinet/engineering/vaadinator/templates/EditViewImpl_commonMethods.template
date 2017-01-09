@@ -23,9 +23,7 @@ the License.
 		Notification.show(exceptionMappingStrategy.getCaption(exception),
 				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
 	}
-
-	protected abstract void initButtons();
-
+	
 	@Override
 	public Object getComponent() {
 		return this;
@@ -44,8 +42,8 @@ the License.
 		this.fieldInitializers.add(fieldInitializer);
 	}
 	
-	private void initializeField(Component component) {
+	private void initializeField(Component field) {
 		for(FieldInitializer fieldInitializer : fieldInitializers) {
-			fieldInitializer.initializeField(component);
+			fieldInitializer.initializeField(field, this);
 		}
 	}

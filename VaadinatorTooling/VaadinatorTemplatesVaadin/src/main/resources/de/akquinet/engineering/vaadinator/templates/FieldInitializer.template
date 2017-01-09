@@ -18,5 +18,5 @@ package ${common.basePackage}.ui.view;
 import com.vaadin.ui.Component;
 
 public interface FieldInitializer {
-	public void initializeField(Component component);
+	public void initializeField(Component field, Component view);
 }

@@ -25,6 +25,7 @@ import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
 import ${viewPackage}.${bean.className}SelectView;
 import ${common.basePackage}.service.${bean.className}Service;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +81,26 @@ public class ${bean.className}SelectPresenterImpl implements ${bean.className}Se
 		if (observer!= null) {
 		   ${bean.className} newSel = view.get${bean.className}Selection();
 		   observer.on${bean.className}Selected(newSel);		   
+		}
+	}
+	
+	@Override
+	public List<${bean.className}> onRefreshTable(${bean.className}Query query) {
+		try {
+			return service.list${bean.className}(query, new HashMap<String, Object>(context));
+		} catch (RuntimeException exc) {
+			view.showErrorMessage(exc);
+			throw exc;
+		}
+	}
+
+	@Override
+	public long onCountTable(${bean.className}Query query) {
+		try {
+			return service.count${bean.className}(query, new HashMap<String, Object>(context));
+		} catch (RuntimeException exc) {
+			view.showErrorMessage(exc);
+			throw exc;
 		}
 	}
 	

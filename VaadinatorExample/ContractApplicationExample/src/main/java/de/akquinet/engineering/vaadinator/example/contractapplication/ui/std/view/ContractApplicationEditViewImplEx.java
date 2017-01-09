@@ -6,6 +6,7 @@ import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 
+import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ButtonFactory;
 import de.akquinet.engineering.vaadinator.example.contractapplication.ui.view.ExceptionMappingStrategy;
 
 public abstract class ContractApplicationEditViewImplEx<O extends ContractApplicationEditView.Observer>
@@ -16,8 +17,9 @@ public abstract class ContractApplicationEditViewImplEx<O extends ContractApplic
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ContractApplicationEditViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ContractApplicationEditViewImplEx(ExceptionMappingStrategy exceptionMappingStrategy,
+			ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override

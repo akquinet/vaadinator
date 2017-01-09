@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 #foreach($import in $bean.imports)
@@ -28,6 +29,7 @@ import ${modelPackage}.*;
 
 import ${presenterPackage}.${bean.className}SelectPresenter;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.Item;
@@ -58,20 +60,25 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
 	
     protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    protected ButtonFactory buttonFactory = null;
     
+    private BeanItemContainer<${bean.className}> container;
 	private ${bean.className}SelectView.Observer observer;
 
 	private Button noSelectionButton = new Button();
 	
-	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
+	public ${bean.className}SelectViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
 		super();
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		createButtons();
 	}
 
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
 	public void initializeUi() {
+		initButtons();
 	    setSizeFull();
 
 		/* Build the component tree */
@@ -83,6 +90,20 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		
 		setCompositionRoot(layout);
 		
+		List<String> visibleCols = new ArrayList<String>();
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		visibleCols.add("${property.propertyName}");
+#end
+#end
+		${bean.classNamePass}Table.setContainerDataSource(initContainer(), visibleCols);
+		
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#end
+#end
+
 		${bean.classNamePass}Table.setSizeFull();
 		${bean.classNamePass}Table.setSelectable(true);
 		${bean.classNamePass}Table.setImmediate(true);
@@ -99,17 +120,6 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 			}
 		});
 		
-		noSelectionButton.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.classNamePass}Table.setValue(null);
-				observer.on${bean.className}Chosen();
-			}
-		});
-		
-		setOrRefreshData(new ArrayList<${bean.className}>());
 		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table");
 		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
 
@@ -126,11 +136,34 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 		});
 		
 		addStyleName("styleid-${bean.className}SelectViewImpl");
-		
-		noSelectionButton.setCaption(obtainBundle().getString("entity.${bean.className}.noSelection"));
-		noSelectionButton.addStyleName("styleid-${bean.className}SelectViewImpl-no${bean.className}");
 	}
 
+	protected Container initContainer() {
+		this.container = new BeanItemContainer<${bean.className}>(${bean.className}.class, new ArrayList<${bean.className}>());
+		return container;
+	}
+	
+	@Override
+	public void createButtons() {
+		noSelectionButton = buttonFactory.createNoSelectionButton();
+
+	}
+
+	@Override
+	public void initButtons() {
+		buttonFactory.initNoSelectionButton(noSelectionButton,
+				obtainBundle().getString("entity.${bean.className}.noSelection"),
+				"styleid-${bean.className}SelectViewImpl-noSelection", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.classNamePass}Table.setValue(null);
+						observer.on${bean.className}Chosen();
+					}
+				});
+	}
+	
 	@Override
 	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
 		List<String> visibleCols = new ArrayList<String>();
@@ -147,7 +180,52 @@ public class ${bean.className}SelectViewImpl extends CustomComponent implements 
 #end
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	/*
+	 * A custom filter for searching a String value in all visible columns of a table
+	 */
+	public static class ${bean.className}Filter implements Filter {
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private String needle;
+
+		public ${bean.className}Filter(String needle) {
+			this.needle = needle.toLowerCase();
+		}
+		
+		public String getNeedle() {
+			return needle;
+		}
+
+		@Override
+		public boolean passesFilter(Object itemId, Item item) {
+			String haystack = (""
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+				+ getPropertyVal(item, ${bean.className}Properties.${property.propertyName.toUpperCase()}.getPropertyName()) + "---"
+#end
+#end
+			).toLowerCase();
+			return haystack.contains(needle);
+		}
+
+		private String getPropertyVal(Item item, String name) {
+			Property<?> prop = item.getItemProperty(name);
+			if (prop == null) {
+				return null;
+			}
+			return String.valueOf(prop.getValue());
+		}
+
+		public boolean appliesToProperty(Object id) {
+			return true;
+		}
+	}
+
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public ${bean.className} get${bean.className}Selection() {
 		return (${bean.className}) ((Property) ${bean.classNamePass}Table).getValue();

@@ -23,6 +23,7 @@ import com.vaadin.addon.touchkit.gwt.client.theme.StyleNames;
 
 import ${presenterPackage}.${bean.className}ChangePresenter;
 import ${presenterPackage}.${bean.className}EditPresenter;
+import ${common.basePackage}.ui.view.ButtonFactory;
 import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
 
 public class ${bean.className}ChangeViewImpl extends
@@ -36,11 +37,11 @@ public class ${bean.className}ChangeViewImpl extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Button cancel = new Button();
-	protected Button save = new Button();
+	protected Button cancel;
+	protected Button save;
 	
-	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy) {
-		super(exceptionMappingStrategy);
+	public ${bean.className}ChangeViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super(exceptionMappingStrategy, buttonFactory);
 	}
 
 	@Override
@@ -49,39 +50,35 @@ public class ${bean.className}ChangeViewImpl extends
 		setCaption(obtainBundle().getString("entity.${bean.className}.edit"));
 		addStyleName("styleid-${bean.className}ChangeViewImpl");
 	}
-
+	
+    @Override
+	public void createButtons() {
+		cancel = buttonFactory.createCancelButton();
+		save = buttonFactory.createSaveButton();
+	}
+	
     @Override
     public void initButtons(){
-        cancel.setCaption(obtainBundle().getString("cancel"));
-		cancel.addStyleName("styleid-${bean.className}ChangeViewImpl-cancel");
-		cancel.addClickListener(new ClickListener() {
+        buttonFactory.initCancelButton(cancel, obtainBundle().getString("back"),
+				"styleid-${bean.className}AddViewImpl-cancel", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.className}ChangeViewImpl.this.getObserver().onCancel();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.className}ChangeViewImpl.this.getObserver().onCancel();
+					}
+				});
 		this.setLeftComponent(cancel);
-		save.setCaption(obtainBundle().getString("save"));
-		save.setStyleName(StyleNames.BUTTON_BLUE);
-		save.addStyleName("styleid-${bean.className}ChangeViewImpl-save");
-		save.addClickListener(new ClickListener() {
+		
+		buttonFactory.initSaveButton(save, obtainBundle().getString("save"),
+				"styleid-${bean.className}AddViewImpl-save", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				${bean.className}ChangeViewImpl.this.getObserver().onSave();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						${bean.className}ChangeViewImpl.this.getObserver().onSave();
+					}
+				});
 		this.setRightComponent(save);
     }
 }

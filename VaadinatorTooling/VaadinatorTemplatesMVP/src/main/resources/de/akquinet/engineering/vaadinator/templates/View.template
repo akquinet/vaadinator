@@ -21,6 +21,10 @@ public interface View extends Serializable {
 	
 	public void initializeUi();
 
+	public void createButtons();
+
+	public void initButtons();
+	
 	public Object getComponent();
 
 }
