@@ -20,6 +20,10 @@ import java.util.Map;
 
 import ${common.basePackage}.ui.presenter.Presenter;
 import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+
+import ${common.basePackage}.ui.presenter.listener.AfterDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeDeleteListener;
+
 import ${viewPackage}.${bean.className}ChangeView;
 import ${common.basePackage}.service.${bean.className}Service;
 
@@ -80,7 +84,9 @@ public class ${bean.className}ChangePresenterImpl extends
         }
         saveToModel();
         try {
+        	fireBeforeSave();
         	this.service.updateExisting${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
+        	fireAfterSave();
         } catch (RuntimeException exc) {
 			view.showErrorMessage(exc);
 			throw exc;
@@ -96,18 +102,23 @@ public class ${bean.className}ChangePresenterImpl extends
 	@Override
 	public void onCancel() {
 		// schliesse Fenster und gehe zurueck zur Liste
+		fireBeforeCancel();
 		if (capablePresenter != null) {
 			capablePresenter.setDetailView(null);
+			fireAfterCancel();
 		}
 		if (returnPresenter != null) {
 			returnPresenter.returnToThisPresener(this);
+			fireAfterCancel();
 		}
 	}
 
 	@Override
 	public void onRemove() {
         try {
+            fireBeforeDelete();
         	this.service.removeExisting${bean.className}(get${bean.className}(), new HashMap<String, Object>(context));
+        	fireAfterDelete();
         } catch (RuntimeException exc) {
 			view.showErrorMessage(exc);
 			throw exc;
@@ -120,5 +131,24 @@ public class ${bean.className}ChangePresenterImpl extends
 			returnPresenter.returnToThisPresener(this);
 		}
 	}
+	
+	@Override
+	public void addAfterDeleteListener(AfterDeleteListener<Object> listener) {
+		listeners.add(listener);
+	}
 
+	@Override
+	public void addBeforeDeleteListener(BeforeDeleteListener<Object> listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addBeforeDeleteListener(${bean.className}ChangePresenter.Before${bean.className}DeleteListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void addAfterDeleteListener(${bean.className}ChangePresenter.After${bean.className}DeleteListener listener) {
+		listeners.add(listener);
+	}
 }

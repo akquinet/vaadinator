@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.maven.plugin.AbstractMojo;
@@ -103,6 +102,7 @@ public class CodeGeneratorMojo extends AbstractMojo {
 	 */
 	private Map<String, String> generatorOptions = new HashMap<String, String>();
 	
+	@Override
 	public void execute() throws MojoExecutionException {
 		// System.out.println(FileUtils.getFiles((new File(project.getBasedir(),
 		// "src/main/java")), includes, excludes));
@@ -234,6 +234,9 @@ public class CodeGeneratorMojo extends AbstractMojo {
 				exploreFolders(f, targetFolder, targetFolderTest, pckg, sourceDao, beanDescriptions);
 			}
 			if (f.isFile() && f.getName().endsWith(".java")) {
+				if (getLog().isDebugEnabled()) {
+					getLog().debug("Parsing java source file: " + f.getName());
+				}
 				BeanDescription desc = sourceDao.processJavaInput(new FileInputStream(f));
 				desc.setPckg(pckgStart);
 				if (desc.isDisplayed()) {

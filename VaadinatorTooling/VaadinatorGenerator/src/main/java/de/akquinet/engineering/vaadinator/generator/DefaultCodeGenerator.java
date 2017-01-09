@@ -82,56 +82,65 @@ public class DefaultCodeGenerator implements CodeGenerator {
 				|| vaadinatorConfig.getGenTypeEn() == VaadinatorConfig.GenType.ALL) {
 			// jetzt common generieren
 			if (vaadinatorConfig.isHasDisplayBeans()) {
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.presenter",
+				String presenterPckg = vaadinatorConfig.getBasePckg() + ".ui.presenter";
+				String viewPckg = vaadinatorConfig.getBasePckg() + ".ui.view";
+
+				runVelocity(null, vaadinatorConfig.getCommonMap(), presenterPckg,
 						null, null, null, null, "Presenter.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.presenter", "Presenter", ".java"),
+								presenterPckg, "Presenter", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.presenter",
+				createCommonArtifact(vaadinatorConfig, presenterPckg + ".listener",
+						"ActionListener");
+				createCommonArtifact(vaadinatorConfig, presenterPckg, "PresenterImpl");
+
+				createPresenterListeners(vaadinatorConfig);
+				runVelocity(null, vaadinatorConfig.getCommonMap(), presenterPckg,
 						null, null, null, null, "SubviewCapablePresenter.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.presenter", "SubviewCapablePresenter", ".java"),
+								presenterPckg, "SubviewCapablePresenter", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "View.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "View", ".java"),
+								viewPckg, "View", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "ObservableView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "ObservableView", ".java"),
+								viewPckg, "ObservableView", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "ValidatableView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "ValidatableView", ".java"),
+								viewPckg, "ValidatableView", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "ErrorHandlerView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "ErrorHandlerView", ".java"),
+								viewPckg, "ErrorHandlerView", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "ExceptionMappingStrategy.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "ExceptionMappingStrategy", ".java"),
+								viewPckg, "ExceptionMappingStrategy", ".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "DefaultExceptionMappingStrategy.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "DefaultExceptionMappingStrategy",
+								viewPckg, "DefaultExceptionMappingStrategy",
 								".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "FieldInitializer.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "FieldInitializer",
+								viewPckg, "FieldInitializer",
 								".java"),
 						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
+				runVelocity(null, vaadinatorConfig.getCommonMap(), viewPckg, null,
 						null, null, null, "VaadinView.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg() + ".ui.view", "VaadinView",
+								viewPckg, "VaadinView",
 								".java"),
 						TEMPLATE_PACKAGE, log);
 				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg() + ".ui.view", null,
@@ -495,5 +504,27 @@ public class DefaultCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
+	}
+
+	private static void createPresenterListeners(VaadinatorConfig vaadinatorConfig) throws IOException {
+		String pckg = vaadinatorConfig.getBasePckg() + ".ui.presenter.listener";
+		createCommonArtifact(vaadinatorConfig, pckg, "ActionListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "AfterCancelListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "AfterDeleteListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "AfterSaveListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "AfterSelectListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "BeforeCancelListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "BeforeDeleteListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "BeforeSaveListener");
+		createCommonArtifact(vaadinatorConfig, pckg, "BeforeSelectListener");
+	}
+
+	private static void createCommonArtifact(VaadinatorConfig vaadinatorConfig, String pckg, String name)
+			throws IOException {
+		runVelocity(null, vaadinatorConfig.getCommonMap(), pckg, null, null,
+				null, null, name + ".template",
+				packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+						pckg, name, ".java"),
+				TEMPLATE_PACKAGE, vaadinatorConfig.getLog());
 	}
 }

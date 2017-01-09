@@ -15,10 +15,26 @@ the License.
 *#
 package ${package};
 
+import ${common.basePackage}.ui.presenter.listener.AfterDeleteListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeDeleteListener;
 import ${viewPackage}.${bean.className}ChangeView;
+import ${modelPackage}.${bean.className};
 
 public interface ${bean.className}ChangePresenter extends ${bean.className}EditPresenter {
 
 	public ${bean.className}ChangeView getView();
 
+	public void addAfterDeleteListener(AfterDeleteListener<Object> listener);
+
+	public void addBeforeDeleteListener(BeforeDeleteListener<Object> listener);
+	
+	public void addBeforeDeleteListener(${bean.className}ChangePresenter.Before${bean.className}DeleteListener listener);
+	
+	public void addAfterDeleteListener(${bean.className}ChangePresenter.After${bean.className}DeleteListener listener);
+	
+	public static interface Before${bean.className}DeleteListener extends BeforeDeleteListener<${bean.className}> {
+	}
+
+	public static interface After${bean.className}DeleteListener extends AfterDeleteListener<${bean.className}> {
+	} 
 }

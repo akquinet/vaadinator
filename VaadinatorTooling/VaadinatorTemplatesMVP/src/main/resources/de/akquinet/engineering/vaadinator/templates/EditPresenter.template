@@ -18,12 +18,16 @@ package ${package};
 import java.util.List;
 
 import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.listener.AfterCancelListener;
+import ${common.basePackage}.ui.presenter.listener.AfterSaveListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeCancelListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSaveListener;
 import ${viewPackage}.${bean.className}EditView;
 
 #foreach($import in $bean.imports)
 ${import}
 #end
-import ${modelPackage}.*;
+import ${modelPackage}.${bean.className};
 
 public interface ${bean.className}EditPresenter extends Presenter {
 
@@ -33,4 +37,31 @@ public interface ${bean.className}EditPresenter extends Presenter {
 	
 	public void set${bean.className}(${bean.className} ${bean.classNamePass});
 
+	public void addBeforeSaveListener(BeforeSaveListener<Object> listener);
+	
+	public void addAfterSaveListener(AfterSaveListener<Object> listener);
+	
+	public void addBeforeCancelListener(BeforeCancelListener<Object> listener);
+
+	public void addAfterCancelListener(AfterCancelListener<Object> listener);
+	
+	public void addBeforeSaveListener(${bean.className}EditPresenter.Before${bean.className}SaveListener listener);
+	
+	public void addAfterSaveListener(${bean.className}EditPresenter.After${bean.className}SaveListener listener);
+	
+	public void addBeforeCancelListener(${bean.className}EditPresenter.Before${bean.className}CancelListener listener);
+	
+	public void addAfterCancelListener(${bean.className}EditPresenter.After${bean.className}CancelListener listener);
+	
+    public static interface Before${bean.className}SaveListener extends BeforeSaveListener<${bean.className}> {
+	}
+
+	public static interface After${bean.className}SaveListener extends AfterSaveListener<${bean.className}> {
+	}
+
+	public static interface Before${bean.className}CancelListener extends BeforeCancelListener<${bean.className}> {
+	}
+
+	public static interface After${bean.className}CancelListener extends AfterCancelListener<${bean.className}> {
+	}
 }

@@ -16,6 +16,10 @@ the License.
 package ${package};
 
 import ${common.basePackage}.ui.presenter.Presenter;
+
+import ${common.basePackage}.ui.presenter.listener.AfterSelectListener;
+import ${common.basePackage}.ui.presenter.listener.BeforeSelectListener;
+
 import ${viewPackage}.${bean.className}SelectView;
 import ${modelPackage}.*;
 
@@ -29,6 +33,20 @@ public interface ${bean.className}SelectPresenter extends Presenter {
 	
     public void setObserver(${bean.className}SelectPresenter.Observer observer);
     
+    public void addBeforeSelectListener(BeforeSelectListener<Object> listener);
+
+	public void addAfterSelectListener(AfterSelectListener<Object> listener);
+	
+	public void addBeforeSelectListener(${bean.className}SelectPresenter.Before${bean.className}SelectListener listener);
+	
+	public void addAfterSelectListener(${bean.className}SelectPresenter.After${bean.className}SelectListener listener);
+	
+	public static interface Before${bean.className}SelectListener extends BeforeSelectListener<${bean.className}> {
+	}
+
+	public static interface After${bean.className}SelectListener extends AfterSelectListener<${bean.className}> {
+	}
+	
     public static interface Observer {
 		public void on${bean.className}Selected(${bean.className} ${bean.classNamePass});
 	}
