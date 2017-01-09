@@ -146,6 +146,14 @@ the License.
                 			<platform>linux</platform>
                 			<bit>64</bit>
             			</driver>
+						<driver>
+                			<name>phantomjs</name>
+                			<platform>windows</platform>
+            			</driver>
+						<driver>
+                			<name>phantomjs</name>
+                			<platform>mac</platform>
+            			</driver>
 					</drivers>
 				</configuration>
 			</plugin>
