@@ -51,7 +51,7 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected com.vaadin.ui.Table ${bean.classNamePass}Table = new com.vaadin.ui.Table();
+    protected Component ${bean.classNamePass}SelectViewComponent;
 	protected Button add${bean.className} = new Button();
 
 	private ${bean.className}ListView.Observer observer;
@@ -63,44 +63,19 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 		this.exceptionMappingStrategy = exceptionMappingStrategy;
  	}
  	
+ 	@Override
+    public void set${bean.className}SelectView(${bean.className}SelectView ${bean.classNamePass}SelectView) {
+		this.${bean.classNamePass}SelectViewComponent = (Component) ${bean.classNamePass}SelectView.getComponent();
+    }
+    
 #parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
 
 	@Override
 	public void initializeUi() {
 		setCaption(obtainBundle().getString("entity.${bean.className}.plural"));
-		${bean.classNamePass}Table.setSelectable(true);
-		${bean.classNamePass}Table.addItemClickListener(new ItemClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void itemClick(ItemClickEvent event) {
-				${bean.className} sel = (${bean.className}) ${bean.classNamePass}Table.getValue();
-				if (sel != null) {
-					observer.on${bean.className}Chosen();
-				}
-			}
-		});
-		setOrRefreshData(new ArrayList<${bean.className}>());
-		${bean.classNamePass}Table.addStyleName("styleid-${bean.className}ListViewImpl-${bean.classNamePass}Table");
-		${bean.classNamePass}Table.setCellStyleGenerator(new com.vaadin.ui.Table.CellStyleGenerator() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String getStyle(com.vaadin.ui.Table source, Object itemId,
-					Object propertyId) {
-				return "cell-" + propertyId;
-			}
-		});
-		setContent(${bean.classNamePass}Table);
-		${bean.classNamePass}Table.setSizeFull();
+	
+		setContent(${bean.classNamePass}SelectViewComponent);
+		${bean.classNamePass}SelectViewComponent.setSizeFull();
 		add${bean.className}.addClickListener(new ClickListener() {
 
 			/**
@@ -136,28 +111,6 @@ public class ${bean.className}ListViewImpl extends NavigationView implements ${b
 			popover.close();
 			popover = null;
 		}
-	}
-
-	@Override
-	public void setOrRefreshData(List<${bean.className}> ${bean.classNamePass}List) {
-		List<String> visibleCols = new ArrayList<String>();
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		visibleCols.add("${property.propertyName}");
-#end
-#end
-		${bean.classNamePass}Table.setContainerDataSource(new BeanItemContainer<${bean.className}>(${bean.className}.class, ${bean.classNamePass}List), visibleCols);
-#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
-#if($property.getDisplayPropertyProfile($profileName).showInTable)
-		${bean.classNamePass}Table.setColumnHeader("${property.propertyName}", obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
-#end
-#end
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public ${bean.className} get${bean.className}Selection() {
-		return (${bean.className}) ((Property) ${bean.classNamePass}Table).getValue();
 	}
 
 	@Override

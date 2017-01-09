@@ -36,9 +36,9 @@ import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
 
 public class AddressDaoPlainTest extends AbstractDaoPlainTest {
 
-	AddressDao backend;
-	AddressDaoPlain dao;
-	AddressDaoPlain daoCascade;
+	private AddressDao backend;
+	private AddressDaoPlain dao;
+	private AddressDaoPlain daoCascade;
 
 	@SuppressWarnings("unchecked")
 	@Test

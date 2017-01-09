@@ -36,7 +36,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Dimension;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
-import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
+import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.component.AddressSelectViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.example.webdriver.ui.std.view.webdriver.page.AddressPage;
 
 import com.github.webdriverextensions.Bot;
@@ -70,7 +70,8 @@ public class TestAddressIT extends AbstractWebDriverCase {
 		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
 
 		boolean foundInTable = false;
-		for (AddressListTableRowComponent row : addressPage.getAddressListViewComponent().getAddressListTableRows()) {
+		for (AddressListTableRowComponent row : addressPage.getAddressListViewComponent()
+				.getAddressSelectViewComponent().getAddressListTableRows()) {
 			if (row.getNameCellWebElement().getText().equals("Daniel " + nachname)) {
 				foundInTable = true;
 				clickAndWait(row);
@@ -100,18 +101,22 @@ public class TestAddressIT extends AbstractWebDriverCase {
 		type(nachName, addressPage.getAddressAddViewComponent().getNachnameWebElement());
 		clickAndWait(addressPage.getAddressAddViewComponent().getSaveWebElement());
 
-		type("Hans", addressPage.getAddressListViewComponent().getSearchFieldWebElement());
+		type("Hans",
+				addressPage.getAddressListViewComponent().getAddressSelectViewComponent().getSearchFieldWebElement());
 		waitForVaadin();
 
-		List<AddressListTableRowComponent> rows = addressPage.getAddressListViewComponent().getAddressListTableRows();
+		List<AddressListTableRowComponent> rows = addressPage.getAddressListViewComponent()
+				.getAddressSelectViewComponent().getAddressListTableRows();
 		for (AddressListTableRowComponent row : rows) {
 			assertThat(row.getNameCellWebElement().getText(), is(not("Daniel " + nachName)));
 		}
 
-		clearAndType(nachName, addressPage.getAddressListViewComponent().getSearchFieldWebElement());
-		assertThat(addressPage.getAddressListViewComponent().getAddressListTableRows().size(), is(1));
+		clearAndType(nachName,
+				addressPage.getAddressListViewComponent().getAddressSelectViewComponent().getSearchFieldWebElement());
+		assertThat(addressPage.getAddressListViewComponent().getAddressSelectViewComponent().getAddressListTableRows()
+				.size(), is(1));
 
-		assertTextEquals("Daniel " + nachName,
-				(addressPage.getAddressListViewComponent().getAddressListTableRows().get(0).getNameCellWebElement()));
+		assertTextEquals("Daniel " + nachName, (addressPage.getAddressListViewComponent()
+				.getAddressSelectViewComponent().getAddressListTableRows().get(0).getNameCellWebElement()));
 	}
 }

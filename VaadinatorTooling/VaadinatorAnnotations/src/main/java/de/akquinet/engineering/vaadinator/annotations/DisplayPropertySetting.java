@@ -68,4 +68,10 @@ public @interface DisplayPropertySetting {
 	 * @return
 	 */
 	boolean allowTextInput() default false;
+
+	/**
+	 * Sets if this property or method is used as the summary for this bean.
+	 * @return
+	 */
+	boolean useAsSummary() default false;
 }

@@ -31,14 +31,19 @@ import de.akquinet.engineering.vaadinator.example.address.ui.presenter.Presenter
 import de.akquinet.engineering.vaadinator.example.address.ui.presenter.SubviewCapablePresenter;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.AddressListView;
 import de.akquinet.engineering.vaadinator.example.address.ui.std.view.MainView;
+import de.akquinet.engineering.vaadinator.example.address.ui.std.view.TeamListView;
 
 public class MainPresenterImplTest {
 
-	MainView view;
-	AddressListView lview;
-	PresenterFactory presenterFactory;
-	AddressListPresenter lpres;
-	MainPresenterImpl pres;
+	private MainView view;
+	private AddressListView lview;
+	private PresenterFactory presenterFactory;
+	private AddressListPresenter lpres;
+	
+	private TeamListView tview;
+	private TeamListPresenter tpres;
+	
+	private MainPresenterImpl pres;
 
 	@Before
 	public void setUp() {
@@ -46,8 +51,13 @@ public class MainPresenterImplTest {
 		lview = mock(AddressListView.class);
 		presenterFactory = mock(PresenterFactory.class);
 		lpres = mock(AddressListPresenterImpl.class);
+		tview = mock(TeamListView.class);
+		tpres = mock(TeamListPresenterImpl.class);
 		when(lpres.getView()).thenReturn(lview);
 		when(presenterFactory.createAddressListPresenter((Presenter) any(), (SubviewCapablePresenter) any())).thenReturn(lpres);
+		when(tpres.getView()).thenReturn(tview);
+		when(presenterFactory.createTeamListPresenter((Presenter) any(), (SubviewCapablePresenter) any())).thenReturn(tpres);
+		
 		pres = new MainPresenterImpl(new HashMap<String, Object>(), view, presenterFactory);
 	}
 

@@ -26,10 +26,10 @@ import org.junit.Test;
 public class AddressMapperTest {
 
 	@SuppressWarnings("deprecation")
-	Date dateRef = new Date(1970, 0, 22);
-	Address addressRef;
+	private Date dateRef = new Date(1970, 0, 22);
+	private Address addressRef;
 
-	AddressMapper mapper;
+	private AddressMapper mapper;
 
 	@Before
 	public void setUp() {

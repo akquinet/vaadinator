@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.interactions.Actions;
-import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.component.AddressListViewComponent.AddressListTableRowComponent;
+import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.component.AddressSelectViewComponent.AddressListTableRowComponent;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressAddPage;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressChangePage;
 import org.vergien.vaadinator.webdriver.touchkit.ui.std.view.webdriver.page.AddressListPage;
@@ -76,7 +76,7 @@ public class TestAddressIT extends AbstractWebdriverTest {
 		clickAndWait(firstPageViewPage.getFirstPageViewComponent().getListAddressWebElement());
 		
 		boolean foundInTable = false;
-		for (AddressListTableRowComponent row : addressListPage.getAddressListViewComponent()
+		for (AddressListTableRowComponent row : addressListPage.getAddressListViewComponent().getAddressSelectViewComponent()
 				.getAddressListTableRows()) {
 			if (row.getNameCellWebElement().getText().equals("Daniel " + nachname)) {
 				foundInTable = true;

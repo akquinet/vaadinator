@@ -1,0 +1,62 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#package ${package};
+
+import java.util.List;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import com.github.webdriverextensions.WebComponent;
+
+public class ${bean.className}SelectViewComponent extends WebComponent {
+		public static class ${bean.className}ListTableRowComponent extends WebComponent {
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		@FindBy(className = "v-table-cell-content-cell-${property.propertyName}")
+		private WebElement ${property.propertyName}Cell;
+#end
+#end
+
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInTable)
+		public WebElement ${property.propertyGetterName}CellWebElement() {
+			return ${property.propertyName}Cell;
+		}
+		
+#end
+#end		
+	}
+
+	@FindBy(className = "styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table")
+	protected WebElement ${bean.classNamePass}Table;
+	@FindBy(className = "styleid-${bean.className}SelectViewImpl-searchField")
+	protected WebElement searchField;
+
+	@FindBy(css = ".styleid-${bean.className}SelectViewImpl-${bean.classNamePass}Table .v-table-body .v-table-table tr")
+	private List<${bean.className}ListTableRowComponent> ${bean.classNamePass}ListTableRows;
+
+	public WebElement get${bean.className}TableWebElement() {
+		return ${bean.classNamePass}Table;
+	}
+
+	public WebElement getSearchFieldWebElement() {
+		return searchField;
+	}
+
+	public List<${bean.className}ListTableRowComponent> get${bean.className}ListTableRows() {
+		return ${bean.classNamePass}ListTableRows;
+	}
+}

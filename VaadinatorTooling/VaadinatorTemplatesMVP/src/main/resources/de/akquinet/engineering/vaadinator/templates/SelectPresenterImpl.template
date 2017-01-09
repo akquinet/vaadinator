@@ -1,0 +1,101 @@
+#*
+Copyright 2016 Daniel Nordhoff-Vergien
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.presenter.Presenter;
+import ${common.basePackage}.ui.presenter.SubviewCapablePresenter;
+import ${viewPackage}.${bean.className}SelectView;
+import ${common.basePackage}.service.${bean.className}Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ${bean.className}SelectPresenterImpl implements ${bean.className}SelectPresenter, ${bean.className}SelectView.Observer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Map<String, Object> context;
+	private ${bean.className}SelectView view;
+	private ${bean.className}Service service;
+	private ${bean.className}SelectPresenter.Observer observer;
+	private boolean nullSelectionAllowed = true;
+	
+	public ${bean.className}SelectPresenterImpl(Map<String, Object> context, ${bean.className}SelectView view, ${bean.className}Service service) {
+		super();
+		this.context = context;
+		this.view = view;
+		this.service = service;
+		this.view.setNullSelectionAllowed(nullSelectionAllowed);
+	}
+
+	@Override
+	public ${bean.className}SelectView getView() {
+		return view;
+	}
+
+	@Override
+	public void startPresenting() {
+		view.setObserver(this);
+		view.initializeUi();
+		loadFromModel();
+	}
+
+	@Override
+	public void returnToThisPresener(Presenter fromPresenter) {
+		loadFromModel();
+	}
+
+	protected void loadFromModel() {
+		try {
+			view.setOrRefreshData(service.listAll${bean.className}(new HashMap<String, Object>(context)));
+		} catch (RuntimeException exc) {
+			view.showErrorMessage(exc);
+			throw exc;
+		}
+	}
+
+	@Override
+	public void on${bean.className}Chosen() {
+		if (observer!= null) {
+		   ${bean.className} newSel = view.get${bean.className}Selection();
+		   observer.on${bean.className}Selected(newSel);		   
+		}
+	}
+	
+	@Override
+	public void setNullSelectionAllowed(boolean nullSelectionAllowed) {
+	   this.nullSelectionAllowed = nullSelectionAllowed;
+	   view.setNullSelectionAllowed(nullSelectionAllowed);
+	}
+	
+	@Override
+	public boolean isNullSelectionAllowed() {
+	   return nullSelectionAllowed;
+	}
+	
+	@Override
+	public void setObserver(${bean.className}SelectPresenter.Observer observer) {
+	   this.observer = observer;
+	}
+}

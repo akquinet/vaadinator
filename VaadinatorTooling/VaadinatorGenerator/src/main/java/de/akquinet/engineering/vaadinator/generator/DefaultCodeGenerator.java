@@ -172,7 +172,15 @@ public class DefaultCodeGenerator implements CodeGenerator {
 									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
 									"PresenterFactory", ".java"),
 							TEMPLATE_PACKAGE, log);
-
+					runVelocity(null, vaadinatorConfig.getCommonMap(),
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
+							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".view", displayProfileName,
+							"PresenterFactoryAware.template",
+							packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+									vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
+									"PresenterFactoryAware", ".java"),
+							TEMPLATE_PACKAGE, log);
 					runVelocity(null, vaadinatorConfig.getCommonMap(),
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter", null,
 							vaadinatorConfig.getBasePckg() + ".ui." + displayProfileName + ".presenter",
@@ -343,6 +351,16 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								"ListPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getPresenterPckg(p), desc.getClassName(), "ListPresenterImpl.java"),
 								TEMPLATE_PACKAGE, log);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectPresenter.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getPresenterPckg(p), desc.getClassName(), "SelectPresenter.java"),
+								TEMPLATE_PACKAGE, log);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getPresenterPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectPresenterImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getPresenterPckg(p), desc.getClassName(), "SelectPresenterImpl.java"),
+								TEMPLATE_PACKAGE, log);
 						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "AddView.template",
 								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
@@ -367,6 +385,21 @@ public class DefaultCodeGenerator implements CodeGenerator {
 								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
 								"ListViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 										desc.getViewPckg(p), desc.getClassName(), "ListViewImpl.java"),
+								TEMPLATE_PACKAGE, log);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(), "SelectView.template",
+								packageToFile(vaadinatorConfig.getTargetFolderSrcStart(), desc.getViewPckg(p),
+										desc.getClassName(), "SelectView.java"),
+								TEMPLATE_PACKAGE, log);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectViewImpl.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getViewPckg(p), desc.getClassName(), "SelectViewImpl.java"),
+								TEMPLATE_PACKAGE, log);
+						runVelocity(desc, vaadinatorConfig.getCommonMap(), desc.getViewPckg(p), desc.getPckg(),
+								desc.getPresenterPckg(p), desc.getViewPckg(p), p.getProfileName(),
+								"SelectField.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
+										desc.getViewPckg(p), desc.getClassName(), "SelectField.java"),
 								TEMPLATE_PACKAGE, log);
 					}
 				}

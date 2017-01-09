@@ -206,6 +206,21 @@ public class DisplayProfileDescription {
 		return res;
 	}
 
+	public String getSummaryMethod() {
+		String summaryMethod = "toString";
+		PropertyDescription captionPropertyDescription = null;
+		for (PropertyDescription p : getPropertiesInProfile()) {
+			if (p.getDisplayPropertyProfile(DisplayProfileDescription.this).isUseAsSummary()) {
+				captionPropertyDescription = p;
+				break;
+			}
+		}
+		if (captionPropertyDescription != null) {
+			summaryMethod = captionPropertyDescription.getPropertyGetterName();
+		}
+		return summaryMethod;
+	}
+	
 	/**
 	 * Gets the custom implemented artifacts for this bean.
 	 * @return

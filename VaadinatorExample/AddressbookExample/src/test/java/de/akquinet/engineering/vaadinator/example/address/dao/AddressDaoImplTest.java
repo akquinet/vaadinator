@@ -30,7 +30,7 @@ import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
 
 public class AddressDaoImplTest extends AbstractDaoImplTest {
 
-	AddressDaoImpl dao;
+	private AddressDaoImpl dao;
 
 	@Test
 	public void testListAll() {

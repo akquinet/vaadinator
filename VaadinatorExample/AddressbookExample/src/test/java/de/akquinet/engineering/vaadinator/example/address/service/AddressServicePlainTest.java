@@ -40,9 +40,9 @@ import de.akquinet.engineering.vaadinator.example.address.model.Anreden;
 
 public class AddressServicePlainTest extends AbstractServicePlainTest {
 
-	AddressDao dao;
-	AddressServicePlain service;
-	AddressServicePlain serviceCascade;
+	private AddressDao dao;
+	private AddressServicePlain service;
+	private AddressServicePlain serviceCascade;
 
 	@Test
 	public void testListAll() {
