@@ -1,5 +1,5 @@
 /*
- * Copyright 2014, 2016 Daniel Norhoff-Vergien and akquinet engineering GmbH
+ * Copyright 2014, 2016, 2017 Daniel Norhoff-Vergien and akquinet engineering GmbH
  *  
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -152,17 +152,6 @@ public class DefaultCodeGenerator implements CodeGenerator {
 						null, null, null, "DefaultButtonFactory.template",
 						packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
 								vaadinatorConfig.getBasePckg() + ".ui.view", "DefaultButtonFactory", ".java"),
-						TEMPLATE_PACKAGE, log);
-			}
-			// auch für Service-Layer
-			if (vaadinatorConfig.isHasDisplayBeans() || vaadinatorConfig.isHasServiceBeans()) {
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
-						null, "BusinessException.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg(), "BusinessException", ".java"),
-						TEMPLATE_PACKAGE, log);
-				runVelocity(null, vaadinatorConfig.getCommonMap(), vaadinatorConfig.getBasePckg(), null, null, null,
-						null, "TechnicalException.template", packageToFile(vaadinatorConfig.getTargetFolderSrcStart(),
-								vaadinatorConfig.getBasePckg(), "TechnicalException", ".java"),
 						TEMPLATE_PACKAGE, log);
 			}
 			// wenn wir Basis generieren wollen auch das Folgende:
