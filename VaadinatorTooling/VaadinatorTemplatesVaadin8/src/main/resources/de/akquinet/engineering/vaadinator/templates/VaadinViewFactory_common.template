@@ -1,0 +1,100 @@
+#*
+Copyright 2016 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import ${common.basePackage}.ui.view.ButtonFactory;
+import ${common.basePackage}.ui.view.DefaultButtonFactory;
+import ${common.basePackage}.ui.view.DefaultExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+
+public class VaadinViewFactory implements ViewFactory {
+
+    protected ExceptionMappingStrategy exceptionMappingStrategy = new DefaultExceptionMappingStrategy();
+	
+	protected FieldInitializer commonFieldInitializer = null;
+	
+	protected ButtonFactory buttonFactory = new DefaultButtonFactory();
+	
+	public VaadinViewFactory() {
+		super();
+	}
+
+#foreach($bean in $common.beans)
+#if($bean.displayed)
+	@Override
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW") )
+public ${bean.className}AddViewEx create${bean.className}AddView() {
+	#else
+public ${bean.className}AddView create${bean.className}AddView() {
+	#end
+	
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("ADD_VIEW_IMPL") )
+${bean.className}AddViewImplEx addViewImpl =  new ${bean.className}AddViewImplEx(exceptionMappingStrategy, buttonFactory);
+	#else
+${bean.className}AddViewImpl addViewImpl = new ${bean.className}AddViewImpl(exceptionMappingStrategy, buttonFactory);
+	#end
+	if(commonFieldInitializer != null) {
+			addViewImpl.addFieldInitializer(commonFieldInitializer);
+		}
+	return addViewImpl;
+	}
+
+	@Override
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW") )
+public ${bean.className}ChangeViewEx create${bean.className}ChangeView() {
+	#else
+public ${bean.className}ChangeView create${bean.className}ChangeView() {
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("CHANGE_VIEW_IMPL") )
+
+    ${bean.className}ChangeViewImplEx changeViewImpl = new ${bean.className}ChangeViewImplEx(exceptionMappingStrategy, buttonFactory);
+	#else
+    ${bean.className}ChangeViewImpl changeViewImpl = new ${bean.className}ChangeViewImpl(exceptionMappingStrategy, buttonFactory);
+	#end	
+	if(commonFieldInitializer != null) {
+		changeViewImpl.addFieldInitializer(commonFieldInitializer);
+	}
+	return changeViewImpl;
+	}
+
+	@Override
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_VIEW") )
+public ${bean.className}ListViewEx create${bean.className}ListView() {
+	#else
+public ${bean.className}ListView create${bean.className}ListView() {
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("LIST_VIEW_IMPL") )
+return new ${bean.className}ListViewImplEx(exceptionMappingStrategy, buttonFactory);
+	#else
+return new ${bean.className}ListViewImpl(exceptionMappingStrategy, buttonFactory);
+	#end
+}
+	
+	@Override
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_VIEW") )
+public ${bean.className}SelectViewEx create${bean.className}SelectView() {
+	#else
+public ${bean.className}SelectView create${bean.className}SelectView() {
+	#end
+	#if( $bean.getDisplayProfile($profileName).getExStrings().contains("SELECT_VIEW_IMPL") )
+return new ${bean.className}SelectViewImplEx(exceptionMappingStrategy, buttonFactory);
+	#else
+return new ${bean.className}SelectViewImpl(exceptionMappingStrategy, buttonFactory);
+	#end
+	}
+#end
+#end

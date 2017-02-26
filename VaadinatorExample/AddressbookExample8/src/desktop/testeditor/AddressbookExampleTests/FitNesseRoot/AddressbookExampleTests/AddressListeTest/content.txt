@@ -1,0 +1,28 @@
+# Maske: Allgemein Browser
+-!|script|
+|starte Browser|Firefox|
+|navigiere auf die Seite|http://localhost:8080/AddressbookExample-0.10-SNAPSHOT/|
+# Maske: Einstieg
+-!|script|
+|warte auf Element|Einstieg_Tabs|
+|klicke auf|Einstieg_AddressTab|
+# Maske: Liste_Address
+-!|script|
+|warte auf Element|Liste_Address_addressTable_asis|
+# Maske: Allgemein Browser
+-!|script|
+|ueberpruefe ob der Text|Monty Burns|vorhanden ist|
+# Maske: Liste_Address
+-!|script|
+|waehle aus|Liste_Address_addressTable_bystring|die Zeile mit Text|Burns|
+# Maske: Change_Address
+-!|script|
+|leere das Feld|Edit_Address_vorname|
+|gebe in das Feld|Edit_Address_vorname|den Wert|C. Montgomery|ein|
+|klicke auf|Change_Address_save|
+# Maske: Allgemein Browser
+-!|script|
+|warte|1|Sekunden|
+|ueberpruefe ob der Text|C. Montgomery|vorhanden ist|
+|warte|1|Sekunden|
+|beende Browser|

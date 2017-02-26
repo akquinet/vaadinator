@@ -32,6 +32,7 @@ the License.
 			<id>desktop</id>
 			<modules>
 				<module>AddressbookExample</module>
+				<module>AddressbookExample8</module>
 				<module>WebDriverExample</module>
 			</modules>
 		</profile>

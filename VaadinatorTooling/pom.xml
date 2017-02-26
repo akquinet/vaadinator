@@ -32,7 +32,9 @@ the License.
 		<module>VaadinatorTemplatesCommon</module>
 		<module>VaadinatorTemplatesMVP</module>
 		<module>VaadinatorTemplatesVaadin</module>
+		<module>VaadinatorTemplatesVaadin8</module>
 		<module>VaadinatorTemplatesDesktop</module>
+		<module>VaadinatorTemplatesDesktop8</module>
 		<module>VaadinatorTemplatesTouchkit</module>
 		<module>VaadinatorGenerator</module>
 		<module>VaadinatorGeneratorBase</module>

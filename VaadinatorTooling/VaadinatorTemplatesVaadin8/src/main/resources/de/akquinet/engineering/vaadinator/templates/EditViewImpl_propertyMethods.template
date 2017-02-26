@@ -1,0 +1,105 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	#end
+	public ${property.propertyClassName} ${property.propertyGetterName}() {
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+		return (${property.propertyClassName}) ${property.propertyName}.getValue();
+	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+		return (java.util.Set) ${property.propertyName}.getValue();
+	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
+		return ${property.propertyName}.getValue();
+	#elseif($property.converterClassName)
+	    return (${property.propertyClassName}) ${property.propertyName}.getConvertedValue();
+	#elseif($property.propertyUnboxed)
+		return ${property.propertyUnboxedFromString}(${property.propertyName}.getValue());
+	#else
+		return ${property.propertyName}.getValue();
+	#end
+	}
+	
+	public void ${property.propertySetterName}(${property.propertyClassName} ${property.propertyName}) {
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe || $property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#elseif($property.getDisplayPropertyProfile($profileName).fieldTypeUnboxed)
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#elseif($property.propertyUnboxed)
+		this.${property.propertyName}.setValue(${property.propertyUnboxedToString}(${property.propertyName}));
+	#elseif($property.converterClassName)
+	    this.${property.propertyName}.setConvertedValue(${property.propertyName});
+	#else
+		this.${property.propertyName}.setValue(${property.propertyName});
+	#end
+	}
+	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassName}> ${property.propertyChoicesForParamName}) {
+		for (${property.propertyClassName} auswahl : ${property.propertyChoicesForParamName}) {
+			${property.propertyName}.addItem(auswahl);
+			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
+		}
+	}
+	#end
+
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	public void ${property.propertySetChoicesForMethodName}(List<${property.propertyClassTypeParameter}> ${property.propertyChoicesForParamName}) {
+		for (${property.propertyClassTypeParameter} auswahl : ${property.propertyChoicesForParamName}) {
+			${property.propertyName}.addItem(auswahl);
+			${property.propertyName}.setItemCaption(auswahl, ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(auswahl));
+		}
+	}
+	#end
+
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassName} auswahl) {
+		#if($property.hasEnumClass($common.beans))
+		switch(auswahl){
+			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
+			case ${enumVal.value}:
+				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
+			#end
+			default: 
+				return null;
+		}		
+		#else
+		// (Fallback for non-enums)
+		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
+		#end
+	} 
+	#end
+	
+	#if($property.getDisplayPropertyProfile($profileName).fieldTypeMultiAuswahlAusListe)
+	protected String ${property.propertyObtainMethodName.replace("Auswahl", "Caption")}(${property.propertyClassTypeParameter} auswahl) {
+		#if($property.hasEnumClass($common.beans))
+		switch(auswahl){
+			#foreach($enumVal in $property.getEnumClass($common.beans).enumValues)
+			case ${enumVal.value}:
+				return obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}.enum.${enumVal.value}");
+			#end
+			default: 
+				return null;
+		}		
+		#else
+		// (Fallback for non-enums)
+		return auswahl.toString().substring(0, 1).toUpperCase() + auswahl.toString().substring(1).toLowerCase();
+		#end
+	} 
+	#end
+#end
+#end

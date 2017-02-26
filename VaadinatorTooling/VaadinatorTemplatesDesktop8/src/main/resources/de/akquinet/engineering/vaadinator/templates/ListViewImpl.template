@@ -1,0 +1,148 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ${common.basePackage}.ui.view.View;
+import ${common.basePackage}.ui.view.ButtonFactory;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${presenterPackage}.${bean.className}ListPresenter;
+
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.Container.Filterable;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.event.FieldEvents.TextChangeListener;
+import com.vaadin.v7.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
+public class ${bean.className}ListViewImpl extends CustomComponent implements ${bean.className}ListView {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected Component ${bean.classNamePass}SelectViewComponent;
+	protected Button add${bean.className} = null;
+    protected ExceptionMappingStrategy exceptionMappingStrategy = null;
+    protected ButtonFactory buttonFactory = null;
+    
+	private BeanItemContainer<${bean.className}> container;    
+	private ${bean.className}ListView.Observer observer;
+
+	public ${bean.className}ListViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+		super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		createButtons();
+	}
+
+    @Override
+    public void set${bean.className}SelectView(${bean.className}SelectView ${bean.classNamePass}SelectView) {
+		this.${bean.classNamePass}SelectViewComponent = (Component) ${bean.classNamePass}SelectView.getComponent();
+    }
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
+	@Override
+	public void initializeUi() {
+		initButtons();
+		setSizeFull();
+
+		VerticalLayout layout = new VerticalLayout();
+		layout.addComponents(add${bean.className}, ${bean.classNamePass}SelectViewComponent);
+
+		layout.setSizeFull();
+
+		layout.setExpandRatio(${bean.classNamePass}SelectViewComponent, 1);
+		${bean.classNamePass}SelectViewComponent.setSizeFull();
+
+		setCompositionRoot(layout);
+
+		addStyleName("styleid-${bean.className}ListViewImpl");
+	}
+	
+    @Override
+	public void createButtons() {
+		add${bean.className} = buttonFactory.createNewButton();
+	}
+	
+	@Override
+	public void initButtons() {
+		buttonFactory.initNewButton(add${bean.className}, obtainBundle().getString("entity.${bean.className}.new"),
+				"styleid-${bean.className}ListViewImpl-add${bean.className}", new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						observer.onAdd${bean.className}();
+					}
+				});
+	}
+	
+	@Override
+	public void openSubView(View view) {
+		// not on desktop
+	}
+
+	@Override
+	public void closeSubView() {
+		// not on desktop
+    }
+    
+	@Override
+	public void setObserver(${bean.className}ListView.Observer observer) {
+		this.observer = observer;
+	}
+
+	@Override
+	public Object getComponent() {
+		return this;
+	}
+
+	@Override
+	public void showErrorMessage(String message) {
+		Notification.show(message, Notification.Type.ERROR_MESSAGE);
+	}
+	
+    @Override
+	public void showErrorMessage(Exception exception) {
+		Notification.show(exceptionMappingStrategy.getCaption(exception),
+				exceptionMappingStrategy.getMessage(exception), exceptionMappingStrategy.getType(exception));
+	}
+}
