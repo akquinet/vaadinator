@@ -1,0 +1,43 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)	
+#if($property.getDisplayPropertyProfile($profileName).showInDetail)
+${property.propertyName}.setCaption(obtainBundle().getString("entity.${bean.className}.property.${property.propertyName}"));
+#if($property.getDisplayPropertyProfile($profileName).fieldTypeAuswahlAusListe)
+${property.propertyName}.setNullSelectionAllowed(false);
+#if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="DROPDOWN")
+${property.propertyName}.setTextInputAllowed(${property.getDisplayPropertyProfile($profileName).allowTextInput});
+#end
+#end
+#if($property.getDisplayPropertyProfile($profileName).required)
+${property.propertyName}.setRequired(true);
+#end
+#if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="TEXTFIELD")
+${property.propertyName}.setNullRepresentation("");
+#end
+#if($property.getDisplayPropertyProfile($profileName).fieldType.name()=="DATEPICKER")
+${property.propertyName}.setResolution(Resolution.DAY);
+#end
+${property.propertyName}.addStyleName("styleid-${bean.className}EditViewImpl-${property.propertyName}");
+#if($bean.beanValidation==true && $property.getDisplayPropertyProfile($profileName).readOnly==false)
+${property.propertyName}.addValidator(new BeanValidator(${bean.className}.class, "${property.propertyName}"));
+#end
+#if($property.converterClassName)
+${property.propertyName}.setConverter(new ${property.converterClassName}());
+#end
+initializeField(${property.propertyName});
+#end
+#end

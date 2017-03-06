@@ -1,0 +1,129 @@
+#*
+Copyright 2014 akquinet engineering GmbH
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+*#
+package ${package};
+
+#foreach($import in $bean.imports)
+${import}
+#end
+import ${modelPackage}.*;
+
+import ${common.basePackage}.ui.view.ButtonFactory;
+import ${common.basePackage}.ui.view.ExceptionMappingStrategy;
+import ${common.basePackage}.ui.view.FieldInitializer;
+import ${common.basePackage}.ui.view.VaadinView;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_includes.template")
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.HashSet;
+
+import com.vaadin.v7.data.Validator.InvalidValueException;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+#if($bean.beanValidation==true)
+import com.vaadin.v7.data.validator.BeanValidator;
+#end
+
+public abstract class ${bean.className}EditViewImpl<O extends ${bean.className}EditView.Observer>
+#if( $bean.getDisplayProfile($profileName).getExStrings().contains("EDIT_VIEW") )
+		extends CustomComponent implements ${bean.className}EditViewEx<O>, VaadinView {
+#else
+		extends CustomComponent implements ${bean.className}EditView<O>, VaadinView {
+#end
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonVar.template")
+#parse("/de/akquinet/engineering/vaadinator/templates/bundle_obtain.template")
+
+	protected VerticalLayout mainLayout = new VerticalLayout();
+	protected HorizontalLayout buttonLayout = new HorizontalLayout();
+	protected FormLayout editLayout = new FormLayout();
+	
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_controlvar.template")
+
+
+    public ${bean.className}EditViewImpl(ExceptionMappingStrategy exceptionMappingStrategy, ButtonFactory buttonFactory) {
+    	super();
+		this.exceptionMappingStrategy = exceptionMappingStrategy;
+		this.buttonFactory = buttonFactory;
+		
+		createButtons();
+	}
+	
+	@Override
+	public void initializeUi() {
+
+		buttonLayout.setSpacing(true);
+		initButtons();
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_control.template")
+
+		editLayout.setMargin(true);
+		editLayout.setSizeFull();
+		
+#foreach($property in $bean.getDisplayProfile($profileName).propertiesInProfile)
+#if($property.getDisplayPropertyProfile($profileName).showInDetail && $property.getDisplayPropertyProfile($profileName).readOnly==false)
+		editLayout.addComponent(${property.propertyName});
+#end
+#end		
+		
+		mainLayout.addComponent(buttonLayout);
+		mainLayout.addComponent(editLayout);
+		setCompositionRoot(mainLayout);
+		addStyleName("styleid-${bean.className}EditViewImpl");
+	}
+
+	@Override
+	public void beforeValidation() {
+	}
+
+	@Override
+	public void beforeFieldValidation(Field<?> field) {
+	}
+
+	@Override
+	public void onFieldValidationError(Field<?> field, InvalidValueException excpetion) {
+	}
+
+	@Override
+	public void onValidationError(Map<Field<?>, InvalidValueException> validationErrors) {
+	}
+
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_validation.template")
+		
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_commonMethods.template")
+	
+#parse("/de/akquinet/engineering/vaadinator/templates/EditViewImpl_propertyMethods.template")
+}

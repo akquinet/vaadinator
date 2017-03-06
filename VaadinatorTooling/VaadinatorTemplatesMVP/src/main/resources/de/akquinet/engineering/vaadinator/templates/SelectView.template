@@ -16,7 +16,6 @@ the License.
 package ${package};
 
 import java.util.List;
-import com.vaadin.data.Property;
 
 import ${common.basePackage}.ui.view.ErrorHandlerView;
 import ${common.basePackage}.ui.view.ObservableView;
