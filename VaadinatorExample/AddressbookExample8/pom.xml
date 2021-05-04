@@ -29,7 +29,7 @@ the License.
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
-		<vaadin.version>8.0.0</vaadin.version>
+		<vaadin.version>8.13.0</vaadin.version>
 	</properties>
 	<dependencies>
 		<dependency>
